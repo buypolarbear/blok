@@ -1,4 +1,4 @@
-package com.blok;
+package com.asimetriq.blok;
 
 import android.app.Application;
 
