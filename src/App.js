@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { Text } from "react-native";
 import Background from "./atoms/Background";
 
-class Index extends Component<{}> {
+class App extends Component<{}> {
   // -- render -------------------------------------------------------------- //
   render() {
     return (
@@ -14,4 +14,4 @@ class Index extends Component<{}> {
   }
 }
 
-export default Index;
+export default App;
