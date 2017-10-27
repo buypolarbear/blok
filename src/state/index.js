@@ -1,6 +1,6 @@
 import RouterState from "./_router";
 
-const router = RouterState;
+const router = new RouterState();
 
 export default {
   router

@@ -1,6 +1,5 @@
 /* @flow */
 import React, { Component } from "react";
-import type { Node } from "react";
 import { View } from "react-native";
 import styled from "styled-components/native";
 import { purple } from "../style/color";
@@ -8,7 +7,7 @@ import { purple } from "../style/color";
 // -- types ----------------------------------------------------------------- //
 type Props = {
   color?: string,
-  children: Node
+  children: React$Node
 };
 
 // -- styling --------------------------------------------------------------- //
