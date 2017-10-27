@@ -1,15 +1,19 @@
 /* @flow */
 import React, { Component } from "react";
 import { Text } from "react-native";
-import Background from "./atoms/Background";
+import { Provider } from "mobx-react/native";
+import state from "./state";
+import Background from "./components/Background";
 
 class App extends Component<{}> {
   // -- render -------------------------------------------------------------- //
   render() {
     return (
-      <Background>
-        <Text>Hello World</Text>
-      </Background>
+      <Provider {...state}>
+        <Background>
+          <Text>Hello World</Text>
+        </Background>
+      </Provider>
     );
   }
 }
