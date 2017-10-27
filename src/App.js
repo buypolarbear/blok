@@ -1,5 +1,6 @@
 /* @flow */
 import React, { Component } from "react";
+import { StatusBar } from "react-native";
 import { Provider } from "mobx-react/native";
 import Router from "./routes";
 import state from "./state";
@@ -7,11 +8,12 @@ import state from "./state";
 class App extends Component<{}> {
   // -- render -------------------------------------------------------------- //
   render() {
-    return (
-      <Provider {...state}>
+    return [
+      <StatusBar barStyle="light-content" key="statusbar" />,
+      <Provider {...state} key="provider">
         <Router />
       </Provider>
-    );
+    ];
   }
 }
 
