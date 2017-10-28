@@ -12,11 +12,11 @@ type Props = {
 
 // -- styling --------------------------------------------------------------- //
 const smallText = css`
-  font-size: 16px;
+  font-size: 15px;
 `;
 
 const nomralText = css`
-  font-size: 17px;
+  font-size: 16px;
 `;
 
 const bigText = css`
