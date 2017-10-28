@@ -11,6 +11,12 @@ const AccountActions = styled.View`
   justify-content: space-between;
 `;
 
+const BalanceView = styled.View`
+  width: 100%;
+  align-items: center;
+  margin-top: 20px;
+`;
+
 class AccountsView extends Component<{}> {
   // -- methods ------------------------------------------------------------- //
   onAddAccount = () => console.warn("Add Account");
@@ -34,7 +40,10 @@ class AccountsView extends Component<{}> {
           height="26px"
         />
       </AccountActions>,
-      <Text key="account-balance">small text</Text>
+      <BalanceView key="account-balance">
+        <Text color="grey">Total Balance</Text>
+        <Text size="big">$1,280</Text>
+      </BalanceView>
     ];
   }
 }
