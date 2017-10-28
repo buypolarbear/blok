@@ -1,6 +1,5 @@
 /* @flow */
 import React, { Component } from "react";
-import { View } from "react-native";
 import styled from "styled-components/native";
 import { Route } from "react-router-native";
 import Background from "../components/Background";
@@ -11,7 +10,7 @@ import Navigation from "../composites/Navigation";
 import { isIphoneX } from "../services/utilities";
 
 // -- styling --------------------------------------------------------------- //
-const Container = styled(View)`
+const Container = styled.View`
   padding-top: ${isIphoneX() ? "65px" : "40px"};
   padding-bottom: ${isIphoneX() ? "94px" : "71px"};
   padding-left: 20px;

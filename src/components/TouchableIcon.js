@@ -1,7 +1,7 @@
 /* @flow */
 import React, { Component } from "react";
 import styled from "styled-components/native";
-import { TouchableOpacity, Image } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 // -- types ----------------------------------------------------------------- //
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 };
 
 // -- styling --------------------------------------------------------------- //
-const Icon = styled(Image)`
+const Icon = styled.Image`
   width: ${props => props.width};
   height: ${props => props.height};
 `;

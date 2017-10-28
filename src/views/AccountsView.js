@@ -1,11 +1,11 @@
 /* @flow */
 import React, { Component } from "react";
-import { View } from "react-native";
 import styled from "styled-components/native";
 import TouchableIcon from "../components/TouchableIcon";
+import Text from "../components/Text";
 
 // -- styling --------------------------------------------------------------- //
-const AccountActions = styled(View)`
+const AccountActions = styled.View`
   width: 100%;
   flex-direction: row;
   justify-content: space-between;
@@ -19,8 +19,8 @@ class AccountsView extends Component<{}> {
 
   // -- render -------------------------------------------------------------- //
   render() {
-    return (
-      <AccountActions>
+    return [
+      <AccountActions key="account-actions">
         <TouchableIcon
           onPress={this.onAddAccount}
           src={require("../../assets/images/icon-add-account.png")}
@@ -33,8 +33,9 @@ class AccountsView extends Component<{}> {
           width="26px"
           height="26px"
         />
-      </AccountActions>
-    );
+      </AccountActions>,
+      <Text key="account-balance">small text</Text>
+    ];
   }
 }
 

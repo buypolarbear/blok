@@ -1,6 +1,5 @@
 /* @flow */
 import React, { Component } from "react";
-import { View } from "react-native";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../components/TouchableIcon";
@@ -13,7 +12,7 @@ type Props = {
 };
 
 // -- styling --------------------------------------------------------------- //
-const Container = styled(View)`
+const Container = styled.View`
   padding-top: 20px;
   padding-bottom: ${isIphoneX() ? "43px" : "20px"};
   width: 100%;
