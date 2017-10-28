@@ -8,10 +8,11 @@ import AccountsView from "../views/AccountsView";
 import TransactionsView from "../views/TransactionsView";
 import SettingsView from "../views/SettingsView";
 import Navigation from "../composites/Navigation";
+import { isIphoneX } from "../services/utilities";
 
 // -- styling --------------------------------------------------------------- //
 const Container = styled(View)`
-  padding-top: 40px;
+  padding-top: ${isIphoneX() ? "65px" : "40px"};
   padding-left: 20px;
   padding-right: 20px;
 `;
