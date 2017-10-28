@@ -6,7 +6,8 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "flow": "flow",
-    "ios": "node node_modules/react-native/local-cli/cli.js run-ios --simulator='iPhone X'"
+    "ios": "node node_modules/react-native/local-cli/cli.js run-ios --simulator='iPhone X'",
+    "native-link": "node node_modules/react-native/local-cli/cli.js link"
   },
   "dependencies": {
     "history": "^4.7.2",
@@ -30,5 +31,8 @@
   },
   "jest": {
     "preset": "react-native"
+  },
+  "rnpm": {
+    "assets": ["./assets/fonts"]
   }
 }
