@@ -16,7 +16,7 @@ class Router extends Component<Props> {
     return (
       <ReactRouter history={router.history}>
         <Switch location={router.location}>
-          <Route exact path="/" component={Dashboard} />
+          <Route path="/" component={Dashboard} />
         </Switch>
       </ReactRouter>
     );

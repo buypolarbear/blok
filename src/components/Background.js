@@ -14,6 +14,8 @@ type Props = {
 const SView = styled(View)`
   height: 100%;
   background-color: ${props => props.color};
+  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 class Background extends Component<Props> {

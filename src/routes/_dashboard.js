@@ -7,6 +7,7 @@ import Background from "../components/Background";
 import AccountsView from "../views/AccountsView";
 import TransactionsView from "../views/TransactionsView";
 import SettingsView from "../views/SettingsView";
+import Navigation from "../composites/Navigation";
 
 // -- styling --------------------------------------------------------------- //
 const Container = styled(View)`
@@ -21,10 +22,11 @@ class Dashboard extends Component<{}> {
     return (
       <Background>
         <Container>
-          <Route path="/" component={AccountsView} />
+          <Route exact path="/" component={AccountsView} />
           <Route path="/transactions" component={TransactionsView} />
           <Route path="/settings" component={SettingsView} />
         </Container>
+        <Navigation />
       </Background>
     );
   }
