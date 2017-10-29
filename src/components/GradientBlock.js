@@ -25,6 +25,7 @@ const Card = styled(LinearGradient)`
   margin-top: 10px;
   margin-bottom: 10px;
   elevation: 2;
+  flex-direction: row;
 `;
 
 class GradientBlock extends Component<Props> {

@@ -1,7 +1,9 @@
 /* @flow */
 import React, { Component } from "react";
+import styled from "styled-components/native";
 import CryptoSymbol from "../components/CryptoSymbol";
 import GradientBlock from "../components/GradientBlock";
+import Text from "../components/Text";
 
 // -- types ----------------------------------------------------------------- //
 type Props = {
@@ -9,6 +11,10 @@ type Props = {
 };
 
 // -- styling --------------------------------------------------------------- //
+const Balance = styled.View`
+  margin-left: 20px;
+  justify-content: center;
+`;
 
 class AccountCard extends Component<Props> {
   // -- default props ------------------------------------------------------- //
@@ -45,6 +51,12 @@ class AccountCard extends Component<Props> {
     return (
       <GradientBlock {...props}>
         <CryptoSymbol src={icon} />
+        <Balance>
+          <Text>{`0.20986534 ${type}`}</Text>
+          <Text size="small" color="grey">
+            $48.00
+          </Text>
+        </Balance>
       </GradientBlock>
     );
   }
