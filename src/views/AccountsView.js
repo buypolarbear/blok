@@ -19,6 +19,8 @@ const BalanceView = styled.View`
   margin-bottom: 65px;
 `;
 
+const AccountView = styled.ScrollView``;
+
 class AccountsView extends Component<{}> {
   // -- methods ------------------------------------------------------------- //
   onAddAccount = () => console.warn("Add Account");
@@ -50,7 +52,20 @@ class AccountsView extends Component<{}> {
           $1,280
         </Text>
       </BalanceView>,
-      <AccountCard type="XRP" key="accounts-list" />
+      <AccountView key="account-list">
+        <AccountCard type="XRP" />
+        <AccountCard type="BTC" />
+        <AccountCard type="LTC" />
+        <AccountCard type="STEEM" />
+        <AccountCard type="ETH" />
+        <AccountCard type="DASH" />
+        <AccountCard type="XRP" />
+        <AccountCard type="BTC" />
+        <AccountCard type="LTC" />
+        <AccountCard type="STEEM" />
+        <AccountCard type="ETH" />
+        <AccountCard type="DASH" />
+      </AccountView>
     ];
   }
 }
