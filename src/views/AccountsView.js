@@ -50,7 +50,7 @@ class AccountsView extends Component<{}> {
           $1,280
         </Text>
       </BalanceView>,
-      <AccountCard key="accounts-list" />
+      <AccountCard type="XRP" key="accounts-list" />
     ];
   }
 }

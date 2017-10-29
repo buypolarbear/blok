@@ -3,15 +3,18 @@ import React, { Component } from "react";
 import styled from "styled-components/native";
 
 // -- types ----------------------------------------------------------------- //
+type Props = {
+  src: any
+};
 
 // -- styling --------------------------------------------------------------- //
 const Container = styled.View`
   width: 40px;
   height: 40px;
   border-radius: 20px;
-  shadow-opacity: 0.03;
+  shadow-opacity: 0.05;
   shadow-color: #000000;
-  shadow-offset: 0px 5px;
+  shadow-offset: 0px 3px;
   shadow-radius: 5px;
   elevation: 2;
 `;
@@ -22,15 +25,15 @@ const Icon = styled.Image`
   border-radius: 20px;
 `;
 
-class CryptoSymbol extends Component<{}> {
+class CryptoSymbol extends Component<Props> {
   // -- methods ------------------------------------------------------------- //
 
   // -- render -------------------------------------------------------------- //
   render() {
-    const { ...props } = this.props;
+    const { src, ...props } = this.props;
     return (
       <Container>
-        <Icon source={require("../../assets/images/icon-btc.png")} {...props} />
+        <Icon source={src} {...props} />
       </Container>
     );
   }
