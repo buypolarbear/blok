@@ -32,19 +32,23 @@ class AccountsView extends Component<{}> {
         <TouchableIcon
           onPress={this.onAddAccount}
           src={require("../../assets/images/icon-add-account.png")}
-          width="26px"
-          height="26px"
+          width="27px"
+          height="27px"
         />
         <TouchableIcon
           onPress={this.onRemoveAccount}
           src={require("../../assets/images/icon-remove-account.png")}
-          width="26px"
-          height="26px"
+          width="27px"
+          height="27px"
         />
       </AccountActions>,
       <BalanceView key="account-balance">
-        <Text color="grey">Total Balance</Text>
-        <Text size="big">$1,280</Text>
+        <Text color="grey" shadow>
+          Total Balance
+        </Text>
+        <Text size="big" shadow>
+          $1,280
+        </Text>
       </BalanceView>,
       <GradientBlock key="accounts-list" />
     ];

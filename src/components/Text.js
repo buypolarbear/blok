@@ -7,6 +7,7 @@ import { white, grey, green, blue, red } from "../style/color";
 type Props = {
   size?: "small" | "big" | "normal",
   color?: "white" | "grey" | "green" | "blue" | "red",
+  shadow?: boolean,
   children: string
 };
 
@@ -43,6 +44,13 @@ const redText = css`
   color: ${red};
 `;
 
+const textShadow = css`
+  shadow-opacity: 0.04;
+  shadow-color: #000000;
+  shadow-offset: 0px 1px;
+  shadow-radius: 1px;
+`;
+
 const StyledText = styled.Text`
   ${props => props.size === "small" && smallText};
   ${props => props.size === "normal" && nomralText};
@@ -52,6 +60,7 @@ const StyledText = styled.Text`
   ${props => props.color === "blue" && blueText};
   ${props => props.color === "green" && greenText};
   ${props => props.color === "red" && redText};
+  ${props => props.shadow && textShadow};
   font-family: "Lato-Regular";
   background-color: transparent;
 `;
@@ -60,14 +69,15 @@ class Text extends Component<Props> {
   // -- default props ------------------------------------------------------- //
   static defaultProps = {
     size: "normal",
-    color: "white"
+    color: "white",
+    shadow: false
   };
 
   // -- render -------------------------------------------------------------- //
   render() {
-    const { size, children, color } = this.props;
+    const { size, children, color, shadow } = this.props;
     return (
-      <StyledText size={size} color={color}>
+      <StyledText size={size} color={color} shadow={shadow}>
         {children}
       </StyledText>
     );
