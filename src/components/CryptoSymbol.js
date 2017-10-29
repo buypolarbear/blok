@@ -8,13 +8,18 @@ import styled from "styled-components/native";
 const Container = styled.View`
   width: 40px;
   height: 40px;
-  background: orange;
   border-radius: 20px;
-  shadow-opacity: 0.07;
+  shadow-opacity: 0.03;
   shadow-color: #000000;
-  shadow-offset: 0px 3px;
+  shadow-offset: 0px 5px;
   shadow-radius: 5px;
   elevation: 2;
+`;
+
+const Icon = styled.Image`
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
 `;
 
 class CryptoSymbol extends Component<{}> {
@@ -23,7 +28,11 @@ class CryptoSymbol extends Component<{}> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { ...props } = this.props;
-    return <Container {...props} />;
+    return (
+      <Container>
+        <Icon source={require("../../assets/images/icon-btc.png")} {...props} />
+      </Container>
+    );
   }
 }
 
