@@ -1,37 +1,34 @@
 /* @flow */
 import React, { Component } from "react";
-import styled from "styled-components/native";
 import { Route } from "react-router-native";
+import { inject, observer } from "mobx-react/native";
 import Background from "../components/Background";
 import AccountsView from "../views/AccountsView";
 import TransactionsView from "../views/TransactionsView";
 import SettingsView from "../views/SettingsView";
 import Navigation from "../composites/Navigation";
-import { isIphoneX } from "../services/utilities";
+import DashboardRouteAnimation from "../components/DashboardRouteAnimation";
 
-// -- styling --------------------------------------------------------------- //
-const Container = styled.View`
-  padding-top: ${isIphoneX() ? "65px" : "40px"};
-  padding-bottom: ${isIphoneX() ? "94px" : "71px"};
-  padding-left: 20px;
-  padding-right: 20px;
-  width: 100%;
-`;
+// -- types ----------------------------------------------------------------- //
+type Props = {
+  router: Object
+};
 
-class Dashboard extends Component<{}> {
+class Dashboard extends Component<Props> {
   // -- render -------------------------------------------------------------- //
   render() {
+    const { router } = this.props;
     return (
       <Background>
-        <Container>
+        <DashboardRouteAnimation location={router.location}>
           <Route exact path="/" component={AccountsView} />
           <Route path="/transactions" component={TransactionsView} />
           <Route path="/settings" component={SettingsView} />
-        </Container>
+        </DashboardRouteAnimation>
         <Navigation />
       </Background>
     );
   }
 }
 
-export default Dashboard;
+export default inject("router")(observer(Dashboard));
