@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components/native";
 import TouchableIcon from "../components/TouchableIcon";
 import Text from "../components/Text";
-import GradientBlock from "../components/GradientBlock";
+import AccountCard from "../composites/AccountCard";
 
 // -- styling --------------------------------------------------------------- //
 const AccountActions = styled.View`
@@ -50,7 +50,7 @@ class AccountsView extends Component<{}> {
           $1,280
         </Text>
       </BalanceView>,
-      <GradientBlock key="accounts-list" />
+      <AccountCard key="accounts-list" />
     ];
   }
 }

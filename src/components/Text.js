@@ -75,9 +75,9 @@ class Text extends Component<Props> {
 
   // -- render -------------------------------------------------------------- //
   render() {
-    const { size, children, color, shadow } = this.props;
+    const { size, children, color, shadow, ...props } = this.props;
     return (
-      <StyledText size={size} color={color} shadow={shadow}>
+      <StyledText size={size} color={color} shadow={shadow} {...props}>
         {children}
       </StyledText>
     );

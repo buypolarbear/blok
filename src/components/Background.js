@@ -25,8 +25,12 @@ class Background extends Component<Props> {
 
   // -- render -------------------------------------------------------------- //
   render() {
-    const { children, color } = this.props;
-    return <SView color={color}>{children}</SView>;
+    const { children, color, ...props } = this.props;
+    return (
+      <SView color={color} {...props}>
+        {children}
+      </SView>
+    );
   }
 }
 
