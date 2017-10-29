@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import CryptoSymbol from "../components/CryptoSymbol";
 import GradientBlock from "../components/GradientBlock";
 import Text from "../components/Text";
+import TouchableIcon from "../components/TouchableIcon";
 
 // -- types ----------------------------------------------------------------- //
 type Props = {
@@ -14,6 +15,11 @@ type Props = {
 const Balance = styled.View`
   margin-left: 20px;
   justify-content: center;
+  flex: 1;
+`;
+
+const QrCode = styled(TouchableIcon)`
+  margin-top: 6px;
 `;
 
 class AccountCard extends Component<Props> {
@@ -21,6 +27,7 @@ class AccountCard extends Component<Props> {
   static defaultProps = {};
 
   // -- methods ------------------------------------------------------------- //
+  onShowQr = () => console.warn("Show Qr");
 
   // -- render -------------------------------------------------------------- //
   render() {
@@ -57,6 +64,12 @@ class AccountCard extends Component<Props> {
             $48.00
           </Text>
         </Balance>
+        <QrCode
+          src={require("../../assets/images/icon-qr-code.png")}
+          width="28px"
+          height="28px"
+          onPress={this.onShowQr}
+        />
       </GradientBlock>
     );
   }
