@@ -16,14 +16,14 @@ const BalanceView = styled.View`
   width: 100%;
   align-items: center;
   margin-top: 20px;
-  margin-bottom: 70px;
+  margin-bottom: 65px;
 `;
 
 class AccountsView extends Component<{}> {
   // -- methods ------------------------------------------------------------- //
   onAddAccount = () => console.warn("Add Account");
 
-  onRemoveAccount = () => console.warn("Add Account");
+  onRemoveAccount = () => console.warn("Remove Account");
 
   // -- render -------------------------------------------------------------- //
   render() {
