@@ -5,6 +5,21 @@ import TouchableIcon from "../components/TouchableIcon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 
+const dummyData = [
+  "BTC",
+  "LTC",
+  "ETH",
+  "XMR",
+  "DASH",
+  "STEEM",
+  "BTC",
+  "LTC",
+  "ETH",
+  "XMR",
+  "DASH",
+  "STEEM"
+];
+
 // -- styling --------------------------------------------------------------- //
 const AccountActions = styled.View`
   width: 100%;
@@ -19,13 +34,15 @@ const BalanceView = styled.View`
   margin-bottom: 65px;
 `;
 
-const AccountView = styled.ScrollView``;
+const AccountView = styled.FlatList``;
 
 class AccountsView extends Component<{}> {
   // -- methods ------------------------------------------------------------- //
   onAddAccount = () => console.warn("Add Account");
 
   onRemoveAccount = () => console.warn("Remove Account");
+
+  generateItemKey = (item, index) => `${item}-${index}`;
 
   // -- render -------------------------------------------------------------- //
   render() {
@@ -52,20 +69,12 @@ class AccountsView extends Component<{}> {
           $1,280
         </Text>
       </BalanceView>,
-      <AccountView key="account-list">
-        <AccountCard type="XRP" />
-        <AccountCard type="BTC" />
-        <AccountCard type="LTC" />
-        <AccountCard type="STEEM" />
-        <AccountCard type="ETH" />
-        <AccountCard type="DASH" />
-        <AccountCard type="XRP" />
-        <AccountCard type="BTC" />
-        <AccountCard type="LTC" />
-        <AccountCard type="STEEM" />
-        <AccountCard type="ETH" />
-        <AccountCard type="DASH" />
-      </AccountView>
+      <AccountView
+        key="account-list"
+        data={dummyData}
+        keyExtractor={this.generateItemKey}
+        renderItem={({ item }) => <AccountCard type={item} />}
+      />
     ];
   }
 }
