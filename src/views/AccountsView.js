@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import styled from "styled-components/native";
 import TouchableIcon from "../components/TouchableIcon";
 import Text from "../components/Text";
+import GradientBlock from "../components/GradientBlock";
 
 // -- styling --------------------------------------------------------------- //
 const AccountActions = styled.View`
@@ -15,6 +16,7 @@ const BalanceView = styled.View`
   width: 100%;
   align-items: center;
   margin-top: 20px;
+  margin-bottom: 70px;
 `;
 
 class AccountsView extends Component<{}> {
@@ -43,7 +45,8 @@ class AccountsView extends Component<{}> {
       <BalanceView key="account-balance">
         <Text color="grey">Total Balance</Text>
         <Text size="big">$1,280</Text>
-      </BalanceView>
+      </BalanceView>,
+      <GradientBlock key="accounts-list" />
     ];
   }
 }

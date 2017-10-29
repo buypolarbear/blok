@@ -53,6 +53,7 @@ const StyledText = styled.Text`
   ${props => props.color === "green" && greenText};
   ${props => props.color === "red" && redText};
   font-family: "Lato-Regular";
+  background-color: transparent;
 `;
 
 class Text extends Component<Props> {

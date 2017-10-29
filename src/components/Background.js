@@ -1,7 +1,7 @@
 /* @flow */
 import React, { Component } from "react";
 import styled from "styled-components/native";
-import { purple } from "../style/color";
+import { darkPurple } from "../style/color";
 
 // -- types ----------------------------------------------------------------- //
 type Props = {
@@ -20,7 +20,7 @@ const SView = styled.View`
 class Background extends Component<Props> {
   // -- default props ------------------------------------------------------- //
   static defaultProps = {
-    color: purple
+    color: darkPurple
   };
 
   // -- render -------------------------------------------------------------- //

@@ -9,6 +9,7 @@
 .*/node_modules/react-router-native/.*
 .*/node_modules/mobx/.*
 .*/node_modules/mobx-react/.*
+.*/node_modules/react-native-linear-gradient/.*
 
 [include]
 
