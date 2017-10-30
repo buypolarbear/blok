@@ -1,6 +1,6 @@
 /* @flow */
 import React, { Component } from "react";
-import { Route } from "react-router-native";
+import { Route, Switch } from "react-router-native";
 import { inject, observer } from "mobx-react/native";
 import Background from "../components/Background";
 import AccountsView from "../views/AccountsView";
@@ -20,10 +20,12 @@ class Dashboard extends Component<Props> {
     const { router } = this.props;
     return (
       <Background>
-        <DashboardRouteAnimation location={router.location}>
-          <Route exact path="/" component={AccountsView} />
-          <Route path="/transactions" component={TransactionsView} />
-          <Route path="/settings" component={SettingsView} />
+        <DashboardRouteAnimation pathname={router.location.pathname}>
+          <Switch location={router.location}>
+            <Route exact path="/" component={AccountsView} />
+            <Route path="/transactions" component={TransactionsView} />
+            <Route path="/settings" component={SettingsView} />
+          </Switch>
         </DashboardRouteAnimation>
         <Navigation />
       </Background>

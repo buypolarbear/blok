@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
     "flow": "flow",
+    "lint": "node node_modules/.bin/eslint src",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios --simulator='iPhone X'",
     "native-link": "node node_modules/react-native/local-cli/cli.js link"
   },
@@ -17,7 +18,7 @@
     "react-native": "0.49.3",
     "react-native-linear-gradient": "^2.3.0",
     "react-router-native": "^4.2.0",
-    "styled-components": "2.2.1"
+    "styled-components": "2.2.3"
   },
   "devDependencies": {
     "babel-jest": "21.2.0",
@@ -34,8 +35,6 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": [
-      "./assets/fonts"
-    ]
+    "assets": ["./assets/fonts"]
   }
 }
