@@ -4,10 +4,11 @@ import CryptoSymbol from "../components/CryptoSymbol";
 import GradientBlock from "../components/GradientBlock";
 import Text from "../components/Text";
 import TouchableIcon from "../components/TouchableIcon";
+import { TICKER, SIZE, COLOR } from "../services/enums";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
-  type: "BTC" | "LTC" | "ETH" | "XRP" | "DASH" | "STEEM";
+export interface Props {
+  type: TICKER;
 }
 
 // -- styling --------------------------------------------------------------- //
@@ -30,36 +31,36 @@ class AccountCard extends React.Component<Props> {
 
   // -- render -------------------------------------------------------------- //
   render() {
-    const { type, ...props } = this.props;
+    const { type } = this.props;
     let icon = null;
     switch (type) {
-      case "BTC":
+      case TICKER.BTC:
         icon = require("../../assets/images/icon-btc.png");
         break;
-      case "LTC":
+      case TICKER.LTC:
         icon = require("../../assets/images/icon-ltc.png");
         break;
-      case "ETH":
+      case TICKER.ETH:
         icon = require("../../assets/images/icon-eth.png");
         break;
-      case "XRP":
+      case TICKER.XRP:
         icon = require("../../assets/images/icon-xrp.png");
         break;
-      case "DASH":
+      case TICKER.DASH:
         icon = require("../../assets/images/icon-dash.png");
         break;
-      case "STEEM":
+      case TICKER.STEEM:
         icon = require("../../assets/images/icon-steem.png");
         break;
       default:
         icon = require("../../assets/images/icon-btc.png");
     }
     return (
-      <GradientBlock {...props}>
+      <GradientBlock>
         <CryptoSymbol src={icon} />
         <Balance>
           <Text>{`0.20986534 ${type}`}</Text>
-          <Text size="small" color="grey">
+          <Text size={SIZE.small} color={COLOR.grey}>
             $48.00
           </Text>
         </Balance>

@@ -3,8 +3,8 @@ import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
-  onPress: Function;
+export interface Props {
+  onPress: any;
   src: any;
   width: string;
   height: string;
@@ -12,11 +12,18 @@ interface Props {
 
 // -- styling --------------------------------------------------------------- //
 const Icon = styled.Image`
-  width: ${props => props.width};
-  height: ${props => props.height};
+  width: ${(p: Props) => p.width};
+  height: ${(p: Props) => p.height};
 `;
 
 class TouchableIcon extends React.Component<Props> {
+  // -- default props ------------------------------------------------------- //
+  static defaultProps: Partial<Props> = {
+    src: null,
+    width: "20px",
+    height: "20px"
+  };
+
   // -- render -------------------------------------------------------------- //
   render() {
     const { onPress, src, width, height, ...props } = this.props;

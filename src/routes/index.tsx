@@ -4,7 +4,7 @@ import { Router as ReactRouter, Switch, Route } from "react-router-native";
 import Dashboard from "./_dashboard";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
+export interface Props {
   router: Object;
 }
 

@@ -1,6 +1,6 @@
 import { Dimensions, Platform } from "react-native";
 
-export const isIphoneX = (): boolean => {
+export const isIphoneX = () => {
   const dimension = Dimensions.get("window");
   return (
     Platform.OS === "ios" &&

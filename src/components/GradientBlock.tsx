@@ -4,8 +4,8 @@ import LinearGradient from "react-native-linear-gradient";
 import { purple, lightPurple } from "../style/color";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
-  children: React$Node;
+export interface Props {
+  children: JSX.Element[];
 }
 
 // -- styling --------------------------------------------------------------- //
@@ -30,14 +30,9 @@ const Card = styled(LinearGradient)`
 class GradientBlock extends React.Component<Props> {
   // -- render -------------------------------------------------------------- //
   render() {
-    const { children, ...props } = this.props;
+    const { children } = this.props;
     return (
-      <Card
-        colors={[lightPurple, purple]}
-        start={{ x: 0.0, y: 0.5 }}
-        end={{ x: 1.0, y: 0.5 }}
-        {...props}
-      >
+      <Card colors={[lightPurple, purple]} start={{ x: 0.0, y: 0.5 }} end={{ x: 1.0, y: 0.5 }}>
         {children}
       </Card>
     );

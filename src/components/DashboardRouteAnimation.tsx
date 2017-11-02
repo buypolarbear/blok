@@ -2,18 +2,19 @@ import * as React from "react";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { isIphoneX } from "../services/utilities";
+import { DIRECTION } from "../services/enums";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
-  children: React$Node;
+export interface Props {
+  children: JSX.Element;
   pathname: string;
 }
 
-interface State {
-  previousView: React$Node;
+export interface State {
+  previousView: JSX.Element | null;
   transition: Object;
   pointerEvents: boolean;
-  transitionDirection: "LEFT" | "RIGHT";
+  transitionDirection: DIRECTION;
 }
 
 // -- styling --------------------------------------------------------------- //
@@ -30,12 +31,12 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
   state = {
     previousView: null,
     pointerEvents: false,
-    transitionDirection: "RIGHT",
+    transitionDirection: DIRECTION.right,
     transition: new Animated.Value(0)
   };
 
   // -- methods ------------------------------------------------------------- //
-  componentWillReceiveProps(newProps: Object) {
+  componentWillReceiveProps(newProps: Props) {
     const pathname = newProps.pathname;
     const previousPathname = this.props.pathname;
     if (pathname !== previousPathname) {
@@ -51,17 +52,15 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
   }
 
   getOutDirection = (pathname: string, previousPathname: string) => {
-    if (pathname === "/") return "RIGHT";
-    if (pathname === "/settings") return "LEFT";
-    if (pathname === "/transactions" && previousPathname === "/") return "LEFT";
-    if (pathname === "/transactions" && previousPathname === "/settings") return "RIGHT";
+    if (pathname === "/settings" || (pathname === "/transactions" && previousPathname === "/"))
+      return DIRECTION.left;
+    else return DIRECTION.right;
   };
 
   getInDirection = (pathname: string, previousPathname: string) => {
-    if (pathname === "/") return "LEFT";
-    if (pathname === "/settings") return "RIGHT";
-    if (pathname === "/transactions" && previousPathname === "/") return "RIGHT";
-    if (pathname === "/transactions" && previousPathname === "/settings") return "LEFT";
+    if (pathname === "/settings" || (pathname === "/transactions" && previousPathname === "/"))
+      return DIRECTION.right;
+    else return DIRECTION.left;
   };
 
   runAnimation = (value: number, pathname: string, previousPathname: string) => {
@@ -97,7 +96,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
             {
               translateX: transition.interpolate({
                 inputRange: [0, 1],
-                outputRange: [transitionDirection === "RIGHT" ? 10 : -10, 0]
+                outputRange: [transitionDirection === DIRECTION.right ? 10 : -10, 0]
               })
             }
           ]

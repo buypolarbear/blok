@@ -5,7 +5,7 @@ import TouchableIcon from "../components/TouchableIcon";
 import { isIphoneX } from "../services/utilities";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
+export interface Props {
   activeRoute: string;
   router: Object;
 }

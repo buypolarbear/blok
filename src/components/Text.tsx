@@ -1,12 +1,13 @@
 import * as React from "react";
 import styled, { css } from "styled-components/native";
 import { white, grey, green, blue, red } from "../style/color";
+import { SIZE, COLOR } from "../services/enums";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
-  size?: "small" | "big" | "normal";
-  color?: "white" | "grey" | "green" | "blue" | "red";
-  shadow?: boolean;
+export interface Props {
+  size: SIZE;
+  color: COLOR;
+  shadow: boolean;
   children: string;
 }
 
@@ -51,24 +52,24 @@ const textShadow = css`
 `;
 
 const StyledText = styled.Text`
-  ${props => props.size === "small" && smallText};
-  ${props => props.size === "normal" && nomralText};
-  ${props => props.size === "big" && bigText};
-  ${props => props.color === "white" && whiteText};
-  ${props => props.color === "grey" && greyText};
-  ${props => props.color === "blue" && blueText};
-  ${props => props.color === "green" && greenText};
-  ${props => props.color === "red" && redText};
-  ${props => props.shadow && textShadow};
+  ${(p: Props) => (p.size === SIZE.small ? smallText : "")};
+  ${(p: Props) => (p.size === SIZE.normal ? nomralText : "")};
+  ${(p: Props) => (p.size === SIZE.big ? bigText : "")};
+  ${(p: Props) => (p.color === COLOR.white ? whiteText : "")};
+  ${(p: Props) => (p.color === COLOR.grey ? greyText : "")};
+  ${(p: Props) => (p.color === COLOR.blue ? blueText : "")};
+  ${(p: Props) => (p.color === COLOR.green ? greenText : "")};
+  ${(p: Props) => (p.color === COLOR.red ? redText : "")};
+  ${(p: Props) => (p.shadow ? textShadow : "")};
   font-family: "Lato-Regular";
   background-color: transparent;
 `;
 
 class Text extends React.Component<Props> {
   // -- default props ------------------------------------------------------- //
-  static defaultProps = {
-    size: "normal",
-    color: "white",
+  static defaultProps: Partial<Props> = {
+    size: SIZE.normal,
+    color: COLOR.white,
     shadow: false
   };
 

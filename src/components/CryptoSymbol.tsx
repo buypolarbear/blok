@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components/native";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
+export interface Props {
   src: any;
 }
 

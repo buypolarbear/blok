@@ -9,7 +9,7 @@ import Navigation from "../composites/Navigation";
 import DashboardRouteAnimation from "../components/DashboardRouteAnimation";
 
 // -- types ----------------------------------------------------------------- //
-interface Props {
+export interface Props {
   router: Object;
 }
 
