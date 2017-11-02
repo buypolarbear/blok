@@ -1,11 +1,10 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import { StatusBar } from "react-native";
 import { Provider } from "mobx-react/native";
 import Router from "./routes";
 import state from "./state";
 
-class App extends Component<{}> {
+class App extends React.Component {
   // -- render -------------------------------------------------------------- //
   render() {
     return [

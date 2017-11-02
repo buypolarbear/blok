@@ -1,15 +1,14 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import styled, { css } from "styled-components/native";
 import { white, grey, green, blue, red } from "../style/color";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  size?: "small" | "big" | "normal",
-  color?: "white" | "grey" | "green" | "blue" | "red",
-  shadow?: boolean,
-  children: string
-};
+interface Props {
+  size?: "small" | "big" | "normal";
+  color?: "white" | "grey" | "green" | "blue" | "red";
+  shadow?: boolean;
+  children: string;
+}
 
 // -- styling --------------------------------------------------------------- //
 const smallText = css`
@@ -65,7 +64,7 @@ const StyledText = styled.Text`
   background-color: transparent;
 `;
 
-class Text extends Component<Props> {
+class Text extends React.Component<Props> {
   // -- default props ------------------------------------------------------- //
   static defaultProps = {
     size: "normal",

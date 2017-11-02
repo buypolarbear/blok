@@ -1,4 +1,3 @@
-/* @flow */
 import { Dimensions, Platform } from "react-native";
 
 export const isIphoneX = (): boolean => {

@@ -1,13 +1,12 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import styled from "styled-components/native";
 import { darkPurple } from "../style/color";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  color?: string,
-  children: React$Node
-};
+interface Props {
+  color?: string;
+  children: any;
+}
 
 // -- styling --------------------------------------------------------------- //
 const SView = styled.View`
@@ -17,7 +16,7 @@ const SView = styled.View`
   flex-wrap: wrap;
 `;
 
-class Background extends Component<Props> {
+class Background extends React.Component<Props> {
   // -- default props ------------------------------------------------------- //
   static defaultProps = {
     color: darkPurple

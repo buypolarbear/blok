@@ -1,8 +1,7 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import { Text } from "react-native";
 
-class SettingsView extends Component<{}> {
+class SettingsView extends React.Component {
   // -- render -------------------------------------------------------------- //
   render() {
     return <Text>Settings</Text>;

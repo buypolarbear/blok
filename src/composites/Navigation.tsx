@@ -1,15 +1,14 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../components/TouchableIcon";
 import { isIphoneX } from "../services/utilities";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  activeRoute: string,
-  router: Object
-};
+interface Props {
+  activeRoute: string;
+  router: Object;
+}
 
 // -- styling --------------------------------------------------------------- //
 const Container = styled.View`
@@ -28,7 +27,9 @@ const Icon = styled(TouchableIcon)`
   margin-right: 25px;
 `;
 
-class Navigation extends Component<Props> {
+@inject("router")
+@observer
+class Navigation extends React.Component<Props> {
   // -- default props ------------------------------------------------------- //
   static defaultProps = {};
 
@@ -75,4 +76,4 @@ class Navigation extends Component<Props> {
   }
 }
 
-export default inject("router")(observer(Navigation));
+export default Navigation;

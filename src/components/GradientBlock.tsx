@@ -1,13 +1,12 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import styled from "styled-components/native";
 import LinearGradient from "react-native-linear-gradient";
 import { purple, lightPurple } from "../style/color";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  children: React$Node
-};
+interface Props {
+  children: React$Node;
+}
 
 // -- styling --------------------------------------------------------------- //
 const Card = styled(LinearGradient)`
@@ -28,7 +27,7 @@ const Card = styled(LinearGradient)`
   flex-direction: row;
 `;
 
-class GradientBlock extends Component<Props> {
+class GradientBlock extends React.Component<Props> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { children, ...props } = this.props;

@@ -1,21 +1,20 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { isIphoneX } from "../services/utilities";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  children: React$Node,
-  pathname: string
-};
+interface Props {
+  children: React$Node;
+  pathname: string;
+}
 
-type State = {
-  previousView: React$Node,
-  transition: Object,
-  pointerEvents: boolean,
-  transitionDirection: "LEFT" | "RIGHT"
-};
+interface State {
+  previousView: React$Node;
+  transition: Object;
+  pointerEvents: boolean;
+  transitionDirection: "LEFT" | "RIGHT";
+}
 
 // -- styling --------------------------------------------------------------- //
 const Container = styled(Animated.View)`
@@ -26,7 +25,7 @@ const Container = styled(Animated.View)`
   width: 100%;
 `;
 
-class DashboardRouteAnimation extends Component<Props, State> {
+class DashboardRouteAnimation extends React.Component<Props, State> {
   // -- state --------------------------------------------------------------- //
   state = {
     previousView: null,

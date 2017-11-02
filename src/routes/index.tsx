@@ -1,15 +1,16 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import { observer, inject } from "mobx-react/native";
 import { Router as ReactRouter, Switch, Route } from "react-router-native";
 import Dashboard from "./_dashboard";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  router: Object
-};
+interface Props {
+  router: Object;
+}
 
-class Router extends Component<Props> {
+@inject("router")
+@observer
+class Router extends React.Component<Props> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { router } = this.props;
@@ -23,4 +24,4 @@ class Router extends Component<Props> {
   }
 }
 
-export default inject("router")(observer(Router));
+export default Router;

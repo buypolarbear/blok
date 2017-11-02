@@ -1,5 +1,4 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import styled from "styled-components/native";
 import TouchableIcon from "../components/TouchableIcon";
 import Text from "../components/Text";
@@ -9,13 +8,13 @@ const dummyData = [
   "BTC",
   "LTC",
   "ETH",
-  "XMR",
+  "XRP",
   "DASH",
   "STEEM",
   "BTC",
   "LTC",
   "ETH",
-  "XMR",
+  "XRP",
   "DASH",
   "STEEM"
 ];
@@ -36,13 +35,13 @@ const BalanceView = styled.View`
 
 const AccountView = styled.FlatList``;
 
-class AccountsView extends Component<{}> {
+class AccountsView extends React.Component {
   // -- methods ------------------------------------------------------------- //
   onAddAccount = () => console.warn("Add Account");
 
   onRemoveAccount = () => console.warn("Remove Account");
 
-  generateItemKey = (item, index) => `${item}-${index}`;
+  generateItemKey = (item: string, index: number) => `${item}-${index}`;
 
   // -- render -------------------------------------------------------------- //
   render() {

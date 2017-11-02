@@ -1,5 +1,4 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import { Route, Switch } from "react-router-native";
 import { inject, observer } from "mobx-react/native";
 import Background from "../components/Background";
@@ -10,11 +9,13 @@ import Navigation from "../composites/Navigation";
 import DashboardRouteAnimation from "../components/DashboardRouteAnimation";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  router: Object
-};
+interface Props {
+  router: Object;
+}
 
-class Dashboard extends Component<Props> {
+@inject("router")
+@observer
+class Dashboard extends React.Component<Props> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { router } = this.props;
@@ -33,4 +34,4 @@ class Dashboard extends Component<Props> {
   }
 }
 
-export default inject("router")(observer(Dashboard));
+export default Dashboard;

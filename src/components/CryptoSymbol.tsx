@@ -1,11 +1,10 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import styled from "styled-components/native";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  src: any
-};
+interface Props {
+  src: any;
+}
 
 // -- styling --------------------------------------------------------------- //
 const Container = styled.View`
@@ -25,7 +24,7 @@ const Icon = styled.Image`
   border-radius: 20px;
 `;
 
-class CryptoSymbol extends Component<Props> {
+class CryptoSymbol extends React.Component<Props> {
   // -- methods ------------------------------------------------------------- //
 
   // -- render -------------------------------------------------------------- //

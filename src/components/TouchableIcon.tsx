@@ -1,15 +1,14 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  onPress: Function,
-  src: any,
-  width: string,
-  height: string
-};
+interface Props {
+  onPress: Function;
+  src: any;
+  width: string;
+  height: string;
+}
 
 // -- styling --------------------------------------------------------------- //
 const Icon = styled.Image`
@@ -17,7 +16,7 @@ const Icon = styled.Image`
   height: ${props => props.height};
 `;
 
-class TouchableIcon extends Component<Props> {
+class TouchableIcon extends React.Component<Props> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { onPress, src, width, height, ...props } = this.props;

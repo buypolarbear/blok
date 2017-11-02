@@ -1,5 +1,4 @@
-/* @flow */
-import React, { Component } from "react";
+import * as React from "react";
 import styled from "styled-components/native";
 import CryptoSymbol from "../components/CryptoSymbol";
 import GradientBlock from "../components/GradientBlock";
@@ -7,9 +6,9 @@ import Text from "../components/Text";
 import TouchableIcon from "../components/TouchableIcon";
 
 // -- types ----------------------------------------------------------------- //
-type Props = {
-  type: "BTC" | "LTC" | "ETH" | "XRP" | "DASH" | "STEEM"
-};
+interface Props {
+  type: "BTC" | "LTC" | "ETH" | "XRP" | "DASH" | "STEEM";
+}
 
 // -- styling --------------------------------------------------------------- //
 const Balance = styled.View`
@@ -22,7 +21,7 @@ const QrCode = styled(TouchableIcon)`
   margin-top: 6px;
 `;
 
-class AccountCard extends Component<Props> {
+class AccountCard extends React.Component<Props> {
   // -- default props ------------------------------------------------------- //
   static defaultProps = {};
 
