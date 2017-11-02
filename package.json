@@ -8,7 +8,7 @@
     "clean": "rm -rf dist",
     "build": "yarn clean && yarn tsc",
     "lint": "node_modules/.bin/tslint 'src/**/*.ts?(x)'",
-    "link": "node_modules/.bin/react-native link",
+    "native-link": "node_modules/.bin/react-native link",
     "start:ios": "node_modules/.bin/react-native run-ios --simulator='iPhone X'",
     "start": "yarn clean; yarn concurrently -r 'yarn tsc --watch' 'yarn start:ios'"
   },
