@@ -9,7 +9,7 @@ interface Props {
 }
 
 // -- styling --------------------------------------------------------------- //
-const SView = styled.View`
+const Container = styled.View`
   height: 100%;
   background-color: ${props => props.color};
   flex-direction: row;
@@ -26,9 +26,9 @@ class Background extends React.Component<Props> {
   render() {
     const { children, color, ...props } = this.props;
     return (
-      <SView color={color} {...props}>
+      <Container color={color} {...props}>
         {children}
-      </SView>
+      </Container>
     );
   }
 }

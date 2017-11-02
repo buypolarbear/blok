@@ -7,6 +7,7 @@
     "concurrently": "node_modules/.bin/concurrently",
     "clean": "rm -rf dist",
     "build": "yarn clean && yarn tsc",
+    "lint": "node_modules/.bin/tslint 'src/**/*.ts?(x)'",
     "link": "node_modules/.bin/react-native link",
     "start:ios": "node_modules/.bin/react-native run-ios --simulator='iPhone X'",
     "start": "yarn clean; yarn concurrently -r 'yarn tsc --watch' 'yarn start:ios'"
@@ -31,6 +32,8 @@
     "jest": "21.2.1",
     "prettier": "^1.7.4",
     "react-test-renderer": "16.0.0-beta.5",
+    "tslint-config-airbnb": "^5.3.0",
+    "tslint-config-prettier": "^1.6.0",
     "typescript": "^2.6.1"
   },
   "jest": {
