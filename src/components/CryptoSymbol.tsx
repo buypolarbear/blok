@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 
 // -- types ----------------------------------------------------------------- //
 export interface Props {
-  src: any;
+  src: number;
 }
 
 // -- styling --------------------------------------------------------------- //
@@ -24,9 +24,7 @@ const Icon = styled.Image`
   border-radius: 20px;
 `;
 
-class CryptoSymbol extends React.Component<Props> {
-  // -- methods ------------------------------------------------------------- //
-
+class CryptoSymbol extends React.Component<Props, {}> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { src, ...props } = this.props;

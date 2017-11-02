@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled from "styled-components/native";
-import TouchableIcon from "../components/TouchableIcon";
+import TouchableIcon from "../composites/TouchableIcon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 
@@ -35,7 +35,7 @@ const BalanceView = styled.View`
 
 const AccountView = styled.FlatList``;
 
-class AccountsView extends React.Component {
+class AccountsView extends React.Component<{}, {}> {
   // -- methods ------------------------------------------------------------- //
   onAddAccount = () => console.warn("Add Account");
 

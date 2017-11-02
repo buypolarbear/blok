@@ -4,7 +4,7 @@ import { Provider } from "mobx-react/native";
 import Router from "./routes";
 import state from "./state";
 
-class App extends React.Component {
+class App extends React.Component<{}, {}> {
   // -- render -------------------------------------------------------------- //
   render() {
     return [

@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
-import TouchableIcon from "../components/TouchableIcon";
+import TouchableIcon from "../composites/TouchableIcon";
 import { isIphoneX } from "../services/utilities";
 
 // -- types ----------------------------------------------------------------- //
@@ -29,7 +29,7 @@ const Icon = styled(TouchableIcon)`
 
 @inject("router")
 @observer
-class Navigation extends React.Component<Props> {
+class Navigation extends React.Component<Props, {}> {
   // -- default props ------------------------------------------------------- //
   static defaultProps = {};
 

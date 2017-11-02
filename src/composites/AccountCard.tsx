@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import CryptoSymbol from "../components/CryptoSymbol";
 import GradientBlock from "../components/GradientBlock";
 import Text from "../components/Text";
-import TouchableIcon from "../components/TouchableIcon";
+import TouchableIcon from "./TouchableIcon";
 import { TICKER, SIZE, COLOR } from "../services/enums";
 
 // -- types ----------------------------------------------------------------- //
@@ -22,7 +22,7 @@ const QrCode = styled(TouchableIcon)`
   margin-top: 6px;
 `;
 
-class AccountCard extends React.Component<Props> {
+class AccountCard extends React.Component<Props, {}> {
   // -- default props ------------------------------------------------------- //
   static defaultProps = {};
 

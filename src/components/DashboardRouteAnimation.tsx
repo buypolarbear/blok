@@ -6,12 +6,12 @@ import { DIRECTION } from "../services/enums";
 
 // -- types ----------------------------------------------------------------- //
 export interface Props {
-  children: JSX.Element;
+  children: React.ReactChild;
   pathname: string;
 }
 
 export interface State {
-  previousView: JSX.Element | null;
+  previousView: React.ReactChild | null;
   transition: Object;
   pointerEvents: boolean;
   transitionDirection: DIRECTION;

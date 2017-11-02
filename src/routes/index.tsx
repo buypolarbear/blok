@@ -10,7 +10,7 @@ export interface Props {
 
 @inject("router")
 @observer
-class Router extends React.Component<Props> {
+class Router extends React.Component<Props, {}> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { router } = this.props;

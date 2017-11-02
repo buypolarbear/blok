@@ -5,9 +5,9 @@ import { SIZE, COLOR } from "../services/enums";
 
 // -- types ----------------------------------------------------------------- //
 export interface Props {
-  size: SIZE;
-  color: COLOR;
-  shadow: boolean;
+  size?: SIZE;
+  color?: COLOR;
+  shadow?: boolean;
   children: string;
 }
 
@@ -65,7 +65,7 @@ const StyledText = styled.Text`
   background-color: transparent;
 `;
 
-class Text extends React.Component<Props> {
+class Text extends React.Component<Props, {}> {
   // -- default props ------------------------------------------------------- //
   static defaultProps: Partial<Props> = {
     size: SIZE.normal,

@@ -5,7 +5,7 @@ import { purple, lightPurple } from "../style/color";
 
 // -- types ----------------------------------------------------------------- //
 export interface Props {
-  children: JSX.Element[];
+  children: React.ReactChild | React.ReactChild[];
 }
 
 // -- styling --------------------------------------------------------------- //
@@ -17,7 +17,7 @@ const Card = styled(LinearGradient)`
   shadow-color: #000000;
   shadow-offset: 0px 8px;
   shadow-radius: 7px;
-  padding-left: 20px;
+  rc: 20px;
   padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -27,7 +27,7 @@ const Card = styled(LinearGradient)`
   flex-direction: row;
 `;
 
-class GradientBlock extends React.Component<Props> {
+class GradientBlock extends React.Component<Props, {}> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { children } = this.props;

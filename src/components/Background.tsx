@@ -4,24 +4,19 @@ import { darkPurple } from "../style/color";
 
 // -- types ----------------------------------------------------------------- //
 export interface Props {
-  color: string;
-  children: JSX.Element;
+  color?: string;
+  children: React.ReactChild;
 }
 
 // -- styling --------------------------------------------------------------- //
 const Container = styled.View`
   height: 100%;
-  background-color: ${(p: Props) => p.color};
+  background-color: ${(p: Props) => p.color || darkPurple};
   flex-direction: row;
   flex-wrap: wrap;
 `;
 
-class Background extends React.Component<Props> {
-  // -- default props ------------------------------------------------------- //
-  static defaultProps: Partial<Props> = {
-    color: darkPurple
-  };
-
+class Background extends React.Component<Props, {}> {
   // -- render -------------------------------------------------------------- //
   render() {
     const { children, color, ...props } = this.props;
