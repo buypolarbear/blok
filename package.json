@@ -9,22 +9,23 @@
     "build": "yarn clean && yarn tsc",
     "lint": "node_modules/.bin/tslint 'src/**/*.ts?(x)'",
     "native-link": "node_modules/.bin/react-native link",
-    "start:ios": "node_modules/.bin/react-native run-ios --simulator='iPhone X'",
-    "start": "yarn clean; yarn concurrently -r 'yarn tsc --watch' 'yarn start:ios'"
+    "run:ios": "node_modules/.bin/react-native run-ios --simulator='iPhone X'",
+    "start:ios": "yarn clean; yarn concurrently -r 'yarn tsc --watch' 'yarn run:ios'"
   },
   "dependencies": {
     "history": "4.7.2",
     "mobx": "3.3.1",
     "mobx-react": "4.3.4",
     "react": "16.0.0",
-    "react-native": "0.50.0",
+    "react-native": "0.50.1",
     "react-native-linear-gradient": "2.3.0",
     "react-router-native": "4.2.0",
     "styled-components": "2.2.3"
   },
   "devDependencies": {
-    "@types/react": "16.0.19",
-    "@types/react-native": "0.49.5",
+    "@types/react": "16.0.20",
+    "@types/react-native": "0.50.0",
+    "@types/react-native-linear-gradient": "^2.3.0",
     "@types/react-router-native": "4.0.1",
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
@@ -40,8 +41,6 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": [
-      "./assets/fonts"
-    ]
+    "assets": ["./assets/fonts"]
   }
 }

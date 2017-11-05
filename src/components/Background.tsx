@@ -5,7 +5,7 @@ import { darkPurple } from "../style/color";
 // -- types ----------------------------------------------------------------- //
 export interface Props {
   color?: string;
-  children: React.ReactChild;
+  children: React.ReactChild | React.ReactChild[];
 }
 
 // -- styling --------------------------------------------------------------- //

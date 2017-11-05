@@ -4,7 +4,6 @@
     "module": "commonjs",
     "jsx": "react",
     "sourceMap": true,
-    "strict": true,
     "allowJs": true,
     "outDir": "./lib",
     "typeRoots": ["node_modules/@types", "./typings"],
@@ -14,6 +13,9 @@
     "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true
