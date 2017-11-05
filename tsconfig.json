@@ -3,7 +3,7 @@
     "target": "es6",
     "module": "commonjs",
     "jsx": "react",
-    "sourceMap": true,
+    "sourceMap": false,
     "allowJs": true,
     "outDir": "./lib",
     "typeRoots": ["node_modules/@types", "./typings"],

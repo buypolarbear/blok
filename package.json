@@ -9,6 +9,7 @@
     "build": "yarn clean && yarn tsc",
     "lint": "node_modules/.bin/tslint 'src/**/*.ts?(x)'",
     "native-link": "node_modules/.bin/react-native link",
+    "upgrade": "node_modules/.bin/react-native-git-upgrade",
     "run:ios": "node_modules/.bin/react-native run-ios --simulator='iPhone X'",
     "start:ios": "yarn clean; yarn concurrently -r 'yarn tsc --watch' 'yarn run:ios'"
   },
@@ -32,6 +33,7 @@
     "concurrently": "3.5.0",
     "jest": "21.2.1",
     "prettier": "1.7.4",
+    "react-native-git-upgrade": "^0.2.7",
     "react-test-renderer": "16.0.0",
     "tslint-config-airbnb": "5.3.0",
     "tslint-config-prettier": "1.6.0",
