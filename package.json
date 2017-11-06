@@ -25,7 +25,7 @@
   "devDependencies": {
     "@types/react": "16.0.20",
     "@types/react-native": "0.50.0",
-    "@types/react-native-linear-gradient": "^2.3.0",
+    "@types/react-native-linear-gradient": "2.3.0",
     "@types/react-router-native": "4.0.1",
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",

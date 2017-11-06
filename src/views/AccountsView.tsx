@@ -3,6 +3,7 @@ import styled from "styled-components/native";
 import TouchableIcon from "../composites/TouchableIcon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
+import { COLOR, SIZE } from "../services/enums";
 
 const dummyData = [
   "BTC",
@@ -33,7 +34,7 @@ const BalanceView = styled.View`
   margin-bottom: 65px;
 `;
 
-const AccountView = styled.FlatList``;
+const AccountView = (styled as any).FlatList``;
 
 class AccountsView extends React.Component<{}, {}> {
   // -- methods ------------------------------------------------------------- //
@@ -61,10 +62,10 @@ class AccountsView extends React.Component<{}, {}> {
         />
       </AccountActions>,
       <BalanceView key="account-balance">
-        <Text color="grey" shadow>
+        <Text color={COLOR.grey} shadow>
           Total Balance
         </Text>
-        <Text size="big" shadow>
+        <Text size={SIZE.big} shadow>
           $1,280
         </Text>
       </BalanceView>,
