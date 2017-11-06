@@ -1,32 +1,29 @@
 import * as React from "react";
 import { Route, Switch } from "react-router-native";
-import { inject, observer } from "mobx-react/native";
 import Background from "../components/Background";
 import AccountsView from "../views/AccountsView";
 import TransactionsView from "../views/TransactionsView";
 import SettingsView from "../views/SettingsView";
 import Navigation from "../composites/Navigation";
 import DashboardRouteAnimation from "../components/DashboardRouteAnimation";
-import { RouterInterface } from "../store/_router";
+import { LocationInterface } from "../store/_router";
 
 // -- types ----------------------------------------------------------------- //
 export interface Props {
-  router: RouterInterface;
+  location: LocationInterface;
 }
 
-@inject("router")
-@observer
 class Dashboard extends React.Component<Props, {}> {
   // -- render -------------------------------------------------------------- //
   render() {
-    const { router } = this.props;
+    const { location } = this.props;
     return (
       <Background>
-        <DashboardRouteAnimation pathname={router.location.pathname}>
-          <Switch location={router.location}>
-            <Route exact path="/" component={AccountsView} />
-            <Route path="/transactions" component={TransactionsView} />
-            <Route path="/settings" component={SettingsView} />
+        <DashboardRouteAnimation pathname={location.pathname}>
+          <Switch location={location}>
+            <Route path="/dashboard/accounts" component={AccountsView} />
+            <Route path="/dashboard/transactions" component={TransactionsView} />
+            <Route path="/dashboard/settings" component={SettingsView} />
           </Switch>
         </DashboardRouteAnimation>
         <Navigation />

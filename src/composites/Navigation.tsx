@@ -40,33 +40,33 @@ class Navigation extends React.Component<Props, {}> {
   render() {
     const activeRoute = this.props.router.location.pathname;
     const accountsIcon =
-      activeRoute === "/"
+      activeRoute === "/dashboard/accounts"
         ? require("../../assets/images/icon-block-active.png")
         : require("../../assets/images/icon-block.png");
     const transactionsIcon =
-      activeRoute === "/transactions"
+      activeRoute === "/dashboard/transactions"
         ? require("../../assets/images/icon-transactions-active.png")
         : require("../../assets/images/icon-transactions.png");
     const settingsIcon =
-      activeRoute === "/settings"
+      activeRoute === "/dashboard/settings"
         ? require("../../assets/images/icon-settings-active.png")
         : require("../../assets/images/icon-settings.png");
     return (
       <Container>
         <Icon
-          onPress={() => this.onRouteChange("/")}
+          onPress={() => this.onRouteChange("/dashboard/accounts")}
           width="28px"
           height="30px"
           src={accountsIcon}
         />
         <Icon
-          onPress={() => this.onRouteChange("/transactions")}
+          onPress={() => this.onRouteChange("/dashboard/transactions")}
           width="28px"
           height="20px"
           src={transactionsIcon}
         />
         <Icon
-          onPress={() => this.onRouteChange("/settings")}
+          onPress={() => this.onRouteChange("/dashboard/settings")}
           width="31px"
           height="31px"
           src={settingsIcon}

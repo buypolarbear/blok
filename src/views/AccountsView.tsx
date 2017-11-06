@@ -1,9 +1,11 @@
 import * as React from "react";
 import styled from "styled-components/native";
+import { inject } from "mobx-react/native";
 import TouchableIcon from "../composites/TouchableIcon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 import { COLOR, SIZE, TICKER } from "../services/enums";
+import RouterInterface from "../store/_router";
 
 const dummyData = [
   TICKER.BTC,
@@ -19,6 +21,10 @@ const dummyData = [
   TICKER.DASH,
   TICKER.STEEM
 ];
+
+export interface Props {
+  router: RouterInterface;
+}
 
 // -- styling --------------------------------------------------------------- //
 const AccountActions = styled.View`
@@ -36,9 +42,10 @@ const BalanceView = styled.View`
 
 const AccountView = (styled as any).FlatList``;
 
-class AccountsView extends React.Component<{}, {}> {
+@inject("router")
+class AccountsView extends React.Component<Props, {}> {
   // -- methods ------------------------------------------------------------- //
-  onAddAccount = () => console.warn("Add Account");
+  onAddAccount = () => this.props.router.push("/add-account", { modal: true });
 
   onRemoveAccount = () => console.warn("Remove Account");
 

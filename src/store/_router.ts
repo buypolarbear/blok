@@ -2,6 +2,8 @@ import { observable, action } from "mobx";
 import * as history from "history";
 import createHistory from "history/createMemoryHistory";
 
+export interface LocationInterface extends history.Location {}
+
 export interface RouterInterface {
   history: history.History;
   location: history.Location;
@@ -14,7 +16,7 @@ export interface RouterInterface {
 
 class RouterStore {
   // -- store --------------------------------------------------------------- //
-  routerHistory = createHistory();
+  routerHistory = createHistory({ initialEntries: ["/dashboard/accounts"] });
   history: any = this.routerHistory;
   @observable location = this.history.location;
 

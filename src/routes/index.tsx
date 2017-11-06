@@ -9,16 +9,35 @@ export interface Props {
   router?: RouterInterface;
 }
 
+export interface State {
+  previousLocation: Object;
+}
+
 @inject("router")
 @observer
-class Router extends React.Component<Props, {}> {
+class Router extends React.Component<Props, State> {
+  previousLocation = this.props.router.location;
+
+  // -- methods ------------------------------------------------------------- //
+  componentWillReceiveProps(nextProps: Props) {
+    const { location } = this.props.router;
+    if (nextProps.router.history.action !== "POP" && (!location.state || !location.state.modal)) {
+      this.previousLocation = this.props.router.location;
+    }
+  }
+
+  isModal = location =>
+    location.state && location.state.modal && this.previousLocation !== location;
+
   // -- render -------------------------------------------------------------- //
   render() {
     const { router } = this.props;
+    const { location } = router;
+    const l = this.isModal(location) ? this.previousLocation : location;
     return (
       <ReactRouter history={router.history}>
-        <Switch location={router.location}>
-          <Route path="/" component={Dashboard} />
+        <Switch location={l}>
+          <Route path="/dashboard/*" render={() => <Dashboard location={l} />} />
         </Switch>
       </ReactRouter>
     );
