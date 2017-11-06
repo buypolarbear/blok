@@ -17,7 +17,7 @@ const Card = styled(LinearGradient)`
   shadow-color: #000000;
   shadow-offset: 0px 8px;
   shadow-radius: 7px;
-  rc: 20px;
+  padding-left: 20px;
   padding-right: 20px;
   padding-top: 10px;
   padding-bottom: 10px;

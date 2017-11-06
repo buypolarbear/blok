@@ -13,9 +13,9 @@ export interface Props {
 class TouchableIcon extends React.Component<Props, {}> {
   // -- render -------------------------------------------------------------- //
   render() {
-    const { onPress, src, width, height } = this.props;
+    const { onPress, src, width, height, ...props } = this.props;
     return (
-      <TouchableOpacity onPress={onPress}>
+      <TouchableOpacity onPress={onPress} {...props}>
         <Icon source={src} width={width} height={height} />
       </TouchableOpacity>
     );

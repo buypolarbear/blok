@@ -19,7 +19,7 @@ const Balance = styled.View`
 `;
 
 const QrCode = styled(TouchableIcon)`
-  margin-top: 6px;
+  margin-top: 7px;
 `;
 
 class AccountCard extends React.Component<Props, {}> {

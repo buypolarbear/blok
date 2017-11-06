@@ -3,21 +3,21 @@ import styled from "styled-components/native";
 import TouchableIcon from "../composites/TouchableIcon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
-import { COLOR, SIZE } from "../services/enums";
+import { COLOR, SIZE, TICKER } from "../services/enums";
 
 const dummyData = [
-  "BTC",
-  "LTC",
-  "ETH",
-  "XRP",
-  "DASH",
-  "STEEM",
-  "BTC",
-  "LTC",
-  "ETH",
-  "XRP",
-  "DASH",
-  "STEEM"
+  TICKER.BTC,
+  TICKER.LTC,
+  TICKER.ETH,
+  TICKER.XRP,
+  TICKER.DASH,
+  TICKER.STEEM,
+  TICKER.BTC,
+  TICKER.LTC,
+  TICKER.ETH,
+  TICKER.XRP,
+  TICKER.DASH,
+  TICKER.STEEM
 ];
 
 // -- styling --------------------------------------------------------------- //
