@@ -1,21 +1,32 @@
 import { observable, action } from "mobx";
+import * as history from "history";
 import createHistory from "history/createMemoryHistory";
 
-class RouterState {
+export interface RouterInterface {
+  history: history.History;
+  location: history.Location;
+  push: (location: string, state?: Object) => void;
+  replace: (location: string) => void;
+  go: (n: number) => void;
+  goBack: () => void;
+  goForward: () => void;
+}
+
+class RouterStore {
   // -- store --------------------------------------------------------------- //
   routerHistory = createHistory();
-  history = this.routerHistory;
+  history: any = this.routerHistory;
   @observable location = this.history.location;
 
   // -- actions ------------------------------------------------------------- //
   @action
-  updateRouter = (history: Object) => {
+  updateRouter = (history: { location: Object }) => {
     this.history = history;
     this.location = history.location;
   };
 
   // -- methods ------------------------------------------------------------- //
-  push = (location: string, state: Object) => {
+  push = (location: string, state?: Object) => {
     this.routerHistory.push(location, state);
     this.updateRouter(this.routerHistory);
   };
@@ -41,4 +52,4 @@ class RouterState {
   };
 }
 
-export default RouterState;
+export default RouterStore;

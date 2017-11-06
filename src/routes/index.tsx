@@ -2,10 +2,11 @@ import * as React from "react";
 import { observer, inject } from "mobx-react/native";
 import { Router as ReactRouter, Switch, Route } from "react-router-native";
 import Dashboard from "./_dashboard";
+import { RouterInterface } from "../store/_router";
 
 // -- types ----------------------------------------------------------------- //
 export interface Props {
-  router: Object;
+  router?: RouterInterface;
 }
 
 @inject("router")

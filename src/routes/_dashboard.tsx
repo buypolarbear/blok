@@ -7,10 +7,11 @@ import TransactionsView from "../views/TransactionsView";
 import SettingsView from "../views/SettingsView";
 import Navigation from "../composites/Navigation";
 import DashboardRouteAnimation from "../components/DashboardRouteAnimation";
+import { RouterInterface } from "../store/_router";
 
 // -- types ----------------------------------------------------------------- //
 export interface Props {
-  router: Object;
+  router: RouterInterface;
 }
 
 @inject("router")
