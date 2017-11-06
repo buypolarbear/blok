@@ -45,7 +45,7 @@ const AccountView = (styled as any).FlatList``;
 @inject("router")
 class AccountsView extends React.Component<Props, {}> {
   // -- methods ------------------------------------------------------------- //
-  onAddAccount = () => this.props.router.push("/add-account", { modal: true });
+  onAddAccount = () => this.props.router.push("/overlay/add-account", { overlay: true });
 
   onRemoveAccount = () => console.warn("Remove Account");
 
