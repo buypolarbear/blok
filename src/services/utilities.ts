@@ -1,5 +1,9 @@
 import { Dimensions, Platform } from "react-native";
 
+/**
+ * Detect iphone X
+ * @return {Boolean}
+ */
 export const isIphoneX = () => {
   const dimension = Dimensions.get("window");
   return (

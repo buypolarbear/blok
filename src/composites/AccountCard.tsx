@@ -23,9 +23,6 @@ const QrCode = styled(TouchableIcon)`
 `;
 
 class AccountCard extends React.Component<Props, {}> {
-  // -- default props ------------------------------------------------------- //
-  static defaultProps = {};
-
   // -- methods ------------------------------------------------------------- //
   onShowQr = () => console.warn("Show Qr");
 
