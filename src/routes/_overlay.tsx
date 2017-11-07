@@ -33,7 +33,7 @@ const BackDrop = styled.View`
   bottom: 0;
   right: 0;
   background-color: ${black};
-  opacity: 0.8;
+  opacity: 0.4;
 `;
 
 const AnimatedBackground = Animated.createAnimatedComponent(Background);
