@@ -6,16 +6,22 @@
   version "4.6.1"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-4.6.1.tgz#0dbaef4febad5d074d06dbdfae6b027d1d701d25"
 
-"@types/react-native-linear-gradient@^2.3.0":
+"@types/react-native-linear-gradient@2.3.0":
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/@types/react-native-linear-gradient/-/react-native-linear-gradient-2.3.0.tgz#e7ed1e0f9739491430560d4734d55dd2edd6f2f4"
   dependencies:
     "@types/react" "*"
     "@types/react-native" "*"
 
-"@types/react-native@*", "@types/react-native@0.50.0":
+"@types/react-native@*":
   version "0.50.0"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.50.0.tgz#bf9fd8141065a9548c46afe6538583b49fe025cf"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-native@0.50.2":
+  version "0.50.2"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.50.2.tgz#ca298220b0fe52217d82acba8ecaa299eada7221"
   dependencies:
     "@types/react" "*"
 
@@ -3353,9 +3359,9 @@ preserve@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/preserve/-/preserve-0.2.0.tgz#815ed1f6ebc65926f865b310c0713bcb3315ce4b"
 
-prettier@1.7.4:
-  version "1.7.4"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.7.4.tgz#5e8624ae9363c80f95ec644584ecdf55d74f93fa"
+prettier@1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.8.1.tgz#91064d778c08c85ac1cbe6b23195c34310d039f9"
 
 pretty-format@^21.2.1:
   version "21.2.1"
@@ -3464,6 +3470,12 @@ react-devtools-core@^2.5.0:
   dependencies:
     shell-quote "^1.6.1"
     ws "^2.0.3"
+
+react-native-blur@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/react-native-blur/-/react-native-blur-3.2.0.tgz#7a27d66c995e994611041a191b94ec290a7d99fb"
+  dependencies:
+    prop-types "^15.5.10"
 
 react-native-linear-gradient@2.3.0:
   version "2.3.0"

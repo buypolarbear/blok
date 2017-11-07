@@ -6,5 +6,6 @@ const grey = "#ADB0C4";
 const green = "#60D9C8";
 const blue = "#70A3FE";
 const red = "#F96193";
+const black = "#000000";
 
-export { purple, white, grey, green, blue, red, lightPurple, darkPurple };
+export { purple, white, grey, green, blue, red, lightPurple, darkPurple, black };

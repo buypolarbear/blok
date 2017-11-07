@@ -18,7 +18,7 @@ class RouterStore {
   // -- store --------------------------------------------------------------- //
   routerHistory = createHistory({ initialEntries: ["/dashboard/accounts"] });
   history: any = this.routerHistory;
-  @observable location = this.history.location;
+  @observable location: any = this.history.location;
 
   // -- actions ------------------------------------------------------------- //
   @action

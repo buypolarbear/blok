@@ -48,17 +48,15 @@ class Router extends React.Component<Props, State> {
     const { router } = this.props;
     const { location } = router;
     const secondaryView = this.isSecondaryView(location);
-    const l = secondaryView ? this.previousLocation : location;
+    const baseLocation = secondaryView ? this.previousLocation : location;
     return (
       <ReactRouter history={router.history}>
         <Container>
-          <Switch location={l}>
-            <Route path="/dashboard/*" render={() => <Dashboard location={l} />} />
+          <Switch location={baseLocation}>
+            <Route path="/dashboard/*" render={() => <Dashboard location={baseLocation} />} />
           </Switch>
-          {secondaryView && [
-            <Route path="/overlay/*" component={Overlay} key="overlay-route" />,
-            <Route path="/modal/*" component={Overlay} key="modal-route" />
-          ]}
+          <Route path="/" render={() => <Overlay location={location} />} />
+          <Route path="/" component={Overlay} />
         </Container>
       </ReactRouter>
     );
