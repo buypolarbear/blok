@@ -58,7 +58,7 @@ class Overlay extends React.Component<Props, State> {
   onAnimateOverlay = (value: number) => {
     Animated.timing(this.state.animation, {
       toValue: value,
-      duration: 300,
+      duration: 400,
       useNativeDriver: true
     }).start(() => this.setState({ pointerEvents: value === 1 }));
   };
