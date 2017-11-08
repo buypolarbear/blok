@@ -5,6 +5,7 @@ import { LocationInterface } from "../store/_router";
 import Background from "../components/Background";
 import { black } from "../style/color";
 import { height } from "../style/dimension";
+import { easeInOutCubic } from "../style/easing";
 
 // --- types --- //
 interface Props {
@@ -17,7 +18,7 @@ interface State {
 }
 
 // ---styling --- //
-const Container = styled(Animated.View)`
+const Container = styled.View`
   position: absolute;
   top: 0;
   left: 0;
@@ -26,14 +27,13 @@ const Container = styled(Animated.View)`
   z-index: 10;
 `;
 
-const BackDrop = styled.View`
+const BackDrop = styled(Animated.View)`
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
   background-color: ${black};
-  opacity: 0.4;
 `;
 
 const AnimatedBackground = Animated.createAnimatedComponent(Background);
@@ -58,7 +58,8 @@ class Overlay extends React.Component<Props, State> {
   onAnimateOverlay = (value: number) => {
     Animated.timing(this.state.animation, {
       toValue: value,
-      duration: 400,
+      duration: 700,
+      easing: easeInOutCubic,
       useNativeDriver: true
     }).start(() => this.setState({ pointerEvents: value === 1 }));
   };
@@ -70,12 +71,15 @@ class Overlay extends React.Component<Props, State> {
     const { location, ...props } = this.props;
     const { animation } = this.state;
     return (
-      <Container
-        style={{ opacity: animation }}
-        pointerEvents={this.state.pointerEvents ? "auto" : "none"}
-        {...props}
-      >
-        <BackDrop />
+      <Container pointerEvents={this.state.pointerEvents ? "auto" : "none"} {...props}>
+        <BackDrop
+          style={{
+            opacity: animation.interpolate({
+              inputRange: [0, 1],
+              outputRange: [0, 0.4]
+            })
+          }}
+        />
         <AnimatedBackground
           style={{
             transform: [
