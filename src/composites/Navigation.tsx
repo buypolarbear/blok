@@ -30,9 +30,6 @@ const Icon = styled(TouchableIcon)`
 @inject("router")
 @observer
 class Navigation extends React.Component<Props, {}> {
-  // -- default props ------------------------------------------------------- //
-  static defaultProps = {};
-
   // -- methods ------------------------------------------------------------- //
   onRouteChange = (route: string) => this.props.router.push(route);
 
