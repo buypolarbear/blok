@@ -6,7 +6,7 @@
     "tsc": "node_modules/.bin/tsc",
     "concurrently": "node_modules/.bin/concurrently",
     "clean": "rm -rf dist",
-    "build": "yarn clean && yarn tsc",
+    "build": "yarn clean && yarn tsc --skipLibCheck",
     "lint": "node_modules/.bin/tslint 'src/**/*.ts?(x)'",
     "native-link": "node_modules/.bin/react-native link",
     "run:ios": "node_modules/.bin/react-native run-ios --simulator='iPhone X'",
@@ -42,8 +42,6 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": [
-      "./assets/fonts"
-    ]
+    "assets": ["./assets/fonts"]
   }
 }
