@@ -2,13 +2,13 @@ import * as React from "react";
 import styled from "styled-components/native";
 import { darkPurple } from "../style/color";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   color?: string;
   children: React.ReactChild | React.ReactChild[];
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const Container = styled.View`
   height: 100%;
   background-color: ${(p: Props) => p.color || darkPurple};
@@ -17,7 +17,7 @@ const Container = styled.View`
 `;
 
 class Background extends React.Component<Props, {}> {
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { children, color, ...props } = this.props;
     return (

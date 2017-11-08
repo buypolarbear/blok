@@ -15,19 +15,19 @@ export interface RouterInterface {
 }
 
 class RouterStore {
-  // -- store --------------------------------------------------------------- //
+  // --- store --- //
   routerHistory = createHistory({ initialEntries: ["/dashboard/accounts"] });
   history: any = this.routerHistory;
   @observable location: any = this.history.location;
 
-  // -- actions ------------------------------------------------------------- //
+  // --- actions --- //
   @action
   updateRouter = (history: { location: Object }) => {
     this.history = history;
     this.location = history.location;
   };
 
-  // -- methods ------------------------------------------------------------- //
+  // --- methods --- //
   push = (location: string, state?: Object) => {
     this.routerHistory.push(location, state);
     this.updateRouter(this.routerHistory);

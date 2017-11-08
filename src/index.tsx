@@ -5,7 +5,7 @@ import Router from "./routes";
 import store from "./store";
 
 class App extends React.Component<{}, {}> {
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     return [
       <StatusBar barStyle="light-content" key="statusbar" />,

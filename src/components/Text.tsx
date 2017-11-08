@@ -3,7 +3,7 @@ import styled, { css } from "styled-components/native";
 import { white, grey, green, blue, red } from "../style/color";
 import { SIZE, COLOR } from "../services/enums";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   size?: SIZE;
   color?: COLOR;
@@ -11,7 +11,7 @@ export interface Props {
   children: string;
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const smallText = css`
   font-size: 15px;
 `;
@@ -66,14 +66,14 @@ const StyledText = styled.Text`
 `;
 
 class Text extends React.Component<Props, {}> {
-  // -- default props ------------------------------------------------------- //
+  // --- default props --- //
   static defaultProps: Partial<Props> = {
     size: SIZE.normal,
     color: COLOR.white,
     shadow: false
   };
 
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { size, children, color, shadow, ...props } = this.props;
     return (

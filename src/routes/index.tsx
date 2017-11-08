@@ -6,7 +6,7 @@ import Dashboard from "./_dashboard";
 import Overlay from "./_overlay";
 import { RouterInterface } from "../store/_router";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   router?: RouterInterface;
 }
@@ -15,7 +15,7 @@ export interface State {
   previousLocation: Object;
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const Container = styled.View`
   width: 100%;
   height: 100%;
@@ -26,7 +26,7 @@ const Container = styled.View`
 class Router extends React.Component<Props, State> {
   previousLocation = this.props.router.location;
 
-  // -- methods ------------------------------------------------------------- //
+  // --- methods --- //
   componentWillReceiveProps(nextProps: Props) {
     const { location } = this.props.router;
     if (
@@ -43,7 +43,7 @@ class Router extends React.Component<Props, State> {
     } else return false;
   };
 
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { router } = this.props;
     const { location } = router;

@@ -1,12 +1,12 @@
 import * as React from "react";
 import styled from "styled-components/native";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   src: number;
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const Container = styled.View`
   width: 40px;
   height: 40px;
@@ -25,7 +25,7 @@ const Icon = styled.Image`
 `;
 
 class CryptoSymbol extends React.Component<Props, {}> {
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { src, ...props } = this.props;
     return (

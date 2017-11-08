@@ -6,12 +6,12 @@ import Text from "../components/Text";
 import TouchableIcon from "./TouchableIcon";
 import { TICKER, SIZE, COLOR } from "../services/enums";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   type: TICKER;
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const Balance = styled.View`
   margin-left: 20px;
   justify-content: center;
@@ -23,10 +23,10 @@ const QrCode = styled(TouchableIcon)`
 `;
 
 class AccountCard extends React.Component<Props, {}> {
-  // -- methods ------------------------------------------------------------- //
+  // --- methods --- //
   onShowQr = () => console.warn("Show Qr");
 
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { type } = this.props;
     let icon = null;

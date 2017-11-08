@@ -2,7 +2,7 @@ import * as React from "react";
 import { TouchableOpacity } from "react-native";
 import Icon from "../components/Icon";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   onPress: () => void;
   src: any;
@@ -11,7 +11,7 @@ export interface Props {
 }
 
 class TouchableIcon extends React.Component<Props, {}> {
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { onPress, src, width, height, ...props } = this.props;
     return (

@@ -6,7 +6,7 @@ import Background from "../components/Background";
 import { black } from "../style/color";
 import { height } from "../style/dimension";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 interface Props {
   location: LocationInterface;
 }
@@ -16,7 +16,7 @@ interface State {
   pointerEvents: boolean;
 }
 
-// -- styling --------------------------------------------------------------- //
+// ---styling --- //
 const Container = styled(Animated.View)`
   position: absolute;
   top: 0;
@@ -39,13 +39,13 @@ const BackDrop = styled.View`
 const AnimatedBackground = Animated.createAnimatedComponent(Background);
 
 class Overlay extends React.Component<Props, State> {
-  // -- state --------------------------------------------------------------- //
+  // --- state --- //
   state = {
     animation: new Animated.Value(0),
     pointerEvents: false
   };
 
-  // -- methods ------------------------------------------------------------- //
+  // --- methods --- //
   componentWillReceiveProps(newProps: Props) {
     const location = newProps.location;
     this.isOverlay(location) ? this.onAnimateOverlay(1) : this.onAnimateOverlay(0);
@@ -65,7 +65,7 @@ class Overlay extends React.Component<Props, State> {
 
   isOverlay = (location: LocationInterface) => location.state && location.state.overlay;
 
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { location, ...props } = this.props;
     const { animation } = this.state;

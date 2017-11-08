@@ -8,13 +8,13 @@ import Navigation from "../composites/Navigation";
 import DashboardRouteAnimation from "../components/DashboardRouteAnimation";
 import { LocationInterface } from "../store/_router";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   location: LocationInterface;
 }
 
 class Dashboard extends React.Component<Props, {}> {
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { location } = this.props;
     return (

@@ -4,7 +4,7 @@ import styled from "styled-components/native";
 import { isIphoneX } from "../services/utilities";
 import { DIRECTION } from "../services/enums";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   children: React.ReactChild;
   pathname: string;
@@ -17,7 +17,7 @@ export interface State {
   transitionDirection: DIRECTION;
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const Container = styled(Animated.View)`
   padding-top: ${isIphoneX() ? "65px" : "40px"};
   padding-bottom: ${isIphoneX() ? "94px" : "71px"};
@@ -27,7 +27,7 @@ const Container = styled(Animated.View)`
 `;
 
 class DashboardRouteAnimation extends React.Component<Props, State> {
-  // -- state --------------------------------------------------------------- //
+  // --- state --- //
   state = {
     previousView: null,
     pointerEvents: false,
@@ -35,7 +35,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     transition: new Animated.Value(0)
   };
 
-  // -- methods ------------------------------------------------------------- //
+  // --- methods --- //
   componentWillReceiveProps(newProps: Props) {
     const pathname = newProps.pathname;
     const previousPathname = this.props.pathname;
@@ -82,7 +82,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     }
   };
 
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { children } = this.props;
     const { previousView, transition, pointerEvents, transitionDirection } = this.state;

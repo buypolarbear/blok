@@ -22,11 +22,12 @@ const dummyData = [
   TICKER.STEEM
 ];
 
+// --- types --- //
 export interface Props {
   router: RouterInterface;
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const AccountActions = styled.View`
   width: 100%;
   flex-direction: row;
@@ -44,14 +45,14 @@ const AccountView = (styled as any).FlatList``;
 
 @inject("router")
 class AccountsView extends React.Component<Props, {}> {
-  // -- methods ------------------------------------------------------------- //
+  // --- methods --- //
   onAddAccount = () => this.props.router.push("/overlay/add-account", { overlay: true });
 
   onRemoveAccount = () => console.warn("Remove Account");
 
   generateItemKey = (item: string, index: number) => `${item}-${index}`;
 
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     return [
       <AccountActions key="account-actions">

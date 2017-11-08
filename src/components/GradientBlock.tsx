@@ -3,12 +3,12 @@ import styled from "styled-components/native";
 import LinearGradient from "react-native-linear-gradient";
 import { purple, lightPurple } from "../style/color";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   children: React.ReactChild | React.ReactChild[];
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const Card = styled(LinearGradient)`
   width: 100%;
   height: 60px;
@@ -28,7 +28,7 @@ const Card = styled(LinearGradient)`
 `;
 
 class GradientBlock extends React.Component<Props, {}> {
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const { children } = this.props;
     return (

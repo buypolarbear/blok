@@ -5,12 +5,12 @@ import TouchableIcon from "../composites/TouchableIcon";
 import { isIphoneX } from "../services/utilities";
 import { RouterInterface } from "../store/_router";
 
-// -- types ----------------------------------------------------------------- //
+// --- types --- //
 export interface Props {
   router?: RouterInterface;
 }
 
-// -- styling --------------------------------------------------------------- //
+// --- styling --- //
 const Container = styled.View`
   padding-top: 20px;
   padding-bottom: ${isIphoneX() ? "43px" : "20px"};
@@ -30,10 +30,10 @@ const Icon = styled(TouchableIcon)`
 @inject("router")
 @observer
 class Navigation extends React.Component<Props, {}> {
-  // -- methods ------------------------------------------------------------- //
+  // --- methods --- //
   onRouteChange = (route: string) => this.props.router.push(route);
 
-  // -- render -------------------------------------------------------------- //
+  // --- render --- //
   render() {
     const activeRoute = this.props.router.location.pathname;
     const accountsIcon =
