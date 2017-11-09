@@ -18,13 +18,13 @@
     "mobx-react": "4.3.4",
     "react": "16.0.0",
     "react-native": "0.50.3",
-    "react-native-blur": "^3.2.0",
+    "react-native-blur": "3.2.2",
     "react-native-linear-gradient": "2.3.0",
     "react-router-native": "4.2.0",
     "styled-components": "2.2.3"
   },
   "devDependencies": {
-    "@types/react": "16.0.21",
+    "@types/react": "16.0.22",
     "@types/react-native": "0.50.2",
     "@types/react-native-linear-gradient": "2.3.0",
     "@types/react-router-native": "4.0.1",
@@ -32,7 +32,7 @@
     "babel-preset-react-native": "4.0.0",
     "concurrently": "3.5.0",
     "jest": "21.2.1",
-    "prettier": "1.8.1",
+    "prettier": "1.8.2",
     "react-test-renderer": "16.0.0",
     "tslint-config-airbnb": "5.3.0",
     "tslint-config-prettier": "1.6.0",
@@ -42,6 +42,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./assets/fonts"]
+    "assets": [
+      "./assets/fonts"
+    ]
   }
 }

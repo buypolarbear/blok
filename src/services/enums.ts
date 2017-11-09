@@ -1,9 +1,9 @@
-enum DIRECTION {
+const enum DIRECTION {
   right,
   left
 }
 
-enum TICKER {
+const enum TICKER {
   BTC,
   LTC,
   ETH,
@@ -12,13 +12,13 @@ enum TICKER {
   STEEM
 }
 
-enum SIZE {
+const enum SIZE {
   small,
   big,
   normal
 }
 
-enum COLOR {
+const enum COLOR {
   white,
   grey,
   green,
