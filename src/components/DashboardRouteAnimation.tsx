@@ -1,8 +1,13 @@
 import * as React from "react";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
-import { isIphoneX } from "../services/utilities";
 import { DIRECTION } from "../services/enums";
+import {
+  basePaddingTop,
+  basePaddingBottom,
+  basePaddingLeft,
+  basePaddingRight
+} from "../style/dimension";
 
 // --- types --- //
 export interface Props {
@@ -19,10 +24,10 @@ export interface State {
 
 // --- styling --- //
 const Container = styled(Animated.View)`
-  padding-top: ${isIphoneX() ? "65px" : "40px"};
-  padding-bottom: ${isIphoneX() ? "94px" : "71px"};
-  padding-left: 20px;
-  padding-right: 20px;
+  padding-top: ${basePaddingTop};
+  padding-bottom: ${basePaddingBottom};
+  padding-left: ${basePaddingLeft};
+  padding-right: ${basePaddingRight};
   width: 100%;
 `;
 
@@ -52,13 +57,19 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
   }
 
   getOutDirection = (pathname: string, previousPathname: string) => {
-    if (pathname === "/settings" || (pathname === "/transactions" && previousPathname === "/"))
+    if (
+      pathname === "/dashboard/settings" ||
+      (pathname === "/dashboard/transactions" && previousPathname === "/dashboard/accounts")
+    )
       return DIRECTION.left;
     else return DIRECTION.right;
   };
 
   getInDirection = (pathname: string, previousPathname: string) => {
-    if (pathname === "/settings" || (pathname === "/transactions" && previousPathname === "/"))
+    if (
+      pathname === "/dashboard/settings" ||
+      (pathname === "/dashboard/transactions" && previousPathname === "/dashboard/accounts")
+    )
       return DIRECTION.right;
     else return DIRECTION.left;
   };

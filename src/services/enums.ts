@@ -23,7 +23,8 @@ const enum COLOR {
   grey,
   green,
   blue,
-  red
+  red,
+  darkPurple
 }
 
 export { DIRECTION, TICKER, SIZE, COLOR };

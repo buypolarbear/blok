@@ -1,10 +1,18 @@
 import * as React from "react";
-import { Animated, Text } from "react-native";
+import { Route } from "react-router-native";
+import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { LocationInterface } from "../store/_router";
 import Background from "../components/Background";
+import AddAccount from "../views/AddAccount";
 import { black } from "../style/color";
-import { height } from "../style/dimension";
+import {
+  height,
+  basePaddingTop,
+  basePaddingBottom,
+  basePaddingLeft,
+  basePaddingRight
+} from "../style/dimension";
 import { easeInOutCubic } from "../style/easing";
 
 // --- types --- //
@@ -36,7 +44,14 @@ const BackDrop = styled(Animated.View)`
   background-color: ${black};
 `;
 
-const AnimatedBackground = Animated.createAnimatedComponent(Background);
+const SBackground = styled(Background)`
+  padding-top: ${basePaddingTop};
+  padding-bottom: ${basePaddingBottom};
+  padding-left: ${basePaddingLeft};
+  padding-right: ${basePaddingRight};
+`;
+
+const AnimatedBackground = Animated.createAnimatedComponent(SBackground);
 
 class Overlay extends React.Component<Props, State> {
   // --- state --- //
@@ -92,7 +107,7 @@ class Overlay extends React.Component<Props, State> {
             ]
           }}
         >
-          <Text>test</Text>
+          <Route path="/overlay/add-account" component={AddAccount} />
         </AnimatedBackground>
       </Container>
     );

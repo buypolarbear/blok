@@ -12,7 +12,7 @@ export interface Props {
 const Card = styled(LinearGradient)`
   width: 100%;
   height: 60px;
-  border-radius: 4px;
+  border-radius: 3px;
   shadow-opacity: 0.05;
   shadow-color: #000000;
   shadow-offset: 0px 8px;

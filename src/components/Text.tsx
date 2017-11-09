@@ -1,6 +1,6 @@
 import * as React from "react";
 import styled, { css } from "styled-components/native";
-import { white, grey, green, blue, red } from "../style/color";
+import { white, grey, green, blue, red, darkPurple } from "../style/color";
 import { SIZE, COLOR } from "../services/enums";
 
 // --- types --- //
@@ -44,6 +44,10 @@ const redText = css`
   color: ${red};
 `;
 
+const darkPurpleText = css`
+  color: ${darkPurple};
+`;
+
 const textShadow = css`
   shadow-opacity: 0.04;
   shadow-color: #000000;
@@ -60,6 +64,7 @@ const StyledText = styled.Text`
   ${(p: Props) => (p.color === COLOR.blue ? blueText : "")};
   ${(p: Props) => (p.color === COLOR.green ? greenText : "")};
   ${(p: Props) => (p.color === COLOR.red ? redText : "")};
+  ${(p: Props) => (p.color === COLOR.darkPurple ? darkPurpleText : "")};
   ${(p: Props) => (p.shadow ? textShadow : "")};
   font-family: "Lato-Regular";
   background-color: transparent;

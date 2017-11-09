@@ -15,6 +15,6 @@
     "allowSyntheticDefaultImports": true,
     "alwaysStrict": true
   },
-  "exclude": ["./node_modules", "./android", "./ios", "./assets", "./__tests__"],
+  "exclude": ["./node_modules", "./android", "./ios", "./assets", "./__tests__", "lib"],
   "include": ["./src"]
 }
