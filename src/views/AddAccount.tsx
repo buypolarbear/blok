@@ -10,11 +10,12 @@ import { isIphoneX } from "../services/utilities";
 import { RouterInterface } from "../store/_router";
 
 // --- types --- //
-export interface Props {}
+export interface Props {
+  router?: RouterInterface;
+}
 
 export interface State {
   selected: TICKER;
-  router?: RouterInterface;
 }
 
 // --- styling --- //
@@ -60,9 +61,6 @@ const ButtonSeparator = styled(Separator)`
 
 @inject("router")
 class AddAccount extends React.Component<Props, State> {
-  // --- default props --- //
-  static defaultProps: Partial<Props> = {};
-
   // --- state --- //
   state = {
     selected: null
@@ -71,7 +69,6 @@ class AddAccount extends React.Component<Props, State> {
   // --- methods --- //
 
   // --- render --- //
-
   render() {
     const { router, ...props } = this.props;
     const { selected } = this.state;
