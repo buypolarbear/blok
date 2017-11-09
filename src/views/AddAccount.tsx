@@ -1,21 +1,27 @@
 import * as React from "react";
 import styled from "styled-components/native";
-import { View } from "react-native";
+import { inject } from "mobx-react/native";
+import TouchableText from "../composites/TouchableText";
 import Text from "../components/Text";
 import ButtonOption from "../components/ButtonOption";
-import { TICKER } from "../services/enums";
+import { COLOR, TICKER } from "../services/enums";
+import Separator from "../components/Separator";
+import { isIphoneX } from "../services/utilities";
+import { RouterInterface } from "../store/_router";
 
 // --- types --- //
 export interface Props {}
 
 export interface State {
   selected: TICKER;
+  router?: RouterInterface;
 }
 
 // --- styling --- //
 const Container = styled.View`
   width: 100%;
   height: 100%;
+  position: relative;
 `;
 
 const OptionContainer = styled.View`
@@ -23,6 +29,20 @@ const OptionContainer = styled.View`
   justify-content: space-between;
   flex-wrap: wrap;
   margin-bottom: 40px;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-left: -3px;
+  margin-right: -3px;
+`;
+
+const ButtonContainer = styled.View`
+  width: 100%;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  position: absolute;
+  bottom: 0;
+  padding-bottom: ${isIphoneX() ? "35px" : "30px"};
 `;
 
 const Title = styled(Text)`
@@ -34,6 +54,11 @@ const Option = styled(ButtonOption)`
   margin-bottom: 3.5%;
 `;
 
+const ButtonSeparator = styled(Separator)`
+  margin-bottom: 30px;
+`;
+
+@inject("router")
 class AddAccount extends React.Component<Props, State> {
   // --- default props --- //
   static defaultProps: Partial<Props> = {};
@@ -48,7 +73,7 @@ class AddAccount extends React.Component<Props, State> {
   // --- render --- //
 
   render() {
-    const { ...props } = this.props;
+    const { router, ...props } = this.props;
     const { selected } = this.state;
     return (
       <Container {...props}>
@@ -116,6 +141,15 @@ class AddAccount extends React.Component<Props, State> {
           </Option>
         </OptionContainer>
         <Title shadow>Account Details</Title>
+        <ButtonContainer>
+          <ButtonSeparator />
+          <TouchableText color={COLOR.grey} onPress={() => router.goBack()}>
+            CANCEL
+          </TouchableText>
+          <TouchableText color={COLOR.blue} onPress={() => router.goBack()}>
+            SAVE
+          </TouchableText>
+        </ButtonContainer>
       </Container>
     );
   }

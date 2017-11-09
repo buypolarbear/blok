@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 import Text from "./Text";
 import { white, blue } from "../style/color";
-import { COLOR, SIZE } from "../services/enums";
+import { COLOR } from "../services/enums";
 
 // --- types --- //
 export interface Props {
@@ -11,8 +11,6 @@ export interface Props {
   selected?: boolean;
   onPress: () => any;
 }
-
-export interface State {}
 
 // --- styling --- //
 const Container: any = styled.View`
@@ -34,21 +32,13 @@ class ButtonOption extends React.Component<Props, State> {
     selected: false
   };
 
-  // --- state --- //
-  state = {};
-
-  // --- methods --- //
-
   // --- render --- //
-
   render() {
     const { children, selected, onPress, ...props } = this.props;
     return (
       <TouchableOpacity onPress={onPress} {...props}>
         <Container selected={selected}>
-          <Text color={selected ? COLOR.white : COLOR.darkPurple} size={SIZE.normal}>
-            {children}
-          </Text>
+          <Text color={selected ? COLOR.white : COLOR.darkPurple}>{children.toUpperCase()}</Text>
         </Container>
       </TouchableOpacity>
     );

@@ -1,18 +1,12 @@
 import * as React from "react";
-import { Route } from "react-router-native";
+import { Route, Switch } from "react-router-native";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { LocationInterface } from "../store/_router";
 import Background from "../components/Background";
 import AddAccount from "../views/AddAccount";
 import { black } from "../style/color";
-import {
-  height,
-  basePaddingTop,
-  basePaddingBottom,
-  basePaddingLeft,
-  basePaddingRight
-} from "../style/dimension";
+import { height, basePaddingTop, basePaddingLeft, basePaddingRight } from "../style/dimension";
 import { easeInOutCubic } from "../style/easing";
 
 // --- types --- //
@@ -23,6 +17,7 @@ interface Props {
 interface State {
   animation: Animated.Value;
   pointerEvents: boolean;
+  previousLocation: LocationInterface;
 }
 
 // ---styling --- //
@@ -46,7 +41,6 @@ const BackDrop = styled(Animated.View)`
 
 const SBackground = styled(Background)`
   padding-top: ${basePaddingTop};
-  padding-bottom: ${basePaddingBottom};
   padding-left: ${basePaddingLeft};
   padding-right: ${basePaddingRight};
 `;
@@ -57,12 +51,14 @@ class Overlay extends React.Component<Props, State> {
   // --- state --- //
   state = {
     animation: new Animated.Value(0),
-    pointerEvents: false
+    pointerEvents: false,
+    previousLocation: this.props.location
   };
 
   // --- methods --- //
   componentWillReceiveProps(newProps: Props) {
     const location = newProps.location;
+    if (location.state && location.state.overlay) this.setState({ previousLocation: location });
     this.isOverlay(location) ? this.onAnimateOverlay(1) : this.onAnimateOverlay(0);
   }
 
@@ -73,7 +69,7 @@ class Overlay extends React.Component<Props, State> {
   onAnimateOverlay = (value: number) => {
     Animated.timing(this.state.animation, {
       toValue: value,
-      duration: 600,
+      duration: 500,
       easing: easeInOutCubic,
       useNativeDriver: true
     }).start(() => this.setState({ pointerEvents: value === 1 }));
@@ -84,7 +80,8 @@ class Overlay extends React.Component<Props, State> {
   // --- render --- //
   render() {
     const { location, ...props } = this.props;
-    const { animation } = this.state;
+    const { animation, previousLocation } = this.state;
+    const l = location.state && location.state.overlay ? location : previousLocation;
     return (
       <Container pointerEvents={this.state.pointerEvents ? "auto" : "none"} {...props}>
         <BackDrop
@@ -107,7 +104,9 @@ class Overlay extends React.Component<Props, State> {
             ]
           }}
         >
-          <Route path="/overlay/add-account" component={AddAccount} />
+          <Switch location={l}>
+            <Route path="/overlay/add-account" component={AddAccount} />
+          </Switch>
         </AnimatedBackground>
       </Container>
     );
