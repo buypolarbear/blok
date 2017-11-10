@@ -21,7 +21,7 @@ interface State {
 }
 
 // ---styling --- //
-const Container = styled.View`
+const Container = styled.KeyboardAvoidingView`
   position: absolute;
   top: 0;
   left: 0;
@@ -83,7 +83,11 @@ class Overlay extends React.Component<Props, State> {
     const { animation, previousLocation } = this.state;
     const l = location.state && location.state.overlay ? location : previousLocation;
     return (
-      <Container pointerEvents={this.state.pointerEvents ? "auto" : "none"} {...props}>
+      <Container
+        pointerEvents={this.state.pointerEvents ? "auto" : "none"}
+        behavior="padding"
+        {...props}
+      >
         <BackDrop
           style={{
             opacity: animation.interpolate({
