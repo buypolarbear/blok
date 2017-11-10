@@ -6,7 +6,7 @@ import Text from "../components/Text";
 import ButtonOption from "../components/ButtonOption";
 import { COLOR, TICKER } from "../services/enums";
 import Separator from "../components/Separator";
-import { isIphoneX } from "../services/utilities";
+import { isIphoneX, tickerToString } from "../services/utilities";
 import { RouterInterface } from "../store/_router";
 
 // --- types --- //
@@ -60,13 +60,23 @@ const ButtonSeparator = styled(Separator)`
 `;
 
 @inject("router")
-class AddAccount extends React.Component<Props, State> {
+class AddAccountView extends React.Component<Props, State> {
   // --- state --- //
   state = {
     selected: null
   };
 
   // --- methods --- //
+  renderOptions = (selected: TICKER, options: TICKER[]) =>
+    options.map(option => (
+      <Option
+        key={option}
+        selected={selected === option}
+        onPress={() => this.setState({ selected: option })}
+      >
+        {tickerToString(option)}
+      </Option>
+    ));
 
   // --- render --- //
   render() {
@@ -76,66 +86,14 @@ class AddAccount extends React.Component<Props, State> {
       <Container {...props}>
         <Title shadow>Account Type</Title>
         <OptionContainer>
-          <Option
-            selected={selected === TICKER.BTC}
-            onPress={() =>
-              this.setState({
-                selected: TICKER.BTC
-              })
-            }
-          >
-            BTC
-          </Option>
-          <Option
-            selected={selected === TICKER.ETH}
-            onPress={() =>
-              this.setState({
-                selected: TICKER.ETH
-              })
-            }
-          >
-            ETH
-          </Option>
-          <Option
-            selected={selected === TICKER.LTC}
-            onPress={() =>
-              this.setState({
-                selected: TICKER.LTC
-              })
-            }
-          >
-            LTC
-          </Option>
-          <Option
-            selected={selected === TICKER.XRP}
-            onPress={() =>
-              this.setState({
-                selected: TICKER.XRP
-              })
-            }
-          >
-            XRP
-          </Option>
-          <Option
-            selected={selected === TICKER.DASH}
-            onPress={() =>
-              this.setState({
-                selected: TICKER.DASH
-              })
-            }
-          >
-            DASH
-          </Option>
-          <Option
-            selected={selected === TICKER.STEEM}
-            onPress={() =>
-              this.setState({
-                selected: TICKER.STEEM
-              })
-            }
-          >
-            STEEM
-          </Option>
+          {this.renderOptions(selected, [
+            TICKER.BTC,
+            TICKER.ETH,
+            TICKER.LTC,
+            TICKER.XRP,
+            TICKER.DASH,
+            TICKER.STEEM
+          ])}
         </OptionContainer>
         <Title shadow>Account Details</Title>
         <ButtonContainer>
@@ -152,4 +110,4 @@ class AddAccount extends React.Component<Props, State> {
   }
 }
 
-export default AddAccount;
+export default AddAccountView;

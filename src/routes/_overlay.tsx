@@ -4,7 +4,7 @@ import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { LocationInterface } from "../store/_router";
 import Background from "../components/Background";
-import AddAccount from "../views/AddAccount";
+import AddAccountView from "../views/AddAccountView";
 import { black } from "../style/color";
 import { height, basePaddingTop, basePaddingLeft, basePaddingRight } from "../style/dimension";
 import { easeInOutCubic } from "../style/easing";
@@ -105,7 +105,7 @@ class Overlay extends React.Component<Props, State> {
           }}
         >
           <Switch location={l}>
-            <Route path="/overlay/add-account" component={AddAccount} />
+            <Route path="/overlay/add-account" component={AddAccountView} />
           </Switch>
         </AnimatedBackground>
       </Container>

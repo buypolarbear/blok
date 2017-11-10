@@ -5,6 +5,7 @@ import GradientBlock from "../components/GradientBlock";
 import Text from "../components/Text";
 import TouchableIcon from "./TouchableIcon";
 import { TICKER, SIZE, COLOR } from "../services/enums";
+import { tickerToString } from "../services/utilities";
 
 // --- types --- //
 export interface Props {
@@ -56,7 +57,7 @@ class AccountCard extends React.Component<Props, {}> {
       <GradientBlock>
         <CryptoSymbol src={icon} />
         <Balance>
-          <Text>{`0.20986534 ${type}`}</Text>
+          <Text>{`0.20986534 ${tickerToString(type)}`}</Text>
           <Text size={SIZE.small} color={COLOR.grey}>
             $48.00
           </Text>
