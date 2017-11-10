@@ -6,6 +6,7 @@ import Text from "../components/Text";
 import ButtonOption from "../components/ButtonOption";
 import { COLOR, TICKER } from "../services/enums";
 import Separator from "../components/Separator";
+import Input from "../components/Input";
 import { isIphoneX, tickerToString } from "../services/utilities";
 import { RouterInterface } from "../store/_router";
 
@@ -59,6 +60,12 @@ const ButtonSeparator = styled(Separator)`
   margin-bottom: 30px;
 `;
 
+const CameraInput = styled.View`
+  position: relative;
+  width: 100%;
+  margin-top: 20px;
+`;
+
 @inject("router")
 class AddAccountView extends React.Component<Props, State> {
   // --- state --- //
@@ -96,6 +103,10 @@ class AddAccountView extends React.Component<Props, State> {
           ])}
         </OptionContainer>
         <Title shadow>Account Details</Title>
+        <Input placeholder="Name" />
+        <CameraInput>
+          <Input placeholder="Public Address" />
+        </CameraInput>
         <ButtonContainer>
           <ButtonSeparator />
           <TouchableText color={COLOR.grey} onPress={() => router.goBack()}>
