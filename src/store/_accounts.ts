@@ -21,6 +21,7 @@ export interface AccountsInterface {
 
 class AccountsStore {
   // --- constructor --- //
+  routerStore: RouterInterface;
   constructor(router: RouterInterface) {
     this.routerStore = router;
   }
