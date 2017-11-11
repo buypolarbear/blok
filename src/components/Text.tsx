@@ -8,7 +8,7 @@ export interface Props {
   size?: SIZE;
   color?: COLOR;
   shadow?: boolean;
-  children: string;
+  children: string | string[] | React.ReactText | React.ReactText[];
 }
 
 // --- styling --- //

@@ -35,7 +35,7 @@ class AccountsStore {
   getBtcAddress = async (publicAddress: string, name: string) => {
     try {
       const { data } = await apiGetBtcAddress(publicAddress);
-      this.addAccount({
+      const newAccount = {
         name,
         publicAddress,
         type: TICKER.BTC,
@@ -43,11 +43,21 @@ class AccountsStore {
         sent: data.total_sent / 100000000,
         received: data.total_received / 100000000,
         txs: data.txs
-      });
+      };
+      this.accountExists(TICKER.BTC, publicAddress)
+        ? console.error("Account already exists")
+        : this.addAccount(newAccount);
       this.routerStore.push("/dashboard/accounts");
     } catch (error) {
       console.error(error);
     }
+  };
+
+  accountExists = (type: TICKER, publicAddress: string): boolean => {
+    const filtered = this.accounts.filter(
+      account => account.publicAddress === publicAddress && account.type === type
+    );
+    return !!filtered.length;
   };
 
   getAddress = (type: TICKER, publicAddress: string, name: string) => {

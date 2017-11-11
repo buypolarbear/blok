@@ -60,7 +60,7 @@ class AccountCard extends React.Component<Props, {}> {
         <Balance>
           <Text>{`${formatBalance(account.balance)} ${tickerToString(account.type)}`}</Text>
           <Text size={SIZE.small} color={COLOR.grey}>
-            $48.00
+            ${account.balance * 7000}
           </Text>
         </Balance>
         <QrCode
