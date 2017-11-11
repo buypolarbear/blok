@@ -1,30 +1,17 @@
 import * as React from "react";
 import styled from "styled-components/native";
-import { inject } from "mobx-react/native";
+import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../composites/TouchableIcon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
-import { COLOR, SIZE, TICKER } from "../services/enums";
-import RouterInterface from "../store/_router";
-
-const dummyData = [
-  TICKER.BTC,
-  TICKER.LTC,
-  TICKER.ETH,
-  TICKER.XRP,
-  TICKER.DASH,
-  TICKER.STEEM,
-  TICKER.BTC,
-  TICKER.LTC,
-  TICKER.ETH,
-  TICKER.XRP,
-  TICKER.DASH,
-  TICKER.STEEM
-];
+import { COLOR, SIZE } from "../services/enums";
+import { RouterInterface } from "../store/_router";
+import { AccountInterface, AccountsInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
-  router: RouterInterface;
+  router?: RouterInterface;
+  accounts?: AccountsInterface;
 }
 
 // --- styling --- //
@@ -43,14 +30,16 @@ const BalanceView = styled.View`
 
 const AccountView = (styled as any).FlatList``;
 
-@inject("router")
+@inject("router", "accounts")
+@observer
 class AccountsView extends React.Component<Props, {}> {
   // --- methods --- //
   onAddAccount = () => this.props.router.push("/overlay/add-account", { overlay: true });
 
   onRemoveAccount = () => console.warn("Remove Account");
 
-  generateItemKey = (item: string, index: number) => `${item}-${index}`;
+  generateItemKey = (account: AccountInterface, index: number) =>
+    `${account.publicAddress}-${index}`;
 
   // --- render --- //
   render() {
@@ -79,9 +68,9 @@ class AccountsView extends React.Component<Props, {}> {
       </BalanceView>,
       <AccountView
         key="account-list"
-        data={dummyData}
+        data={this.props.accounts.accounts}
         keyExtractor={this.generateItemKey}
-        renderItem={({ item }) => <AccountCard type={item} />}
+        renderItem={({ item }) => <AccountCard account={item} />}
       />
     ];
   }

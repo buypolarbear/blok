@@ -10,10 +10,12 @@ import Separator from "../components/Separator";
 import Input from "../components/Input";
 import { tickerToString } from "../services/utilities";
 import { RouterInterface } from "../store/_router";
+import { AccountsInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
   router?: RouterInterface;
+  accounts?: AccountsInterface;
 }
 
 export interface State {
@@ -73,7 +75,7 @@ const CameraInput = styled.View`
   margin-top: 20px;
 `;
 
-@inject("router")
+@inject("router", "accounts")
 class AddAccountView extends React.Component<Props, State> {
   // --- state --- //
   state = {
@@ -101,7 +103,7 @@ class AddAccountView extends React.Component<Props, State> {
 
   onSave = () => {
     Keyboard.dismiss();
-    this.props.router.goBack();
+    this.props.accounts.getAddress(this.state.selected, this.state.publicAddress, this.state.name);
   };
 
   // --- render --- //

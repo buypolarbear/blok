@@ -5,11 +5,12 @@ import GradientBlock from "../components/GradientBlock";
 import Text from "../components/Text";
 import TouchableIcon from "./TouchableIcon";
 import { TICKER, SIZE, COLOR } from "../services/enums";
-import { tickerToString } from "../services/utilities";
+import { tickerToString, formatBalance } from "../services/utilities";
+import { AccountInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
-  type: TICKER;
+  account: AccountInterface;
 }
 
 // --- styling --- //
@@ -29,9 +30,9 @@ class AccountCard extends React.Component<Props, {}> {
 
   // --- render --- //
   render() {
-    const { type } = this.props;
+    const { account } = this.props;
     let icon = null;
-    switch (type) {
+    switch (account.type) {
       case TICKER.BTC:
         icon = require("../../assets/images/icon-btc.png");
         break;
@@ -57,7 +58,7 @@ class AccountCard extends React.Component<Props, {}> {
       <GradientBlock>
         <CryptoSymbol src={icon} />
         <Balance>
-          <Text>{`0.20986534 ${tickerToString(type)}`}</Text>
+          <Text>{`${formatBalance(account.balance)} ${tickerToString(account.type)}`}</Text>
           <Text size={SIZE.small} color={COLOR.grey}>
             $48.00
           </Text>

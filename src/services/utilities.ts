@@ -1,6 +1,9 @@
 import { Dimensions, Platform } from "react-native";
 import { TICKER } from "./enums";
 
+/**
+ * Returns true if iPhone X is detected
+ */
 export const isIphoneX = (): boolean => {
   const dimension = Dimensions.get("window");
   return (
@@ -11,6 +14,10 @@ export const isIphoneX = (): boolean => {
   );
 };
 
+/**
+ * Converts TICKER enum into related string
+ * @param ticker
+ */
 export const tickerToString = (ticker: TICKER): string => {
   switch (ticker) {
     case TICKER.BTC:
@@ -29,3 +36,5 @@ export const tickerToString = (ticker: TICKER): string => {
       return "BTC";
   }
 };
+
+export const formatBalance = (balance: number): string => balance.toFixed(8);
