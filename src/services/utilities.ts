@@ -48,21 +48,3 @@ export const formatBalance = (balance: number): string => balance.toFixed(8);
  * @param money
  */
 export const formatMoney = (money: number): string => money.toFixed(2);
-
-/**
- * Store accounts in device storage
- * @param accounts
- */
-export const storeAccounts = async (accounts: Object) => {
-  try {
-    const accountsString = JSON.stringify(accounts);
-    await AsyncStorage.setItem("@blok:accounts", accountsString);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-/**
- * Retrieve list of accounts saved in device
- */
-export const retrieveAccounts = () => AsyncStorage.getItem("@blok:accounts");
