@@ -73,7 +73,7 @@ class AccountsStore {
     const filtered = this.accounts.filter(
       account => account.publicAddress === publicAddress && account.type === type
     );
-    return !!filtered.length;
+    return filtered.length > 0;
   };
 
   saveAddress = (type: TICKER, publicAddress: string, name: string) => {
