@@ -40,10 +40,13 @@ class AccountsStore {
   // --- methods --- //
   getStoredAccounts = async () => {
     try {
+      this.setFetching(true);
       const storedAccounts = await retrieveAccounts();
       const accounts = !!JSON.parse(storedAccounts) ? JSON.parse(storedAccounts) : [];
       this.populateAccounts(accounts);
+      this.setFetching(false);
     } catch (error) {
+      this.setFetching(false);
       console.error(error);
     }
   };
@@ -55,7 +58,6 @@ class AccountsStore {
       } else {
         this.setFetching(true);
         const { data } = await apiGetBtcAddress(publicAddress);
-        this.setFetching(false);
         this.addAccount({
           name,
           publicAddress,
@@ -66,6 +68,7 @@ class AccountsStore {
           txs: data.txs
         });
         storeAccounts(this.accounts);
+        this.setFetching(false);
         this.routerStore.push("/dashboard/accounts");
       }
     } catch (error) {
