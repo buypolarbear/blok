@@ -53,7 +53,9 @@ class AccountsStore {
       if (this.accountExists(TICKER.BTC, publicAddress)) {
         console.error("Account already exists");
       } else {
+        this.setFetching(true);
         const { data } = await apiGetBtcAddress(publicAddress);
+        this.setFetching(false);
         this.addAccount({
           name,
           publicAddress,
@@ -67,6 +69,7 @@ class AccountsStore {
         this.routerStore.push("/dashboard/accounts");
       }
     } catch (error) {
+      this.setFetching(false);
       console.error(error);
     }
   };
