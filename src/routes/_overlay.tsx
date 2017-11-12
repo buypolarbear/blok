@@ -82,6 +82,7 @@ class Overlay extends React.Component<Props, State> {
     const { location, ...props } = this.props;
     const { animation, previousLocation } = this.state;
     const l = location.state && location.state.overlay ? location : previousLocation;
+    const refresh = l === location;
     return (
       <Container
         pointerEvents={this.state.pointerEvents ? "auto" : "none"}
@@ -109,7 +110,10 @@ class Overlay extends React.Component<Props, State> {
           }}
         >
           <Switch location={l}>
-            <Route path="/overlay/add-account" component={AddAccountView} />
+            <Route
+              path="/overlay/add-account"
+              render={() => <AddAccountView refresh={refresh} />}
+            />
           </Switch>
         </AnimatedBackground>
       </Container>

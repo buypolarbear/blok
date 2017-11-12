@@ -5,7 +5,7 @@ import GradientBlock from "../components/GradientBlock";
 import Text from "../components/Text";
 import TouchableIcon from "./TouchableIcon";
 import { TICKER, SIZE, COLOR } from "../services/enums";
-import { tickerToString, formatBalance } from "../services/utilities";
+import { tickerToString, formatBalance, formatMoney } from "../services/utilities";
 import { AccountInterface } from "../store/_accounts";
 
 // --- types --- //
@@ -60,7 +60,7 @@ class AccountCard extends React.Component<Props, {}> {
         <Balance>
           <Text>{`${formatBalance(account.balance)} ${tickerToString(account.type)}`}</Text>
           <Text size={SIZE.small} color={COLOR.grey}>
-            ${account.balance * 7000}
+            ${formatMoney(account.balance * 7000)}
           </Text>
         </Balance>
         <QrCode

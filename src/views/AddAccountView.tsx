@@ -16,6 +16,7 @@ import { AccountsInterface } from "../store/_accounts";
 export interface Props {
   router?: RouterInterface;
   accounts?: AccountsInterface;
+  refresh: boolean;
 }
 
 export interface State {
@@ -85,6 +86,15 @@ class AddAccountView extends React.Component<Props, State> {
   };
 
   // --- methods --- //
+  componentWillReceiveProps(newProps) {
+    if (newProps.refresh)
+      this.setState({
+        selected: null,
+        name: null,
+        publicAddress: null
+      });
+  }
+
   renderOptions = (selected: TICKER, options: TICKER[]) =>
     options.map(option => (
       <Option
@@ -127,6 +137,7 @@ class AddAccountView extends React.Component<Props, State> {
         <Input
           placeholder="Name"
           maxLength={25}
+          value={name}
           onChangeText={name =>
             this.setState({
               name
@@ -136,6 +147,7 @@ class AddAccountView extends React.Component<Props, State> {
         <CameraInput>
           <Input
             placeholder="Public Address"
+            value={publicAddress}
             onChangeText={publicAddress =>
               this.setState({
                 publicAddress

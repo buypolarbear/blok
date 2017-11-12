@@ -44,6 +44,12 @@ export const tickerToString = (ticker: TICKER): string => {
 export const formatBalance = (balance: number): string => balance.toFixed(8);
 
 /**
+ * Format money into X.XX format
+ * @param money
+ */
+export const formatMoney = (money: number): string => money.toFixed(2);
+
+/**
  * Store accounts in device storage
  * @param accounts
  */
