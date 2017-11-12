@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { apiGetBtcAddress } from "../services/api";
+import { apiGetBtcAddress, apiGetBtcAddresses } from "../services/api";
 import { TICKER } from "../services/enums";
 import { RouterInterface } from "../store/_router";
 import { storeAccounts, retrieveAccounts } from "../services/utilities";
@@ -36,8 +36,42 @@ class AccountsStore {
   @action addAccount = (account: AccountInterface) => this.accounts.push(account);
   @action populateAccounts = (accounts: AccountInterface[]) => (this.accounts = accounts);
   @action setFetching = (state: boolean) => (this.fetching = state);
+  @action setAccount = (index: number, data: AccountInterface) => (this.accounts[index] = data);
 
   // --- methods --- //
+  updateBtcAccounts = async () => {
+    // TODO this here doesn't work due to async thing
+    try {
+      this.setFetching(true);
+      const btcAccounts = this.filterByType(TICKER.BTC);
+      let queryString = "";
+      for (const btcAccount of btcAccounts) {
+        queryString += `${btcAccount.publicAddress}|`;
+      }
+      const { data } = await apiGetBtcAddresses(queryString);
+      const newAddresses = data.addresses;
+      for (const newAddress of newAddresses) {
+        const index = this.accounts.findIndex(
+          account => account.type === TICKER.BTC && account.publicAddress === newAddress.address
+        );
+        this.setAccount(index, {
+          name: this.accounts[index].name,
+          publicAddress: this.accounts[index].publicAddress,
+          type: TICKER.BTC,
+          balance: newAddress.final_balance / 100000000,
+          sent: newAddress.total_sent / 100000000,
+          received: newAddress.total_received / 100000000,
+          txs: newAddress.txs
+        });
+      }
+      storeAccounts(this.accounts);
+      this.setFetching(false);
+    } catch (error) {
+      this.setFetching(false);
+      console.error;
+    }
+  };
+
   getStoredAccounts = async () => {
     try {
       this.setFetching(true);
@@ -45,6 +79,7 @@ class AccountsStore {
       const accounts = !!JSON.parse(storedAccounts) ? JSON.parse(storedAccounts) : [];
       this.populateAccounts(accounts);
       this.setFetching(false);
+      this.updateBtcAccounts();
     } catch (error) {
       this.setFetching(false);
       console.error(error);
@@ -53,7 +88,7 @@ class AccountsStore {
 
   saveBtcAddress = async (publicAddress: string, name: string) => {
     try {
-      if (this.accountExists(TICKER.BTC, publicAddress)) {
+      if (this.filterByPublicAddress(TICKER.BTC, publicAddress).length > 0) {
         console.error("Account already exists");
       } else {
         this.setFetching(true);
@@ -77,11 +112,16 @@ class AccountsStore {
     }
   };
 
-  accountExists = (type: TICKER, publicAddress: string): boolean => {
+  filterByType = (type: TICKER) => {
+    const filtered = this.accounts.filter(account => account.type === type);
+    return filtered;
+  };
+
+  filterByPublicAddress = (type: TICKER, publicAddress: string) => {
     const filtered = this.accounts.filter(
       account => account.publicAddress === publicAddress && account.type === type
     );
-    return filtered.length > 0;
+    return filtered;
   };
 
   saveAddress = (type: TICKER, publicAddress: string, name: string) => {

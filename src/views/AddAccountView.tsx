@@ -150,7 +150,7 @@ class AddAccountView extends React.Component<Props, State> {
             value={publicAddress}
             onChangeText={publicAddress =>
               this.setState({
-                publicAddress
+                publicAddress: publicAddress.replace(/\s/g, "")
               })
             }
           />
