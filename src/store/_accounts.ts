@@ -11,7 +11,7 @@ export interface AccountInterface {
   name: string;
   sent: number;
   received: number;
-  txs: any[];
+  txs: Object[];
 }
 
 export interface AccountsInterface {
@@ -30,11 +30,12 @@ class AccountsStore {
 
   // --- store --- //
   @observable accounts: AccountInterface[] = [];
+  @observable fetching: boolean = false;
 
   // --- actions --- //
   @action addAccount = (account: AccountInterface) => this.accounts.push(account);
-
   @action populateAccounts = (accounts: AccountInterface[]) => (this.accounts = accounts);
+  @action setFetching = (state: boolean) => (this.fetching = state);
 
   // --- methods --- //
   getStoredAccounts = async () => {
@@ -49,21 +50,22 @@ class AccountsStore {
 
   saveBtcAddress = async (publicAddress: string, name: string) => {
     try {
-      const { data } = await apiGetBtcAddress(publicAddress);
-      const newAccount = {
-        name,
-        publicAddress,
-        type: TICKER.BTC,
-        balance: data.final_balance / 100000000,
-        sent: data.total_sent / 100000000,
-        received: data.total_received / 100000000,
-        txs: data.txs
-      };
-      this.accountExists(TICKER.BTC, publicAddress)
-        ? console.error("Account already exists")
-        : this.addAccount(newAccount);
-      storeAccounts(this.accounts);
-      this.routerStore.push("/dashboard/accounts");
+      if (this.accountExists(TICKER.BTC, publicAddress)) {
+        console.error("Account already exists");
+      } else {
+        const { data } = await apiGetBtcAddress(publicAddress);
+        this.addAccount({
+          name,
+          publicAddress,
+          type: TICKER.BTC,
+          balance: data.final_balance / 100000000,
+          sent: data.total_sent / 100000000,
+          received: data.total_received / 100000000,
+          txs: data.txs
+        });
+        storeAccounts(this.accounts);
+        this.routerStore.push("/dashboard/accounts");
+      }
     } catch (error) {
       console.error(error);
     }
