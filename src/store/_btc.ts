@@ -61,9 +61,9 @@ class BtcStore implements BtcStoreInterface {
           name,
           type: TICKER.BTC,
           address: data.address,
-          balance: data.final_balance,
-          sent: data.total_sent,
-          received: data.total_received,
+          balance: data.final_balance / 100000000,
+          sent: data.total_sent / 100000000,
+          received: data.total_received / 100000000,
           txs: data.txs
         });
         this.addAddress(data.address);

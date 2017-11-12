@@ -2,6 +2,9 @@ import { observable, action } from "mobx";
 import * as history from "history";
 import createHistory from "history/createMemoryHistory";
 
+// --- create memory history --- //
+const memoryHistory = createHistory({ initialEntries: ["/dashboard/accounts"] });
+
 export interface RouterStoreInterface {
   history: history.History;
   push: (pathname: string, state?: Object) => void;
@@ -13,8 +16,6 @@ export interface RouterStoreInterface {
   state: any;
   location: history.Location;
 }
-
-const memoryHistory = createHistory({ initialEntries: ["/dashboard/accounts"] });
 
 class RouterStore implements RouterStoreInterface {
   // --- store --- //
