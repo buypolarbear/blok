@@ -1,4 +1,4 @@
-import { Dimensions, Platform, AsyncStorage } from "react-native";
+import { Dimensions, Platform } from "react-native";
 import { TICKER } from "./enums";
 
 /**
