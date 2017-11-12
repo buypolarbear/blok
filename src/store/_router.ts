@@ -2,56 +2,43 @@ import { observable, action } from "mobx";
 import * as history from "history";
 import createHistory from "history/createMemoryHistory";
 
-export interface LocationInterface extends history.Location {}
-
-export interface RouterInterface {
+export interface RouterStoreInterface {
   history: history.History;
-  location: history.Location;
-  push: (location: string, state?: Object) => void;
-  replace: (location: string) => void;
-  go: (n: number) => void;
+  push: (pathname: string, state?: Object) => void;
+  replace: (pathname: string) => void;
+  go: (number: number) => void;
   goBack: () => void;
   goForward: () => void;
+  pathname: string;
+  state: any;
+  location: history.Location;
 }
 
-class RouterStore {
+const memoryHistory = createHistory({ initialEntries: ["/dashboard/accounts"] });
+
+class RouterStore implements RouterStoreInterface {
   // --- store --- //
-  routerHistory = createHistory({ initialEntries: ["/dashboard/accounts"] });
-  history: any = this.routerHistory;
-  @observable location: any = this.history.location;
+  @observable history = memoryHistory;
 
   // --- actions --- //
-  @action
-  updateRouter = (history: { location: Object }) => {
-    this.history = history;
-    this.location = history.location;
-  };
+  @action public push = (pathname, state) => this.history.push(pathname, state);
+  @action public replace = pathname => this.history.replace(pathname);
+  @action public go = number => this.history.go(number);
+  @action public goBack = () => this.history.goBack();
+  @action public goForward = () => this.history.goForward();
 
-  // --- methods --- //
-  push = (location: string, state?: Object) => {
-    this.routerHistory.push(location, state);
-    this.updateRouter(this.routerHistory);
-  };
+  // --- methofs --- //
+  public get pathname() {
+    return this.history.location.pathname;
+  }
 
-  replace = (location: string) => {
-    this.routerHistory.replace(location);
-    this.updateRouter(this.routerHistory);
-  };
+  public get state() {
+    return this.history.location.state;
+  }
 
-  go = (n: number) => {
-    this.routerHistory.go(n);
-    this.updateRouter(this.routerHistory);
-  };
-
-  goBack = () => {
-    this.routerHistory.goBack();
-    this.updateRouter(this.routerHistory);
-  };
-
-  goForward = () => {
-    this.routerHistory.goForward();
-    this.updateRouter(this.routerHistory);
-  };
+  public get location() {
+    return this.history.location;
+  }
 }
 
 export default RouterStore;

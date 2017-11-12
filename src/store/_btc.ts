@@ -17,7 +17,7 @@ export interface BtcStoreInterface {
   accounts: BtcAccountInterface[];
   fetching: boolean;
   addresses: string[];
-  addAccount: (account: string) => void;
+  addAccount: (account: BtcAccountInterface) => void;
   addAddress: (address: string) => void;
   hydrateAccounts: (accounts: BtcAccountInterface[]) => void;
   hydrateAddresses: (addresses: string[]) => void;
@@ -25,21 +25,21 @@ export interface BtcStoreInterface {
   addBtcAccount: (name: string, address: string) => void;
 }
 
-class BtcStore {
+class BtcStore implements BtcStoreInterface {
   // --- store --- //
-  @observable accounts: BtcAccountInterface[] = [];
-  @observable fetching: boolean = false;
-  addresses: string[] = [];
+  @observable accounts = [];
+  @observable fetching = false;
+  addresses = [];
 
   // --- actions --- //
-  @action addAccount = (account: BtcAccountInterface) => this.accounts.push(account);
-  @action addAddress = (address: string) => this.addresses.push(address);
-  @action hydrateAccounts = (accounts: BtcAccountInterface[]) => (this.accounts = accounts);
-  @action hydrateAddresses = (addresses: string[]) => (this.addresses = addresses);
-  @action setFetching = (state: boolean) => (this.fetching = state);
+  @action addAccount = account => this.accounts.push(account);
+  @action addAddress = address => this.addresses.push(address);
+  @action hydrateAccounts = accounts => (this.accounts = accounts);
+  @action hydrateAddresses = addresses => (this.addresses = addresses);
+  @action setFetching = state => (this.fetching = state);
 
   // --- methods --- //
-  getBtcStoreFromMemory = async () => {
+  public getBtcStoreFromMemory = async () => {
     this.setFetching(true);
     const data = await AsyncStorage.getItem("@blok:BtcStore");
     const json = JSON.parse(data) || null;
@@ -50,7 +50,7 @@ class BtcStore {
     this.setFetching(false);
   };
 
-  addBtcAccount = async (name: string, address: string) => {
+  public addBtcAccount = async (name, address) => {
     try {
       if (this.addresses.includes(address)) {
         console.error("BTC Address already exists");

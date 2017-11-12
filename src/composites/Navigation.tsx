@@ -3,11 +3,11 @@ import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../composites/TouchableIcon";
 import { isIphoneX } from "../services/utilities";
-import { RouterInterface } from "../store/_router";
+import { RouterStoreInterface } from "../store/_router";
 
 // --- types --- //
 export interface Props {
-  router?: RouterInterface;
+  router?: RouterStoreInterface;
 }
 
 // --- styling --- //
@@ -35,7 +35,7 @@ class Navigation extends React.Component<Props, {}> {
 
   // --- render --- //
   render() {
-    const activeRoute = this.props.router.location.pathname;
+    const activeRoute = this.props.router.pathname;
     const accountsIcon =
       activeRoute === "/dashboard/accounts"
         ? require("../../assets/images/icon-block-active.png")

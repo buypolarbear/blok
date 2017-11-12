@@ -9,12 +9,12 @@ import { COLOR, TICKER } from "../services/enums";
 import Separator from "../components/Separator";
 import Input from "../components/Input";
 import { tickerToString } from "../services/utilities";
-import { RouterInterface } from "../store/_router";
+import { RouterStoreInterface } from "../store/_router";
 import { AccountsInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
-  router?: RouterInterface;
+  router?: RouterStoreInterface;
   accounts?: AccountsInterface;
   refresh: boolean;
 }
@@ -118,7 +118,7 @@ class AddAccountView extends React.Component<Props, State> {
 
   // --- render --- //
   render() {
-    const { router, ...props } = this.props;
+    const { ...props } = this.props;
     const { selected, name, publicAddress } = this.state;
     return (
       <Container {...props}>

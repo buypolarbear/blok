@@ -1,11 +1,12 @@
 import { observable, action } from "mobx";
 import { RouterInterface } from "./_router";
-import { BtcInterface } from "./_btc";
+import { BtcStoreInterface } from "./_btc";
 
 class AccountsStore {
   // -- constructor -- //
   router: RouterInterface;
-  btc: BtcInterface[];
+  btc: BtcStoreInterface;
+
   constructor(router, btc) {
     this.router = router;
     this.btc = btc;

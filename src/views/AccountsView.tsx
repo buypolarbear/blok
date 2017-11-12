@@ -5,12 +5,12 @@ import TouchableIcon from "../composites/TouchableIcon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 import { COLOR, SIZE } from "../services/enums";
-import { RouterInterface } from "../store/_router";
+import { RouterStoreInterface } from "../store/_router";
 import { AccountInterface, AccountsInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
-  router?: RouterInterface;
+  router?: RouterStoreInterface;
   accounts?: AccountsInterface;
 }
 
