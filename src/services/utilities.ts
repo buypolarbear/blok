@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from "react-native";
+import { Dimensions, Platform, AsyncStorage } from "react-native";
 import { TICKER } from "./enums";
 
 /**
@@ -37,4 +37,26 @@ export const tickerToString = (ticker: TICKER): string => {
   }
 };
 
+/**
+ * Format balance into X.XXXXXXXX format
+ * @param balance
+ */
 export const formatBalance = (balance: number): string => balance.toFixed(8);
+
+/**
+ * Store accounts in device storage
+ * @param accounts
+ */
+export const storeAccounts = async (accounts: Object) => {
+  try {
+    const accountsString = JSON.stringify(accounts);
+    await AsyncStorage.setItem("@blok:accounts", accountsString);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+/**
+ * Retrieve list of accounts saved in device
+ */
+export const retrieveAccounts = () => AsyncStorage.getItem("@blok:accounts");

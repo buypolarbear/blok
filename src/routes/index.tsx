@@ -5,10 +5,12 @@ import { Router as ReactRouter, Switch, Route } from "react-router-native";
 import Dashboard from "./_dashboard";
 import Overlay from "./_overlay";
 import { RouterInterface } from "../store/_router";
+import { AccountsInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
   router?: RouterInterface;
+  accounts?: AccountsInterface;
 }
 
 export interface State {
@@ -21,7 +23,7 @@ const Container = styled.View`
   height: 100%;
 `;
 
-@inject("router")
+@inject("router", "accounts")
 @observer
 class Router extends React.Component<Props, State> {
   previousLocation = this.props.router.location;
@@ -35,6 +37,10 @@ class Router extends React.Component<Props, State> {
     ) {
       this.previousLocation = this.props.router.location;
     }
+  }
+
+  componentDidMount() {
+    this.props.accounts.getStoredAccounts();
   }
 
   isSecondaryView = location => {

@@ -2,6 +2,7 @@ import { observable, action } from "mobx";
 import { apiGetBtcAddress } from "../services/api";
 import { TICKER } from "../services/enums";
 import { RouterInterface } from "../store/_router";
+import { storeAccounts, retrieveAccounts } from "../services/utilities";
 
 export interface AccountInterface {
   type: TICKER;
@@ -15,8 +16,9 @@ export interface AccountInterface {
 
 export interface AccountsInterface {
   accounts: AccountInterface[];
-  getBtcAddress: (x: string) => void;
-  getAddress: (x: TICKER, y: string, z: string) => Function;
+  saveBtcAddress: (x: string) => void;
+  saveAddress: (x: TICKER, y: string, z: string) => Function;
+  getStoredAccounts: () => void;
 }
 
 class AccountsStore {
@@ -32,8 +34,20 @@ class AccountsStore {
   // --- actions --- //
   @action addAccount = (account: AccountInterface) => this.accounts.push(account);
 
+  @action populateAccounts = (accounts: AccountInterface[]) => (this.accounts = accounts);
+
   // --- methods --- //
-  getBtcAddress = async (publicAddress: string, name: string) => {
+  getStoredAccounts = async () => {
+    try {
+      const storedAccounts = await retrieveAccounts();
+      const accounts = !!JSON.parse(storedAccounts) ? JSON.parse(storedAccounts) : [];
+      this.populateAccounts(accounts);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  saveBtcAddress = async (publicAddress: string, name: string) => {
     try {
       const { data } = await apiGetBtcAddress(publicAddress);
       const newAccount = {
@@ -48,6 +62,7 @@ class AccountsStore {
       this.accountExists(TICKER.BTC, publicAddress)
         ? console.error("Account already exists")
         : this.addAccount(newAccount);
+      storeAccounts(this.accounts);
       this.routerStore.push("/dashboard/accounts");
     } catch (error) {
       console.error(error);
@@ -61,10 +76,10 @@ class AccountsStore {
     return !!filtered.length;
   };
 
-  getAddress = (type: TICKER, publicAddress: string, name: string) => {
+  saveAddress = (type: TICKER, publicAddress: string, name: string) => {
     switch (type) {
       case TICKER.BTC:
-        return this.getBtcAddress(publicAddress, name);
+        return this.saveBtcAddress(publicAddress, name);
       default:
         return console.error("Invalid account type");
     }

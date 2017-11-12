@@ -103,7 +103,7 @@ class AddAccountView extends React.Component<Props, State> {
 
   onSave = () => {
     Keyboard.dismiss();
-    this.props.accounts.getAddress(this.state.selected, this.state.publicAddress, this.state.name);
+    this.props.accounts.saveAddress(this.state.selected, this.state.publicAddress, this.state.name);
   };
 
   // --- render --- //
