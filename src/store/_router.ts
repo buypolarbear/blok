@@ -7,39 +7,48 @@ const memoryHistory = createHistory({ initialEntries: ["/dashboard/accounts"] })
 
 export interface RouterStoreInterface {
   history: history.History;
+  location: history.Location;
+  updateLocation: () => void;
   push: (pathname: string, state?: Object) => void;
   replace: (pathname: string) => void;
   go: (number: number) => void;
   goBack: () => void;
   goForward: () => void;
-  pathname: string;
-  state: any;
-  location: history.Location;
 }
 
 class RouterStore implements RouterStoreInterface {
   // --- store --- //
-  @observable history = memoryHistory;
+  history = memoryHistory;
+  @observable location = this.history.location;
 
   // --- actions --- //
-  @action public push = (pathname, state) => this.history.push(pathname, state);
-  @action public replace = pathname => this.history.replace(pathname);
-  @action public go = number => this.history.go(number);
-  @action public goBack = () => this.history.goBack();
-  @action public goForward = () => this.history.goForward();
+  @action updateLocation = () => (this.location = this.history.location);
 
-  // --- methofs --- //
-  public get pathname() {
-    return this.history.location.pathname;
-  }
+  // --- methods --- //
+  public push = (pathname, state) => {
+    this.history.push(pathname, state);
+    this.updateLocation();
+  };
 
-  public get state() {
-    return this.history.location.state;
-  }
+  public replace = pathname => {
+    this.history.replace(pathname);
+    this.updateLocation();
+  };
 
-  public get location() {
-    return this.history.location;
-  }
+  public go = number => {
+    this.history.go(number);
+    this.updateLocation();
+  };
+
+  public goBack = () => {
+    this.history.goBack();
+    this.updateLocation();
+  };
+
+  public goForward = () => {
+    this.history.goForward();
+    this.updateLocation();
+  };
 }
 
 export default RouterStore;

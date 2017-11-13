@@ -6,12 +6,12 @@ import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 import { COLOR, SIZE } from "../services/enums";
 import { RouterStoreInterface } from "../store/_router";
-import { AccountInterface, AccountsInterface } from "../store/_accounts";
+import { BtcStoreInterface, BtcAccountInterface } from "../store/_btc";
 
 // --- types --- //
 export interface Props {
   router?: RouterStoreInterface;
-  accounts?: AccountsInterface;
+  btc?: BtcStoreInterface;
 }
 
 // --- styling --- //
@@ -30,7 +30,7 @@ const BalanceView = styled.View`
 
 const AccountView = (styled as any).FlatList``;
 
-@inject("router", "accounts")
+@inject("router", "btc")
 @observer
 class AccountsView extends React.Component<Props, {}> {
   // --- methods --- //
@@ -38,8 +38,7 @@ class AccountsView extends React.Component<Props, {}> {
 
   onRemoveAccount = () => console.warn("Remove Account");
 
-  generateItemKey = (account: AccountInterface, index: number) =>
-    `${account.publicAddress}-${index}`;
+  generateItemKey = (account: BtcAccountInterface, index: number) => `${account.address}-${index}`;
 
   // --- render --- //
   render() {
@@ -68,7 +67,7 @@ class AccountsView extends React.Component<Props, {}> {
       </BalanceView>,
       <AccountView
         key="account-list"
-        data={this.props.accounts.accounts}
+        data={this.props.btc.accounts}
         keyExtractor={this.generateItemKey}
         renderItem={({ item }) => <AccountCard account={item} />}
       />

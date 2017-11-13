@@ -10,12 +10,12 @@ import Separator from "../components/Separator";
 import Input from "../components/Input";
 import { tickerToString } from "../services/utilities";
 import { RouterStoreInterface } from "../store/_router";
-import { AccountsInterface } from "../store/_accounts";
+import { BtcStoreInterface } from "../store/_btc";
 
 // --- types --- //
 export interface Props {
   router?: RouterStoreInterface;
-  accounts?: AccountsInterface;
+  btc?: BtcStoreInterface;
   refresh: boolean;
 }
 
@@ -76,7 +76,7 @@ const CameraInput = styled.View`
   margin-top: 20px;
 `;
 
-@inject("router", "accounts")
+@inject("router", "btc")
 class AddAccountView extends React.Component<Props, State> {
   // --- state --- //
   state = {
@@ -113,7 +113,7 @@ class AddAccountView extends React.Component<Props, State> {
 
   onSave = () => {
     Keyboard.dismiss();
-    this.props.accounts.saveAddress(this.state.selected, this.state.publicAddress, this.state.name);
+    this.props.btc.addBtcAccount(this.state.name, this.state.publicAddress);
   };
 
   // --- render --- //

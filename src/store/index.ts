@@ -4,7 +4,7 @@ import AccountsStore from "./_accounts";
 
 const router = new RouterStore();
 const btc = new BtcStore();
-const accounts = new AccountsStore(router);
+const accounts = new AccountsStore(router, btc);
 
 export default {
   router,

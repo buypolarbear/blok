@@ -35,7 +35,7 @@ class Navigation extends React.Component<Props, {}> {
 
   // --- render --- //
   render() {
-    const activeRoute = this.props.router.pathname;
+    const activeRoute = this.props.router.location.pathname;
     const accountsIcon =
       activeRoute === "/dashboard/accounts"
         ? require("../../assets/images/icon-block-active.png")
