@@ -18,10 +18,12 @@ export interface BtcStoreInterface {
   addresses: string[];
   addAccount: (account: BtcAccountInterface) => void;
   addAddress: (address: string) => void;
+  removeAccount: (index: number) => void;
   hydrateAccounts: (accounts: BtcAccountInterface[]) => void;
   hydrateAddresses: (addresses: string[]) => void;
   getBtcStoreFromMemory: () => void;
   addBtcAccount: (name: string, address: string) => void;
+  deleteBtcAccount: (address: string) => void;
 }
 
 class BtcStore implements BtcStoreInterface {
@@ -32,6 +34,8 @@ class BtcStore implements BtcStoreInterface {
   // --- actions --- //
   @action addAccount = account => this.accounts.push(account);
   @action addAddress = address => this.addresses.push(address);
+  @action removeAccount = index => this.accounts.splice(index, 1);
+  @action removeAddress = index => this.addresses.splice(index, 1);
   @action hydrateAccounts = accounts => (this.accounts = accounts);
   @action hydrateAddresses = addresses => (this.addresses = addresses);
 
@@ -64,9 +68,26 @@ class BtcStore implements BtcStoreInterface {
         "@blok:BtcStore",
         JSON.stringify({
           accounts: this.accounts,
-          address: this.addresses
+          addresses: this.addresses
         })
       );
+    }
+  };
+
+  deleteBtcAccount = async (address: string) => {
+    const index = this.addresses.indexOf(address);
+    if (index > -1) {
+      this.removeAccount(index);
+      this.removeAddress(index);
+      await AsyncStorage.setItem(
+        "@blok:BtcStore",
+        JSON.stringify({
+          accounts: this.accounts,
+          addresses: this.addresses
+        })
+      );
+    } else {
+      throw new Error("Can't find account to delete");
     }
   };
 }

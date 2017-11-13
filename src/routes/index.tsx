@@ -5,10 +5,12 @@ import { Router as ReactRouter, Switch, Route } from "react-router-native";
 import Dashboard from "./_dashboard";
 import Overlay from "./_overlay";
 import { RouterStoreInterface } from "../store/_router";
+import { AccountsStoreInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
   router?: RouterStoreInterface;
+  accounts?: AccountsStoreInterface;
 }
 
 export interface State {
@@ -21,12 +23,16 @@ const Container = styled.View`
   height: 100%;
 `;
 
-@inject("router")
+@inject("router", "accounts")
 @observer
 class Router extends React.Component<Props, State> {
   previousLocation = this.props.router.location;
 
   // --- methods --- //
+  componentDidMount() {
+    this.props.accounts.getAccountsFromMemory();
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     const { location } = this.props.router;
     if (

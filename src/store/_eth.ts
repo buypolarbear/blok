@@ -66,7 +66,7 @@ class EthStore implements EthStoreInterface {
           "@blok:EthStore",
           JSON.stringify({
             accounts: this.accounts,
-            address: this.addresses
+            addresses: this.addresses
           })
         );
       }

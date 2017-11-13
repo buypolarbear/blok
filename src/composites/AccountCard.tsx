@@ -6,11 +6,12 @@ import Text from "../components/Text";
 import TouchableIcon from "./TouchableIcon";
 import { TICKER, SIZE, COLOR } from "../services/enums";
 import { tickerToString, formatBalance, formatMoney } from "../services/utilities";
-import { AccountInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
-  account: AccountInterface;
+  account: any;
+  isDeleting: boolean;
+  onDelete: (type: TICKER, address: string) => void;
 }
 
 // --- styling --- //
@@ -20,7 +21,7 @@ const Balance = styled.View`
   flex: 1;
 `;
 
-const QrCode = styled(TouchableIcon)`
+const Action = styled(TouchableIcon)`
   margin-top: 7px;
 `;
 
@@ -30,7 +31,7 @@ class AccountCard extends React.Component<Props, {}> {
 
   // --- render --- //
   render() {
-    const { account } = this.props;
+    const { account, isDeleting, onDelete } = this.props;
     let icon = null;
     switch (account.type) {
       case TICKER.BTC:
@@ -63,12 +64,21 @@ class AccountCard extends React.Component<Props, {}> {
             ${formatMoney(account.balance * /*TODO currency exchange*/ 7000)}
           </Text>
         </Balance>
-        <QrCode
-          src={require("../../assets/images/icon-qr-code.png")}
-          width="28px"
-          height="28px"
-          onPress={this.onShowQr}
-        />
+        {isDeleting ? (
+          <Action
+            src={require("../../assets/images/icon-delete.png")}
+            width="26px"
+            height="26px"
+            onPress={() => onDelete(account)}
+          />
+        ) : (
+          <Action
+            src={require("../../assets/images/icon-qr-code.png")}
+            width="28px"
+            height="28px"
+            onPress={this.onShowQr}
+          />
+        )}
       </GradientBlock>
     );
   }

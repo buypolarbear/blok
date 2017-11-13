@@ -8,12 +8,18 @@ import { COLOR, SIZE } from "../services/enums";
 import { RouterStoreInterface } from "../store/_router";
 import { BtcStoreInterface } from "../store/_btc";
 import { EthStoreInterface } from "../store/_eth";
+import { AccountsStoreInterface } from "../store/_accounts";
 
 // --- types --- //
 export interface Props {
   router?: RouterStoreInterface;
+  accounts?: AccountsStoreInterface;;
   btc?: BtcStoreInterface;
   eth?: EthStoreInterface;
+}
+
+export interface State {
+  isDeleting: boolean;
 }
 
 // --- styling --- //
@@ -32,19 +38,25 @@ const BalanceView = styled.View`
 
 const AccountView = (styled as any).FlatList``;
 
-@inject("router", "btc", "eth")
+@inject("router", "accounts", "btc", "eth")
 @observer
-class AccountsView extends React.Component<Props, {}> {
+class AccountsView extends React.Component<Props, State> {
+  // --- state --- //
+  state = {
+    isDeleting: false
+  };
+
   // --- methods --- //
   onAddAccount = () => this.props.router.push("/overlay/add-account", { overlay: true });
 
-  onRemoveAccount = () => console.warn("Remove Account");
+  onRemoveAccount = () => this.setState({ isDeleting: !this.state.isDeleting });
 
   generateItemKey = (account: any, index: number) => `${account.address}-${index}`;
 
   // --- render --- //
   render() {
     const accounts = [...this.props.btc.accounts, ...this.props.eth.accounts];
+    const { isDeleting } = this.state;
     return [
       <AccountActions key="account-actions">
         <TouchableIcon
@@ -72,7 +84,7 @@ class AccountsView extends React.Component<Props, {}> {
         key="account-list"
         data={accounts}
         keyExtractor={this.generateItemKey}
-        renderItem={({ item }) => <AccountCard account={item} />}
+        renderItem={({ item }) => <AccountCard onDelete={this.props.accounts.deleteAccount} isDeleting={isDeleting} account={item} />}
       />
     ];
   }
