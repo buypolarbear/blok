@@ -42,7 +42,7 @@ class EthStore implements EthStoreInterface {
   public getEthStoreFromMemory = async () => {
     const data = await AsyncStorage.getItem("@blok:EthStore");
     const json = JSON.parse(data) || null;
-    if (json.addresses && json.accounts) {
+    if (json && json.addresses && json.accounts) {
       this.hydrateAccounts(json.accounts);
       this.hydrateAddresses(json.addresses);
     }

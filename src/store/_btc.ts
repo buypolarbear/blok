@@ -44,7 +44,7 @@ class BtcStore implements BtcStoreInterface {
   public getBtcStoreFromMemory = async () => {
     const data = await AsyncStorage.getItem("@blok:BtcStore");
     const json = JSON.parse(data) || null;
-    if (json.addresses && json.accounts) {
+    if (json && json.addresses && json.accounts) {
       this.hydrateAccounts(json.accounts);
       this.hydrateAddresses(json.addresses);
     }
