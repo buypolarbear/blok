@@ -18,7 +18,7 @@ export const apiGetBtcAddresses = (addresses: string) =>
 
 // --- ETH API --- //
 const ethApi = axios.create({ baseURL: "https://api.etherscan.io", timeout: 10000 });
-const ethApiKey = `&apikey=685EHER84WHHDE119XGAQ33DC14HZ2TSY6`;
+// const ethApiKey = `&apikey=685EHER84WHHDE119XGAQ33DC14HZ2TSY6`;
 
 /**
  * Get ETH address balance
@@ -32,7 +32,7 @@ export const apiGetEthAddressBalance = (address: string) =>
  * @param address
  */
 export const apiGetEthAddressTransactions = (address: string) =>
-  ethApi.get(`/api?module=account&action=txlist&address=${address}`);
+  ethApi.get(`/api?module=account&action=txlist&offset=50&address=${address}`);
 
 /**
  * Fetch single ETH address data
