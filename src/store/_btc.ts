@@ -19,6 +19,7 @@ export interface BtcStoreInterface {
   addAccount: (account: BtcAccountInterface) => void;
   addAddress: (address: string) => void;
   removeAccount: (index: number) => void;
+  removeAddress: (index: number) => void;
   hydrateAccounts: (accounts: BtcAccountInterface[]) => void;
   hydrateAddresses: (addresses: string[]) => void;
   getBtcStoreFromMemory: () => void;

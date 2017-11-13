@@ -16,10 +16,13 @@ export interface EthStoreInterface {
   addresses: string[];
   addAccount: (account: EthAccountInterface) => void;
   addAddress: (address: string) => void;
+  removeAccount: (index: number) => void;
+  removeAddress: (index: number) => void;
   hydrateAccounts: (accounts: EthAccountInterface[]) => void;
   hydrateAddresses: (addresses: string[]) => void;
   getEthStoreFromMemory: () => void;
   addEthAccount: (name: string, address: string) => void;
+  deleteEthAccount: (address: string) => void;
 }
 
 class EthStore implements EthStoreInterface {
@@ -30,6 +33,8 @@ class EthStore implements EthStoreInterface {
   // --- actions --- //
   @action addAccount = account => this.accounts.push(account);
   @action addAddress = address => this.addresses.push(address);
+  @action removeAccount = index => this.accounts.splice(index, 1);
+  @action removeAddress = index => this.addresses.splice(index, 1);
   @action hydrateAccounts = accounts => (this.accounts = accounts);
   @action hydrateAddresses = addresses => (this.addresses = addresses);
 
@@ -70,6 +75,23 @@ class EthStore implements EthStoreInterface {
           })
         );
       }
+    }
+  };
+
+  deleteEthAccount = async (address: string) => {
+    const index = this.addresses.indexOf(address);
+    if (index > -1) {
+      this.removeAccount(index);
+      this.removeAddress(index);
+      await AsyncStorage.setItem(
+        "@blok:EthStore",
+        JSON.stringify({
+          accounts: this.accounts,
+          addresses: this.addresses
+        })
+      );
+    } else {
+      throw new Error("Can't find account to delete");
     }
   };
 }

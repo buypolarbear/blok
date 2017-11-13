@@ -11,6 +11,7 @@ export interface AccountsStoreInterface {
   deleteAccount: (account: any) => void;
   setFetching: (state: boolean) => void;
   getAccountsFromMemory: () => void;
+  confirmDeleteAccount: (callback: Function, account: any) => void;
 }
 
 class AccountsStore implements AccountsStoreInterface {
@@ -75,8 +76,9 @@ class AccountsStore implements AccountsStoreInterface {
     try {
       switch (account.type) {
         case TICKER.BTC:
-          this.confirmDeleteAccount(this.btc.deleteBtcAccount, account);
-          break;
+          return this.confirmDeleteAccount(this.btc.deleteBtcAccount, account);
+        case TICKER.ETH:
+          return this.confirmDeleteAccount(this.eth.deleteEthAccount, account);
         default:
           throw new Error("INVALID ACCOUNT TYPE");
       }
