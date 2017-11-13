@@ -6,12 +6,14 @@ import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 import { COLOR, SIZE } from "../services/enums";
 import { RouterStoreInterface } from "../store/_router";
-import { BtcStoreInterface, BtcAccountInterface } from "../store/_btc";
+import { BtcStoreInterface } from "../store/_btc";
+import { EthStoreInterface } from "../store/_eth";
 
 // --- types --- //
 export interface Props {
   router?: RouterStoreInterface;
   btc?: BtcStoreInterface;
+  eth?: EthStoreInterface;
 }
 
 // --- styling --- //
@@ -30,7 +32,7 @@ const BalanceView = styled.View`
 
 const AccountView = (styled as any).FlatList``;
 
-@inject("router", "btc")
+@inject("router", "btc", "eth")
 @observer
 class AccountsView extends React.Component<Props, {}> {
   // --- methods --- //
@@ -38,10 +40,11 @@ class AccountsView extends React.Component<Props, {}> {
 
   onRemoveAccount = () => console.warn("Remove Account");
 
-  generateItemKey = (account: BtcAccountInterface, index: number) => `${account.address}-${index}`;
+  generateItemKey = (account: any, index: number) => `${account.address}-${index}`;
 
   // --- render --- //
   render() {
+    const accounts = [...this.props.btc.accounts, ...this.props.eth.accounts];
     return [
       <AccountActions key="account-actions">
         <TouchableIcon
@@ -67,7 +70,7 @@ class AccountsView extends React.Component<Props, {}> {
       </BalanceView>,
       <AccountView
         key="account-list"
-        data={this.props.btc.accounts}
+        data={accounts}
         keyExtractor={this.generateItemKey}
         renderItem={({ item }) => <AccountCard account={item} />}
       />
