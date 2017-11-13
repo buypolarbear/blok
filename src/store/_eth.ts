@@ -56,8 +56,6 @@ class EthStore implements EthStoreInterface {
       const balance: any = data[0].data;
       const transactions: any = data[1].data;
       if (Number(balance.status) !== 1) throw new Error(`ETH Add Balance: ${balance.message}`);
-      else if (Number(transactions.status) !== 1)
-        throw new Error(`ETH Add transactions: ${transactions.message}`);
       else {
         this.addAccount({
           name,
