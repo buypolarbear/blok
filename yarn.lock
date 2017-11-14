@@ -3492,6 +3492,10 @@ react-native-blur@3.2.2:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-immersive@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-immersive/-/react-native-immersive-1.1.0.tgz#4d3c702d3ef9a566a2df308b999472a461112741"
+
 react-native-linear-gradient@2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.3.0.tgz#757997197e35edf52e290891a11566e462845da1"

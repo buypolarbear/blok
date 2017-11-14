@@ -31,6 +31,7 @@ class Input extends React.Component<Props, {}> {
         autoCorrect={false}
         placeholderTextColor={grey}
         selectionColor={darkPurple}
+        underlineColorAndroid="rgba(0,0,0,0)"
         {...props}
       />
     );
