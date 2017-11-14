@@ -2,26 +2,27 @@ import * as React from "react";
 import { Route, Switch } from "react-router-native";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
-import { LocationInterface } from "../store/_router";
+import { RouterStoreInterface } from "../store/_router";
 import Background from "../components/Background";
 import AddAccountView from "../views/AddAccountView";
 import { black } from "../style/color";
 import { height, basePaddingTop, basePaddingLeft, basePaddingRight } from "../style/dimension";
 import { easeInOutCubic } from "../style/easing";
+import KeyboardAvoidingView from "../components/KeyboardAvoidingView";
 
 // --- types --- //
 interface Props {
-  location: LocationInterface;
+  location: RouterStoreInterface["location"];
 }
 
 interface State {
   animation: Animated.Value;
   pointerEvents: boolean;
-  previousLocation: LocationInterface;
+  previousLocation: RouterStoreInterface["location"];
 }
 
 // ---styling --- //
-const Container = styled.KeyboardAvoidingView`
+const Container: any = styled(KeyboardAvoidingView)`
   position: absolute;
   top: 0;
   left: 0;
@@ -75,7 +76,8 @@ class Overlay extends React.Component<Props, State> {
     }).start(() => this.setState({ pointerEvents: value === 1 }));
   };
 
-  isOverlay = (location: LocationInterface) => location.state && location.state.overlay;
+  isOverlay = (location: RouterStoreInterface["location"]) =>
+    location.state && location.state.overlay;
 
   // --- render --- //
   render() {
@@ -84,11 +86,7 @@ class Overlay extends React.Component<Props, State> {
     const l = location.state && location.state.overlay ? location : previousLocation;
     const refresh = l === location;
     return (
-      <Container
-        pointerEvents={this.state.pointerEvents ? "auto" : "none"}
-        behavior="padding"
-        {...props}
-      >
+      <Container pointerEvents={this.state.pointerEvents ? "auto" : "none"} {...props}>
         <BackDrop
           style={{
             opacity: animation.interpolate({
