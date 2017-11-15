@@ -64,8 +64,8 @@ class Navigation extends React.Component<Props, {}> {
         />
         <Icon
           onPress={() => this.onRouteChange("/dashboard/settings")}
-          width="26px"
-          height="26px"
+          width="27px"
+          height="27px"
           src={settingsIcon}
         />
       </Container>
