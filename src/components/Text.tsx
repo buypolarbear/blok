@@ -74,7 +74,7 @@ class Text extends React.Component<Props, {}> {
   // --- default props --- //
   static defaultProps: Partial<Props> = {
     size: SIZE.normal,
-    color: COLOR.white,
+    color: COLOR.lightGrey,
     shadow: false
   };
 

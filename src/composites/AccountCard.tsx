@@ -28,6 +28,12 @@ const Action = styled(TouchableIcon)`
 const Container = styled(GradientBlock)`
   width: 100%;
   height: 60px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 class AccountCard extends React.Component<Props, {}> {

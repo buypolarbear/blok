@@ -4,13 +4,13 @@ import styled from "styled-components/native";
 import { inject } from "mobx-react/native";
 import TouchableText from "../composites/TouchableText";
 import Text from "../components/Text";
-import ButtonOption from "../components/ButtonOption";
+import Option from "../composites/Option";
 import { COLOR, TICKER } from "../services/enums";
 import Separator from "../components/Separator";
 import Input from "../components/Input";
-import { tickerToString } from "../services/utilities";
 import { RouterStoreInterface } from "../store/_router";
 import { AccountsStoreInterface } from "../store/_accounts";
+import { width } from "../style/dimension";
 
 // --- types --- //
 export interface Props {
@@ -36,11 +36,6 @@ const OptionContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 35px;
-  padding-left: 3px;
-  padding-right: 3px;
-  margin-left: -3px;
-  margin-right: -3px;
 `;
 
 const ButtonContainer = styled.View`
@@ -59,9 +54,8 @@ const Title = styled(Text)`
   margin-bottom: 20px;
 `;
 
-const Option = styled(ButtonOption)`
-  width: 31%;
-  margin-bottom: 3.5%;
+const OptionCard = styled(Option)`
+  width: ${(width - 60) / 2}px;
 `;
 
 const ButtonSeparator = styled(Separator)`
@@ -97,13 +91,12 @@ class AddAccountView extends React.Component<Props, State> {
 
   renderOptions = (selected: TICKER, options: TICKER[]) =>
     options.map(option => (
-      <Option
+      <OptionCard
         key={option}
+        type={option}
         selected={selected === option}
         onPress={() => this.setState({ selected: option })}
-      >
-        {tickerToString(option)}
-      </Option>
+      />
     ));
 
   onCancel = () => {
@@ -122,7 +115,7 @@ class AddAccountView extends React.Component<Props, State> {
     const { selected, name, publicAddress } = this.state;
     return (
       <Container {...props}>
-        <Title shadow>Account Type</Title>
+        <Title shadow>Type</Title>
         <OptionContainer>
           {this.renderOptions(selected, [
             TICKER.BTC,
