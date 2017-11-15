@@ -52,20 +52,20 @@ class Navigation extends React.Component<Props, {}> {
       <Container>
         <Icon
           onPress={() => this.onRouteChange("/dashboard/accounts")}
-          width="28px"
-          height="30px"
+          width="25px"
+          height="27.6px"
           src={accountsIcon}
         />
         <Icon
           onPress={() => this.onRouteChange("/dashboard/transactions")}
-          width="28px"
-          height="20px"
+          width="26px"
+          height="18px"
           src={transactionsIcon}
         />
         <Icon
           onPress={() => this.onRouteChange("/dashboard/settings")}
-          width="31px"
-          height="31px"
+          width="26px"
+          height="26px"
           src={settingsIcon}
         />
       </Container>

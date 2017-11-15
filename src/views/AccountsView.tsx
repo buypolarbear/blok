@@ -76,7 +76,7 @@ class AccountsView extends React.Component<Props, State> {
         <Text color={COLOR.grey} shadow>
           Total Balance
         </Text>
-        <Text size={SIZE.big} shadow>
+        <Text size={SIZE.big} color={COLOR.lightGrey} shadow>
           $1,280
         </Text>
       </BalanceView>,

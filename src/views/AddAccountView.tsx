@@ -161,7 +161,7 @@ class AddAccountView extends React.Component<Props, State> {
             CANCEL
           </TouchableText>
           <TouchableText
-            color={COLOR.blue}
+            color={COLOR.white}
             onPress={this.onSave}
             disabled={!name || !publicAddress || !selected}
           >

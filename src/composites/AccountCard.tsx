@@ -59,7 +59,9 @@ class AccountCard extends React.Component<Props, {}> {
       <GradientBlock>
         <CryptoSymbol src={icon} />
         <Balance>
-          <Text>{`${formatBalance(account.balance)} ${tickerToString(account.type)}`}</Text>
+          <Text color={COLOR.lightGrey}>{`${formatBalance(account.balance)} ${tickerToString(
+            account.type
+          )}`}</Text>
           <Text size={SIZE.small} color={COLOR.grey}>
             ${formatMoney(account.balance * /*TODO currency exchange*/ 7000)}
           </Text>

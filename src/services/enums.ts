@@ -21,8 +21,8 @@ const enum SIZE {
 const enum COLOR {
   white = 1,
   grey = 2,
-  green = 3,
-  blue = 4,
+  lightGrey = 3,
+  green = 4,
   red = 5,
   darkPurple = 6
 }

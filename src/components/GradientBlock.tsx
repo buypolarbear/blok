@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components/native";
 import LinearGradient from "react-native-linear-gradient";
-import { purple, lightPurple } from "../style/color";
+import { lightPurple, brightPurple } from "../style/color";
 
 // --- types --- //
 export interface Props {
@@ -32,7 +32,11 @@ class GradientBlock extends React.Component<Props, {}> {
   render() {
     const { children } = this.props;
     return (
-      <Card colors={[lightPurple, purple]} start={{ x: 0.0, y: 0.5 }} end={{ x: 1.0, y: 0.5 }}>
+      <Card
+        colors={[lightPurple, brightPurple]}
+        start={{ x: 0.0, y: 0.5 }}
+        end={{ x: 1.0, y: 0.5 }}
+      >
         {children}
       </Card>
     );

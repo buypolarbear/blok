@@ -3,7 +3,7 @@ import { StatusBar, Platform } from "react-native";
 import { Provider } from "mobx-react/native";
 import Router from "./routes";
 import store from "./store";
-import { voidPurple } from "./style/color";
+import { darkPurple } from "./style/color";
 
 class App extends React.Component<{}, {}> {
   // --- render --- //
@@ -11,7 +11,7 @@ class App extends React.Component<{}, {}> {
     return [
       <StatusBar
         barStyle="light-content"
-        backgroundColor={Platform.OS === "android" ? voidPurple : "transparent"}
+        backgroundColor={Platform.OS === "android" ? darkPurple : "transparent"}
         key="statusbar"
       />,
       <Provider {...store} key="provider">

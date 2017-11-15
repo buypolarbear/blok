@@ -1,17 +1,18 @@
 import * as React from "react";
 import styled from "styled-components/native";
-import { darkPurple } from "../style/color";
+import LinearGradient from "react-native-linear-gradient";
+import { darkPurple, purple } from "../style/color";
 
 // --- types --- //
 export interface Props {
-  color?: string;
   children: React.ReactChild | React.ReactChild[];
 }
 
 // --- styling --- //
-const Container = styled.View`
+const Container = styled(LinearGradient)`
   height: 100%;
-  background-color: ${(p: Props) => p.color || darkPurple};
+  width: 100%;
+  background-color: transparent;
   flex-direction: row;
   flex-wrap: wrap;
 `;
@@ -19,9 +20,15 @@ const Container = styled.View`
 class Background extends React.Component<Props, {}> {
   // --- render --- //
   render() {
-    const { children, color, ...props } = this.props;
+    const { children, ...props } = this.props;
     return (
-      <Container color={color} {...props}>
+      <Container
+        colors={[purple, purple, darkPurple]}
+        locations={[0, 0.35, 1]}
+        start={{ x: 0.0, y: 0.0 }}
+        end={{ x: 1, y: 1.0 }}
+        {...props}
+      >
         {children}
       </Container>
     );
