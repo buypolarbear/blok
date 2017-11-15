@@ -25,6 +25,11 @@ const Action = styled(TouchableIcon)`
   margin-top: 7px;
 `;
 
+const Container = styled(GradientBlock)`
+  width: 100%;
+  height: 60px;
+`;
+
 class AccountCard extends React.Component<Props, {}> {
   // --- methods --- //
   onShowQr = () => console.warn("Show Qr");
@@ -56,7 +61,7 @@ class AccountCard extends React.Component<Props, {}> {
         icon = require("../../assets/images/icon-btc.png");
     }
     return (
-      <GradientBlock>
+      <Container>
         <CryptoSymbol src={icon} />
         <Balance>
           <Text color={COLOR.lightGrey}>{`${formatBalance(account.balance)} ${tickerToString(
@@ -81,7 +86,7 @@ class AccountCard extends React.Component<Props, {}> {
             onPress={this.onShowQr}
           />
         )}
-      </GradientBlock>
+      </Container>
     );
   }
 }

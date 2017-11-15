@@ -10,8 +10,6 @@ export interface Props {
 
 // --- styling --- //
 const Card = styled(LinearGradient)`
-  width: 100%;
-  height: 60px;
   border-radius: 3px;
   shadow-opacity: 0.05;
   shadow-color: #000000;
@@ -30,12 +28,13 @@ const Card = styled(LinearGradient)`
 class GradientBlock extends React.Component<Props, {}> {
   // --- render --- //
   render() {
-    const { children } = this.props;
+    const { children, ...props } = this.props;
     return (
       <Card
         colors={[lightPurple, brightPurple]}
         start={{ x: 0.0, y: 0.5 }}
         end={{ x: 1.0, y: 0.5 }}
+        {...props}
       >
         {children}
       </Card>
