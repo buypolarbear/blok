@@ -21,7 +21,7 @@ const Gradient = styled(GradientBlock)`
   align-items: center;
   justify-content: space-between;
   padding-left: 20px;
-  padding-right: 10px;
+  padding-right: 15px;
   margin-bottom: 20px;
   position: relative;
 `;

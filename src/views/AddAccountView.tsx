@@ -23,6 +23,7 @@ export interface State {
   selected: TICKER;
   name: string;
   publicAddress: string;
+  step: number;
 }
 
 // --- styling --- //
@@ -76,7 +77,8 @@ class AddAccountView extends React.Component<Props, State> {
   state = {
     selected: null,
     name: null,
-    publicAddress: null
+    publicAddress: null,
+    step: 1
   };
 
   // --- methods --- //
@@ -85,7 +87,8 @@ class AddAccountView extends React.Component<Props, State> {
       this.setState({
         selected: null,
         name: null,
-        publicAddress: null
+        publicAddress: null,
+        step: 1
       });
   }
 
