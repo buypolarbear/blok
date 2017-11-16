@@ -11,6 +11,7 @@ import Input from "../components/Input";
 import { RouterStoreInterface } from "../store/_router";
 import { AccountsStoreInterface } from "../store/_accounts";
 import { width } from "../style/dimension";
+import ButtonGradient from "../composites/ButtonGradient";
 
 // --- types --- //
 export interface Props {
@@ -163,6 +164,7 @@ class AddAccountView extends React.Component<Props, State> {
           >
             SAVE
           </TouchableText>
+          <ButtonGradient text="NEXT" />
         </ButtonContainer>
       </Container>
     );
