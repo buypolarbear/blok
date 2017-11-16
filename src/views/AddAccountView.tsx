@@ -6,7 +6,6 @@ import TouchableText from "../composites/TouchableText";
 import Text from "../components/Text";
 import Option from "../composites/Option";
 import { COLOR, TICKER } from "../services/enums";
-import Separator from "../components/Separator";
 import Input from "../components/Input";
 import { RouterStoreInterface } from "../store/_router";
 import { AccountsStoreInterface } from "../store/_accounts";
@@ -34,11 +33,13 @@ const Container = styled.View`
   position: relative;
 `;
 
-const OptionContainer = styled.View`
+const TypeContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
 `;
+
+const DetailsContainer = styled.View``;
 
 const ButtonContainer = styled.View`
   width: 100%;
@@ -47,7 +48,7 @@ const ButtonContainer = styled.View`
   flex-wrap: wrap;
   position: absolute;
   bottom: 0;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
   padding-left: 1px;
   padding-right: 1px;
 `;
@@ -58,12 +59,6 @@ const Title = styled(Text)`
 
 const OptionCard = styled(Option)`
   width: ${(width - 60) / 2}px;
-`;
-
-const ButtonSeparator = styled(Separator)`
-  margin-bottom: 30px;
-  margin-left: -1px;
-  margin-right: -1px;
 `;
 
 const CameraInput = styled.View`
@@ -108,6 +103,8 @@ class AddAccountView extends React.Component<Props, State> {
     this.props.router.goBack();
   };
 
+  onNext = () => this.setState({ step: 2 });
+
   onSave = () => {
     Keyboard.dismiss();
     this.props.accounts.addAccount(this.state.selected, this.state.name, this.state.publicAddress);
@@ -116,55 +113,53 @@ class AddAccountView extends React.Component<Props, State> {
   // --- render --- //
   render() {
     const { ...props } = this.props;
-    const { selected, name, publicAddress } = this.state;
+    const { selected, name, publicAddress, step } = this.state;
     return (
       <Container {...props}>
-        <Title shadow>Type</Title>
-        <OptionContainer>
-          {this.renderOptions(selected, [
-            TICKER.BTC,
-            TICKER.ETH,
-            TICKER.LTC,
-            TICKER.XRP,
-            TICKER.DASH,
-            TICKER.STEEM
-          ])}
-        </OptionContainer>
-        <Title shadow>Account Details</Title>
-        <Input
-          placeholder="Name"
-          maxLength={25}
-          value={name}
-          onChangeText={name =>
-            this.setState({
-              name
-            })
-          }
-        />
-        <CameraInput>
-          <Input
-            placeholder="Public Address"
-            value={publicAddress}
-            onChangeText={publicAddress =>
-              this.setState({
-                publicAddress: publicAddress.replace(/\s/g, "")
-              })
-            }
-          />
-        </CameraInput>
+        <Title shadow>Type -- Details</Title>
+        {step === 1 && (
+          <TypeContainer>
+            {this.renderOptions(selected, [
+              TICKER.BTC,
+              TICKER.ETH,
+              TICKER.LTC,
+              TICKER.XRP,
+              TICKER.DASH,
+              TICKER.STEEM
+            ])}
+          </TypeContainer>
+        )}
+        {step === 2 &&
+          selected && (
+            <DetailsContainer>
+              <Input
+                placeholder="Name"
+                maxLength={25}
+                value={name}
+                onChangeText={name =>
+                  this.setState({
+                    name
+                  })
+                }
+              />
+              <CameraInput>
+                <Input
+                  placeholder="Public Address"
+                  value={publicAddress}
+                  onChangeText={publicAddress =>
+                    this.setState({
+                      publicAddress: publicAddress.replace(/\s/g, "")
+                    })
+                  }
+                />
+              </CameraInput>
+            </DetailsContainer>
+          )}
         <ButtonContainer>
-          <ButtonSeparator />
           <TouchableText color={COLOR.grey} onPress={this.onCancel}>
             CANCEL
           </TouchableText>
-          <TouchableText
-            color={COLOR.white}
-            onPress={this.onSave}
-            disabled={!name || !publicAddress || !selected}
-          >
-            SAVE
-          </TouchableText>
-          <ButtonGradient text="NEXT" />
+          <ButtonGradient text="NEXT" onPress={this.onNext} disabled={!selected} />
         </ButtonContainer>
       </Container>
     );

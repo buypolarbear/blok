@@ -10,6 +10,7 @@ import { darkBlue, blue, pink } from "../style/color";
 export interface Props {
   onPress: () => void;
   text: string;
+  disabled: boolean;
 }
 
 export interface State {}
@@ -40,9 +41,9 @@ class ButtonGradient extends React.Component<Props, State> {
   // --- render --- //
 
   render() {
-    const { text, onPress, ...props } = this.props;
+    const { text, onPress, disabled, ...props } = this.props;
     return (
-      <TouchableOpacity onPress={onPress} {...props}>
+      <TouchableOpacity onPress={onPress} disabled={disabled} {...props}>
         <Button start={{ x: 0.0, y: 0.5 }} end={{ x: 1, y: 0.5 }} colors={[darkBlue, blue, pink]}>
           <Text color={COLOR.darkPurple} size={SIZE.small}>
             {text.toUpperCase()}
