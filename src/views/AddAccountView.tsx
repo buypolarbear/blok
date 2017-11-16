@@ -44,11 +44,11 @@ const DetailsContainer = styled.View``;
 const ButtonContainer = styled.View`
   width: 100%;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-end;
   flex-wrap: wrap;
   position: absolute;
   bottom: 0;
-  padding-bottom: 50px;
+  padding-bottom: 40px;
   padding-left: 1px;
   padding-right: 1px;
 `;
@@ -65,6 +65,11 @@ const CameraInput = styled.View`
   position: relative;
   width: 100%;
   margin-top: 20px;
+`;
+
+const CancelButton = styled(TouchableText)`
+  margin-top: 10px;
+  margin-right: 30px;
 `;
 
 @inject("router", "accounts")
@@ -156,10 +161,18 @@ class AddAccountView extends React.Component<Props, State> {
             </DetailsContainer>
           )}
         <ButtonContainer>
-          <TouchableText color={COLOR.grey} onPress={this.onCancel}>
+          <CancelButton color={COLOR.grey} onPress={this.onCancel}>
             CANCEL
-          </TouchableText>
-          <ButtonGradient text="NEXT" onPress={this.onNext} disabled={!selected} />
+          </CancelButton>
+          {step === 1 ? (
+            <ButtonGradient text="NEXT" onPress={this.onNext} disabled={!selected} />
+          ) : (
+            <ButtonGradient
+              text="SAVE"
+              onPress={this.onSave}
+              disabled={!selected || !name || !publicAddress || step !== 2}
+            />
+          )}
         </ButtonContainer>
       </Container>
     );

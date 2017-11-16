@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Text from "../components/Text";
 import { COLOR, SIZE } from "../services/enums";
-import { darkBlue, blue, pink } from "../style/color";
+import { darkBlue, blue, pink, grey, lightGrey } from "../style/color";
 
 // --- types --- //
 export interface Props {
@@ -42,9 +42,10 @@ class ButtonGradient extends React.Component<Props, State> {
 
   render() {
     const { text, onPress, disabled, ...props } = this.props;
+    const gradient = disabled ? [grey, lightGrey] : [darkBlue, blue, pink];
     return (
       <TouchableOpacity onPress={onPress} disabled={disabled} {...props}>
-        <Button start={{ x: 0.0, y: 0.5 }} end={{ x: 1, y: 0.5 }} colors={[darkBlue, blue, pink]}>
+        <Button start={{ x: 0.0, y: 0.5 }} end={{ x: 1, y: 0.5 }} colors={gradient}>
           <Text color={COLOR.darkPurple} size={SIZE.small}>
             {text.toUpperCase()}
           </Text>
