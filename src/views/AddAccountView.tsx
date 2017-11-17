@@ -4,11 +4,11 @@ import styled from "styled-components/native";
 import { inject } from "mobx-react/native";
 import Text from "../components/Text";
 import { TICKER } from "../services/enums";
-import Input from "../components/Input";
 import { RouterStoreInterface } from "../store/_router";
 import { AccountsStoreInterface } from "../store/_accounts";
 import ButtonGradient from "../composites/ButtonGradient";
 import AddAccountType from "./AddAccountType";
+import AddAccountDetails from "./AddAccountDetails";
 import { isIphoneX } from "../services/utilities";
 
 // --- types --- //
@@ -21,7 +21,7 @@ export interface Props {
 export interface State {
   selected: TICKER;
   name: string;
-  publicAddress: string;
+  address: string;
   step: number;
 }
 
@@ -31,8 +31,6 @@ const Container = styled.View`
   height: 100%;
   position: relative;
 `;
-
-const DetailsContainer = styled.View``;
 
 const ButtonContainer = styled.View`
   width: 100%;
@@ -50,19 +48,13 @@ const Title = styled(Text)`
   margin-bottom: 20px;
 `;
 
-const CameraInput = styled.View`
-  position: relative;
-  width: 100%;
-  margin-top: 20px;
-`;
-
 @inject("router", "accounts")
 class AddAccountView extends React.Component<Props, State> {
   // --- state --- //
   state = {
     selected: null,
     name: null,
-    publicAddress: null,
+    address: null,
     step: 1
   };
 
@@ -72,7 +64,7 @@ class AddAccountView extends React.Component<Props, State> {
       this.setState({
         selected: null,
         name: null,
-        publicAddress: null,
+        address: null,
         step: 1
       });
   }
@@ -86,44 +78,31 @@ class AddAccountView extends React.Component<Props, State> {
 
   onSave = () => {
     Keyboard.dismiss();
-    this.props.accounts.addAccount(this.state.selected, this.state.name, this.state.publicAddress);
+    this.props.accounts.addAccount(this.state.selected, this.state.name, this.state.address);
   };
 
   onSelect = (option: TICKER) => this.setState({ selected: option });
 
+  onNameChange = (name: string) => this.setState({ name });
+
+  onAddressChange = (address: string) => this.setState({ address });
+
   // --- render --- //
   render() {
     const { ...props } = this.props;
-    const { selected, name, publicAddress, step } = this.state;
+    const { selected, name, address, step } = this.state;
     return (
       <Container {...props}>
         <Title shadow>Type -- Details</Title>
         {step === 1 && <AddAccountType selected={selected} onSelect={this.onSelect} />}
         {step === 2 &&
           selected && (
-            <DetailsContainer>
-              <Input
-                placeholder="Name"
-                maxLength={25}
-                value={name}
-                onChangeText={name =>
-                  this.setState({
-                    name
-                  })
-                }
-              />
-              <CameraInput>
-                <Input
-                  placeholder="Public Address"
-                  value={publicAddress}
-                  onChangeText={publicAddress =>
-                    this.setState({
-                      publicAddress: publicAddress.replace(/\s/g, "")
-                    })
-                  }
-                />
-              </CameraInput>
-            </DetailsContainer>
+            <AddAccountDetails
+              address={address}
+              name={name}
+              onAddressChange={this.onAddressChange}
+              onNameChange={this.onNameChange}
+            />
           )}
         <ButtonContainer>
           <ButtonGradient text="CANCEL" secondary onPress={this.onCancel} />
@@ -133,7 +112,7 @@ class AddAccountView extends React.Component<Props, State> {
             <ButtonGradient
               text="SAVE"
               onPress={this.onSave}
-              disabled={!selected || !name || !publicAddress || step !== 2}
+              disabled={!selected || !name || !address || step !== 2}
             />
           )}
         </ButtonContainer>
