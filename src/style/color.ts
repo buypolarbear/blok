@@ -7,6 +7,7 @@ const purple = "#1C148A";
 const lightPurple = "#322CA3";
 const brightPurple = "#2F35B3";
 const grey = "#898CC0";
+const darkGrey = "#505272";
 const lightGrey = "#C7D1E9";
 const darkBlue = "#5B90F0";
 const blue = "#819DF7";
@@ -25,5 +26,6 @@ export {
   lightGrey,
   darkBlue,
   blue,
-  pink
+  pink,
+  darkGrey
 };

@@ -4,28 +4,29 @@ import { TouchableOpacity } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import Text from "../components/Text";
 import { COLOR, SIZE } from "../services/enums";
-import { darkBlue, blue, pink, grey, lightGrey } from "../style/color";
+import { darkBlue, blue, pink, grey, lightGrey, brightPurple } from "../style/color";
 
 // --- types --- //
 export interface Props {
   onPress: () => void;
   text: string;
-  disabled: boolean;
+  disabled?: boolean;
+  secondary?: boolean;
 }
 
 export interface State {}
 
 // --- styling --- //
-const Button = styled(LinearGradient)`
-  width: 120px;
+const Button: any = styled(LinearGradient)`
+  width: 110px;
   height: 40px;
   justify-content: center;
   align-items: center;
   border-radius: 100;
-  shadow-opacity: 0.15;
-  shadow-color: ${pink};
-  shadow-offset: 0px 7px;
-  shadow-radius: 9px;
+  shadow-opacity: ${(p: Props) => (p.secondary || p.disabled ? 0.07 : 0.17)};
+  shadow-color: ${(p: Props) => (p.secondary ? darkBlue : pink)};
+  shadow-offset: 0px 6px;
+  shadow-radius: 8px;
   elevation: 2;
 `;
 
@@ -41,12 +42,21 @@ class ButtonGradient extends React.Component<Props, State> {
   // --- render --- //
 
   render() {
-    const { text, onPress, disabled, ...props } = this.props;
-    const gradient = disabled ? [grey, lightGrey] : [darkBlue, blue, pink];
+    const { text, onPress, disabled, secondary, ...props } = this.props;
+    let gradient = [];
+    if (disabled) gradient = [grey, lightGrey];
+    else if (secondary) gradient = [brightPurple, darkBlue];
+    else gradient = [darkBlue, blue, pink];
     return (
       <TouchableOpacity onPress={onPress} disabled={disabled} {...props}>
-        <Button start={{ x: 0.0, y: 0.5 }} end={{ x: 1, y: 0.5 }} colors={gradient}>
-          <Text color={COLOR.darkPurple} size={SIZE.small}>
+        <Button
+          start={{ x: 0.0, y: 0.5 }}
+          end={{ x: 1, y: 0.5 }}
+          colors={gradient}
+          disabled={disabled}
+          secondary={secondary}
+        >
+          <Text color={disabled ? COLOR.darkGrey : COLOR.darkPurple} size={SIZE.small}>
             {text.toUpperCase()}
           </Text>
         </Button>
