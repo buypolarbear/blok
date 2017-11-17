@@ -13,7 +13,7 @@ export interface Props {
 // --- styling --- //
 const Container = styled.View`
   padding-top: 20px;
-  padding-bottom: ${isIphoneX() ? "43px" : "20px"};
+  padding-bottom: ${isIphoneX() ? "40px" : "20px"};
   width: 100%;
   bottom: 0;
   position: absolute;

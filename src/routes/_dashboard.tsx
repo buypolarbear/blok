@@ -6,11 +6,11 @@ import TransactionsView from "../views/TransactionsView";
 import SettingsView from "../views/SettingsView";
 import Navigation from "../composites/Navigation";
 import DashboardRouteAnimation from "../components/DashboardRouteAnimation";
-import { LocationInterface } from "../store/_router";
+import { RouterStoreInterface } from "../store/_router";
 
 // --- types --- //
 export interface Props {
-  location: LocationInterface;
+  location: RouterStoreInterface["location"];
 }
 
 class Dashboard extends React.Component<Props, {}> {
