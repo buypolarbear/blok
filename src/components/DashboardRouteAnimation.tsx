@@ -76,7 +76,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
 
   runAnimation = (value: number, pathname: string, previousPathname: string) => {
     Animated.timing(this.state.transition, {
-      duration: 150,
+      duration: 200,
       toValue: value,
       useNativeDriver: true
     }).start(() => this.animationLogic(value, pathname, previousPathname));
