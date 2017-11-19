@@ -104,8 +104,8 @@ class AddAccountView extends React.Component<Props, State> {
   animateStep = (value: number) => {
     Animated.timing(this.state.stepTransition, {
       toValue: value,
-      duration: 300,
-      delay: value === 0 ? 0 : 80,
+      duration: 230,
+      delay: value === 0 ? 0 : 60,
       easing: value === 0 ? easeInQuad : easeOutQuad
     }).start(() => {
       if (value === 0) this.animateStep(1);
@@ -116,8 +116,8 @@ class AddAccountView extends React.Component<Props, State> {
     value === 1 && this.setState({ step: 2 });
     Animated.timing(this.state.buttonTransition, {
       toValue: value,
-      duration: 350,
-      delay: 40,
+      duration: 260,
+      delay: 30,
       easing: value === 0 ? easeInQuad : easeOutQuad
     }).start(() => {
       if (value === 0) this.animateButtons(1);
