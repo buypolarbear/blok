@@ -3,7 +3,7 @@ import * as ReactNative from "react-native";
 import styled from "styled-components/native";
 import { inject } from "mobx-react/native";
 import Text from "../components/Text";
-import { TICKER } from "../services/enums";
+import { TICKER, COLOR } from "../services/enums";
 import { RouterStoreInterface } from "../store/_router";
 import { AccountsStoreInterface } from "../store/_accounts";
 import ButtonGradient from "../composites/ButtonGradient";
@@ -11,6 +11,7 @@ import AddAccountType from "./AddAccountType";
 import AddAccountDetails from "./AddAccountDetails";
 import { isIphoneX } from "../services/utilities";
 import { easeInQuad, easeOutQuad } from "../style/easing";
+import { white } from "../style/color";
 
 const { Keyboard, Animated } = ReactNative;
 
@@ -28,6 +29,7 @@ export interface State {
   step: number;
   buttonTransition: ReactNative.Animated.Value;
   stepTransition: ReactNative.Animated.Value;
+  titleTransition: ReactNative.Animated.Value;
   animating: boolean;
 }
 
@@ -51,7 +53,25 @@ const ButtonContainer = styled(Animated.View)`
 `;
 
 const Title = styled(Text)`
-  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+`;
+
+const Steps = styled.View`
+  flex-direction: row;
+  align-items: center;
+  margin-left: -20px;
+`;
+
+const StepsSeparator = styled.View`
+  height: 1px;
+  width: 23.5px;
+  background-color: ${white};
+`;
+
+const StepsAnimatin = styled(Animated.View)`
+  flex-direction: row;
+  align-items: center;
 `;
 
 @inject("router", "accounts")
@@ -64,6 +84,7 @@ class AddAccountView extends React.Component<Props, State> {
     step: 1,
     buttonTransition: new Animated.Value(1),
     stepTransition: new Animated.Value(1),
+    titleTransition: new Animated.Value(1),
     animating: false
   };
 
@@ -75,7 +96,10 @@ class AddAccountView extends React.Component<Props, State> {
         name: null,
         address: null,
         step: 1,
-        animating: false
+        animating: false,
+        buttonTransition: new Animated.Value(1),
+        stepTransition: new Animated.Value(1),
+        titleTransition: new Animated.Value(1)
       });
   }
 
@@ -88,6 +112,7 @@ class AddAccountView extends React.Component<Props, State> {
     this.setState({ animating: true });
     this.animateStep(0);
     this.animateButtons(0);
+    this.animateTitles();
   };
 
   onSave = () => {
@@ -100,6 +125,8 @@ class AddAccountView extends React.Component<Props, State> {
   onNameChange = (name: string) => this.setState({ name });
 
   onAddressChange = (address: string) => this.setState({ address });
+
+  onAddressPaste = (address: string) => this.setState({ address });
 
   animateStep = (value: number) => {
     Animated.timing(this.state.stepTransition, {
@@ -125,6 +152,15 @@ class AddAccountView extends React.Component<Props, State> {
     });
   };
 
+  animateTitles = () => {
+    Animated.timing(this.state.titleTransition, {
+      toValue: 0,
+      duration: 230,
+      delay: 290,
+      useNativeDriver: true
+    }).start();
+  };
+
   // --- render --- //
   render() {
     const { ...props } = this.props;
@@ -135,11 +171,39 @@ class AddAccountView extends React.Component<Props, State> {
       step,
       buttonTransition,
       stepTransition,
+      titleTransition,
       animating
     } = this.state;
     return (
       <Container {...props} pointerEvents={animating ? "none" : "auto"}>
-        <Title shadow>Type -- Details</Title>
+        <Steps>
+          <StepsAnimatin
+            style={{
+              opacity: titleTransition.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0.5, 1]
+              })
+            }}
+          >
+            <Title shadow color={COLOR.white}>
+              Add Account
+            </Title>
+            <StepsSeparator />
+          </StepsAnimatin>
+          <StepsAnimatin
+            style={{
+              opacity: titleTransition.interpolate({
+                inputRange: [0, 1],
+                outputRange: [1, 0.5]
+              })
+            }}
+          >
+            <StepsSeparator />
+            <Title shadow color={COLOR.white}>
+              Details
+            </Title>
+          </StepsAnimatin>
+        </Steps>
         <Animated.View
           style={{
             opacity: stepTransition,
@@ -161,6 +225,7 @@ class AddAccountView extends React.Component<Props, State> {
                 name={name}
                 onAddressChange={this.onAddressChange}
                 onNameChange={this.onNameChange}
+                onAddressPaste={this.onAddressPaste}
               />
             )}
         </Animated.View>

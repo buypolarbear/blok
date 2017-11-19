@@ -19,6 +19,7 @@ const TypeContainer = styled.View`
   flex-direction: row;
   justify-content: space-between;
   flex-wrap: wrap;
+  margin-top: 20px;
 `;
 
 class AddAccountType extends React.Component<Props, {}> {
