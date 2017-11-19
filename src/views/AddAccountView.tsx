@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactNative from "react-native";
 import styled from "styled-components/native";
-import { inject } from "mobx-react/native";
+import { inject, observer } from "mobx-react/native";
 import Text from "../components/Text";
 import { TICKER, COLOR } from "../services/enums";
 import { RouterStoreInterface } from "../store/_router";
@@ -52,6 +52,13 @@ const ButtonContainer = styled(Animated.View)`
   padding-right: ${isIphoneX() ? "20px" : "0px"};
 `;
 
+const Loader = styled.ActivityIndicator`
+  position: absolute;
+  bottom: 0;
+  padding-bottom: ${isIphoneX() ? "40px" : "20px"};
+  align-self: center;
+`;
+
 const Title = styled(Text)`
   margin-left: 20px;
   margin-right: 20px;
@@ -75,6 +82,7 @@ const StepsAnimatin = styled(Animated.View)`
 `;
 
 @inject("router", "accounts")
+@observer
 class AddAccountView extends React.Component<Props, State> {
   // --- state --- //
   state = {
@@ -229,30 +237,34 @@ class AddAccountView extends React.Component<Props, State> {
               />
             )}
         </Animated.View>
-        <ButtonContainer
-          style={{
-            opacity: buttonTransition,
-            transform: [
-              {
-                translateX: buttonTransition.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [step === 1 ? -100 : 100, 0]
-                })
-              }
-            ]
-          }}
-        >
-          <ButtonGradient text="CANCEL" secondary onPress={this.onCancel} />
-          {step === 1 ? (
-            <ButtonGradient text="NEXT" onPress={this.onNext} disabled={!selected} />
-          ) : (
-            <ButtonGradient
-              text="SAVE"
-              onPress={this.onSave}
-              disabled={!selected || !name || !address || step !== 2}
-            />
-          )}
-        </ButtonContainer>
+        {this.props.accounts.fetching ? (
+          <Loader size="large" />
+        ) : (
+          <ButtonContainer
+            style={{
+              opacity: buttonTransition,
+              transform: [
+                {
+                  translateX: buttonTransition.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [step === 1 ? -100 : 100, 0]
+                  })
+                }
+              ]
+            }}
+          >
+            <ButtonGradient text="CANCEL" secondary onPress={this.onCancel} />
+            {step === 1 ? (
+              <ButtonGradient text="NEXT" onPress={this.onNext} disabled={!selected} />
+            ) : (
+              <ButtonGradient
+                text="SAVE"
+                onPress={this.onSave}
+                disabled={!selected || !name || !address || step !== 2}
+              />
+            )}
+          </ButtonContainer>
+        )}
       </Container>
     );
   }
