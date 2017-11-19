@@ -1,0 +1,27 @@
+import { observable, action } from "mobx";
+
+export interface CameraStoreInterface {
+  show: boolean;
+  barcode: string;
+  toggleCamera: (state: boolean) => void;
+  setBarcode: (barcode: string) => void;
+}
+
+class CameraStore implements CameraStoreInterface {
+  // --- store --- //
+  @observable show = false;
+  @observable barcode = "";
+
+  // --- actions --- //
+  @action toggleCamera = state => (this.show = state);
+
+  @action
+  setBarcode = barcode => {
+    this.barcode = barcode;
+    this.show = false;
+  };
+
+  // --- methods --- //
+}
+
+export default CameraStore;

@@ -4,6 +4,7 @@ import styled from "styled-components/native";
 import { Router as ReactRouter, Switch, Route } from "react-router-native";
 import Dashboard from "./_dashboard";
 import Overlay from "./_overlay";
+import CameraView from "./_camera";
 import { RouterStoreInterface } from "../store/_router";
 import { AccountsStoreInterface } from "../store/_accounts";
 
@@ -62,7 +63,7 @@ class Router extends React.Component<Props, State> {
             <Route path="/dashboard/*" render={() => <Dashboard location={baseLocation} />} />
           </Switch>
           <Route path="/" render={() => <Overlay location={location} />} />
-          <Route path="/" component={Overlay} />
+          <CameraView />
         </Container>
       </ReactRouter>
     );

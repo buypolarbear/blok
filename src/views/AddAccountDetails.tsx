@@ -1,8 +1,11 @@
 import * as React from "react";
+import { inject, observer } from "mobx-react/native";
 import { Clipboard } from "react-native";
 import styled from "styled-components/native";
 import Input from "../components/Input";
 import TouchableIcon from "../composites/TouchableIcon";
+import { CameraStoreInterface } from "../store/_camera";
+import ButtonGradient from "../composites/ButtonGradient";
 
 // --- types --- //
 export interface Props {
@@ -11,9 +14,8 @@ export interface Props {
   onNameChange: (name: string) => void;
   onAddressChange: (address: string) => void;
   onAddressPaste: (address: string) => void;
+  camera?: CameraStoreInterface;
 }
-
-export interface State {}
 
 // --- styling --- //
 const ClipboardInput = styled.View`
@@ -37,13 +39,9 @@ const AddressInput = styled(Input)`
   padding-right: 35px;
 `;
 
-class AddAccountDetails extends React.Component<Props, State> {
-  // --- default props --- //
-  static defaultProps: Partial<Props> = {};
-
-  // --- state --- //
-  state = {};
-
+@inject("camera")
+@observer
+class AddAccountDetails extends React.Component<Props, {}> {
   // --- methods --- //
   onAddressPaste = async () => {
     const data = await Clipboard.getString();
@@ -51,9 +49,8 @@ class AddAccountDetails extends React.Component<Props, State> {
   };
 
   // --- render --- //
-
   render() {
-    const { name, address, onNameChange, onAddressChange, ...props } = this.props;
+    const { name, address, onNameChange, onAddressChange, camera, ...props } = this.props;
     return (
       <DetailsContainer {...props}>
         <Input
@@ -75,6 +72,7 @@ class AddAccountDetails extends React.Component<Props, State> {
             onPress={this.onAddressPaste}
           />
         </ClipboardInput>
+        <ButtonGradient onPress={() => camera.toggleCamera(true)} text="CAMERA" />
       </DetailsContainer>
     );
   }
