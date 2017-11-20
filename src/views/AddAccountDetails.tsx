@@ -1,6 +1,6 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react/native";
-import { Clipboard } from "react-native";
+import { Clipboard, Keyboard, AlertIOS } from "react-native";
 import styled from "styled-components/native";
 import Input from "../components/Input";
 import TouchableIcon from "../composites/TouchableIcon";
@@ -43,14 +43,28 @@ const AddressInput = styled(Input)`
 @observer
 class AddAccountDetails extends React.Component<Props, {}> {
   // --- methods --- //
+  componentDidMount() {
+    this.props.camera.reset();
+  }
+
+  componentWillReceiveProps(newProps) {
+    const { barcode } = newProps.camera;
+    !!barcode.length && AlertIOS.alert(barcode);
+  }
+
   onAddressPaste = async () => {
     const data = await Clipboard.getString();
     this.props.onAddressPaste(data);
   };
 
+  onShowCamera = () => {
+    Keyboard.dismiss();
+    this.props.camera.toggleCamera(true);
+  };
+
   // --- render --- //
   render() {
-    const { name, address, onNameChange, onAddressChange, camera, ...props } = this.props;
+    const { name, address, onNameChange, onAddressChange, ...props } = this.props;
     return (
       <DetailsContainer {...props}>
         <Input
@@ -72,7 +86,7 @@ class AddAccountDetails extends React.Component<Props, {}> {
             onPress={this.onAddressPaste}
           />
         </ClipboardInput>
-        <ButtonGradient onPress={() => camera.toggleCamera(true)} text="CAMERA" />
+        <ButtonGradient onPress={this.onShowCamera} text="CAMERA" />
       </DetailsContainer>
     );
   }

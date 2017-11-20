@@ -5,12 +5,13 @@ export interface CameraStoreInterface {
   barcode: string;
   toggleCamera: (state: boolean) => void;
   setBarcode: (barcode: string) => void;
+  reset: () => void;
 }
 
 class CameraStore implements CameraStoreInterface {
   // --- store --- //
   @observable show = false;
-  @observable barcode = "";
+  @observable barcode = null;
 
   // --- actions --- //
   @action toggleCamera = state => (this.show = state);
@@ -20,6 +21,8 @@ class CameraStore implements CameraStoreInterface {
     this.barcode = barcode;
     this.show = false;
   };
+
+  @action reset = () => (this.barcode = null);
 
   // --- methods --- //
 }

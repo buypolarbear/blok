@@ -2,7 +2,6 @@ import * as React from "react";
 import { inject, observer } from "mobx-react/native";
 import styled from "styled-components/native";
 import Camera from "react-native-camera";
-import { AlertIOS } from "react-native";
 import ButtonGradient from "../composites/ButtonGradient";
 import { CameraStoreInterface } from "../store/_camera";
 import { isIphoneX } from "../services/utilities";
@@ -11,8 +10,6 @@ import { isIphoneX } from "../services/utilities";
 export interface Props {
   camera?: CameraStoreInterface;
 }
-
-export interface State {}
 
 // --- styles --- //
 const CameraOverlay = styled(Camera)`
@@ -32,27 +29,18 @@ const Cancel = styled(ButtonGradient)`
 
 @inject("camera")
 @observer
-class CameraView extends React.Component<Props, State> {
-  // --- default props --- //
-  static defaultProps: Partial<Props> = {};
-
-  // --- state --- //
-  state = {};
-
+class CameraView extends React.Component<Props, {}> {
   // --- methods --- //
   onBarcode = event => {
-    AlertIOS.alert("Barcode Found!", "Type: " + event.type + "\nData: " + event.data);
-    this.props.camera.setBarcode(event.data);
+    if (event.data !== this.props.camera.barcode) this.props.camera.setBarcode(event.data);
   };
 
   // --- render --- //
-
   render() {
     const { camera, ...props } = this.props;
     return camera.show ? (
       <CameraOverlay
         onBarCodeRead={this.onBarcode}
-        barCodeTypes={["qr"]}
         aspect={Camera.constants.Aspect.fill}
         {...props}
       >
