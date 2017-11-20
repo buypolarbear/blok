@@ -49,7 +49,7 @@ class AddAccountDetails extends React.Component<Props, {}> {
 
   componentWillReceiveProps(newProps) {
     const { barcode } = newProps.camera;
-    !!barcode.length && AlertIOS.alert(barcode);
+    if (barcode && !!barcode.barcode) AlertIOS.alert(barcode);
   }
 
   onAddressPaste = async () => {
