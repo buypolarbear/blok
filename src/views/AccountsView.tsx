@@ -13,7 +13,7 @@ import { AccountsStoreInterface } from "../store/_accounts";
 // --- types --- //
 export interface Props {
   router?: RouterStoreInterface;
-  accounts?: AccountsStoreInterface;;
+  accounts?: AccountsStoreInterface;
   btc?: BtcStoreInterface;
   eth?: EthStoreInterface;
 }
@@ -84,7 +84,13 @@ class AccountsView extends React.Component<Props, State> {
         key="account-list"
         data={accounts}
         keyExtractor={this.generateItemKey}
-        renderItem={({ item }) => <AccountCard onDelete={this.props.accounts.deleteAccount} isDeleting={isDeleting} account={item} />}
+        renderItem={({ item }) => (
+          <AccountCard
+            onDelete={this.props.accounts.deleteAccount}
+            isDeleting={isDeleting}
+            account={item}
+          />
+        )}
       />
     ];
   }

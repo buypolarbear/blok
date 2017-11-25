@@ -45,9 +45,9 @@ class Router extends React.Component<Props, State> {
   }
 
   isSecondaryView = location => {
-    if (this.previousLocation !== location) {
+    if (this.previousLocation !== location)
       return location.state && (location.state.modal || location.state.overlay);
-    } else return false;
+    return false;
   };
 
   // --- render --- //

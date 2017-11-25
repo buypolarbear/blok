@@ -62,7 +62,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
       (pathname === "/dashboard/transactions" && previousPathname === "/dashboard/accounts")
     )
       return DIRECTION.left;
-    else return DIRECTION.right;
+    return DIRECTION.right;
   };
 
   getInDirection = (pathname: string, previousPathname: string) => {
@@ -71,7 +71,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
       (pathname === "/dashboard/transactions" && previousPathname === "/dashboard/accounts")
     )
       return DIRECTION.right;
-    else return DIRECTION.left;
+    return DIRECTION.left;
   };
 
   runAnimation = (value: number, pathname: string, previousPathname: string) => {
