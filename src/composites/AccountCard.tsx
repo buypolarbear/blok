@@ -11,7 +11,7 @@ import { tickerToString, formatBalance, formatMoney } from "../services/utilitie
 export interface Props {
   account: any;
   isDeleting: boolean;
-  onDelete: (type: TICKER, address: string) => void;
+  onDelete: (account: any) => void;
 }
 
 // --- styling --- //
