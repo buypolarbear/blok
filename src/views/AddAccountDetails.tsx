@@ -1,6 +1,7 @@
 import * as React from "react";
 import { inject, observer } from "mobx-react/native";
-import { Clipboard, Keyboard, AlertIOS } from "react-native";
+import { reaction } from "mobx";
+import { Clipboard, Keyboard } from "react-native";
 import styled from "styled-components/native";
 import Input from "../components/Input";
 import TouchableIcon from "../composites/TouchableIcon";
@@ -15,6 +16,7 @@ export interface Props {
   onAddressChange: (address: string) => void;
   onAddressPaste: (address: string) => void;
   camera?: CameraStoreInterface;
+  barcodeListener: () => void;
 }
 
 // --- styling --- //
@@ -42,14 +44,19 @@ const AddressInput = styled(Input)`
 @inject("camera")
 @observer
 class AddAccountDetails extends React.Component<Props, {}> {
+  barcodeListener: () => void = null;
+
   // --- methods --- //
   componentDidMount() {
     this.props.camera.reset();
+    this.barcodeListener = reaction(
+      () => this.props.camera.barcode,
+      () => this.props.onAddressPaste(this.props.camera.barcode)
+    );
   }
 
-  componentWillReceiveProps(newProps) {
-    const { barcode } = newProps.camera;
-    if (barcode && !!barcode.barcode) AlertIOS.alert(barcode);
+  componentWillUnmount() {
+    this.barcodeListener();
   }
 
   onAddressPaste = async () => {

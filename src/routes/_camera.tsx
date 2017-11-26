@@ -32,7 +32,9 @@ const Cancel = styled(ButtonGradient)`
 class CameraView extends React.Component<Props, {}> {
   // --- methods --- //
   onBarcode = event => {
-    if (event.data !== this.props.camera.barcode) this.props.camera.setBarcode(event.data);
+    const qrISO = "ORG.ISO.QRCODE";
+    if (event.type.toUpperCase() === qrISO && event.data !== this.props.camera.barcode)
+      this.props.camera.setBarcode(event.data);
   };
 
   // --- render --- //
