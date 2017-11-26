@@ -75,7 +75,7 @@ class AddAccountDetails extends React.Component<Props, {}> {
     return (
       <DetailsContainer {...props}>
         <Input
-          placeholder="Name"
+          placeholder="Account Name"
           maxLength={25}
           value={name}
           onChangeText={name => onNameChange(name)}
