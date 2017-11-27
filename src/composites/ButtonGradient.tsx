@@ -14,8 +14,6 @@ export interface Props {
   secondary?: boolean;
 }
 
-export interface State {}
-
 // --- styling --- //
 const Button: any = styled(LinearGradient)`
   width: 110px;
@@ -30,17 +28,8 @@ const Button: any = styled(LinearGradient)`
   elevation: 2;
 `;
 
-class ButtonGradient extends React.Component<Props, State> {
-  // --- default props --- //
-  static defaultProps: Partial<Props> = {};
-
-  // --- state --- //
-  state = {};
-
-  // --- methods --- //
-
+class ButtonGradient extends React.Component<Props, {}> {
   // --- render --- //
-
   render() {
     const { text, onPress, disabled, secondary, ...props } = this.props;
     let gradient = [];
