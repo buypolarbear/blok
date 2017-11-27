@@ -92,7 +92,7 @@ class CameraView extends React.Component<Props, State> {
       Animated.timing(this.state.transition, {
         toValue: 1,
         duration: 3000,
-        delay: 100,
+        delay: 500,
         useNativeDriver: true
       }).start();
     });
