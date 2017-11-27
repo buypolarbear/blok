@@ -18,6 +18,7 @@ export interface Props {
 
 export interface State {
   transition: Animated.Value;
+  fade: Animated.Value;
 }
 
 // --- styles --- //
@@ -31,6 +32,8 @@ const CameraOverlay = styled(Camera)`
   justify-content: center;
   z-index: 15;
 `;
+
+const AnimatedCameraOverlay = Animated.createAnimatedComponent(CameraOverlay);
 
 const Cancel = styled(ButtonOpaque)`
   position: absolute;
@@ -70,7 +73,8 @@ class CameraView extends React.Component<Props, State> {
 
   // -- state -- //
   state = {
-    transition: new Animated.Value(0)
+    transition: new Animated.Value(0),
+    fade: new Animated.Value(0)
   };
 
   // --- methods --- //
@@ -88,15 +92,22 @@ class CameraView extends React.Component<Props, State> {
   }
 
   animate = () => {
-    this.setState({ transition: new Animated.Value(0) }, () => {
-      Animated.timing(this.state.transition, {
+    this.setState({ transition: new Animated.Value(0), fade: new Animated.Value(0) }, () => {
+      Animated.timing(this.state.fade, {
         toValue: 1,
-        duration: 3000,
-        delay: 500,
+        duration: 300,
         useNativeDriver: true
-      }).start();
+      }).start(this.scaner);
     });
   };
+
+  scaner = () =>
+    Animated.timing(this.state.transition, {
+      toValue: 1,
+      duration: 2700,
+      delay: 300,
+      useNativeDriver: true
+    }).start();
 
   onBarcode = event => {
     const qrISO = "ORG.ISO.QRCODE";
@@ -107,9 +118,10 @@ class CameraView extends React.Component<Props, State> {
   // --- render --- //
   render() {
     const { camera, ...props } = this.props;
-    const { transition } = this.state;
+    const { transition, fade } = this.state;
     return camera.show ? (
-      <CameraOverlay
+      <AnimatedCameraOverlay
+        style={{ opacity: fade }}
         onBarCodeRead={this.onBarcode}
         aspect={Camera.constants.Aspect.fill}
         {...props}
@@ -138,7 +150,7 @@ class CameraView extends React.Component<Props, State> {
           <Frame source={require("../../assets/images/qr-scanner-frame.png")} />
         </Container>
         <Cancel text="CANCEL" onPress={() => camera.toggleCamera(false)} />
-      </CameraOverlay>
+      </AnimatedCameraOverlay>
     ) : null;
   }
 }
