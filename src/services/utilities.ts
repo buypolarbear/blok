@@ -1,4 +1,4 @@
-import { Dimensions, Platform } from "react-native";
+import { Dimensions, Platform, Alert } from "react-native";
 import { TICKER } from "./enums";
 
 /**
@@ -48,3 +48,9 @@ export const formatBalance = (balance: number): string => balance.toFixed(8);
  * @param money
  */
 export const formatMoney = (money: number): string => money.toFixed(2);
+
+/**
+ * Show error alert
+ * @param message
+ */
+export const alertError = (message: string) => Alert.alert("Error", message);

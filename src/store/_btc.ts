@@ -52,7 +52,7 @@ class BtcStore implements BtcStoreInterface {
 
   public addBtcAccount = async (name, address) => {
     if (this.addresses.includes(address)) {
-      throw new Error(`BTC Address already exists ${address}`);
+      throw new Error(`BTC address already exists ${address}`);
     } else {
       const { data } = await apiGetBtcAddress(address);
       this.addAccount({
@@ -88,7 +88,7 @@ class BtcStore implements BtcStoreInterface {
         })
       );
     } else {
-      throw new Error("Can't find account to delete");
+      throw new Error("Account specified for deletion doesn't exist");
     }
   };
 }

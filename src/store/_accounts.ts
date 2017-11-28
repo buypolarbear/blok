@@ -4,6 +4,7 @@ import { RouterStoreInterface } from "./_router";
 import { BtcStoreInterface } from "./_btc";
 import { EthStoreInterface } from "./_eth";
 import { TICKER } from "../services/enums";
+import { alertError } from "../services/utilities";
 
 export interface AccountsStoreInterface {
   fetching: boolean;
@@ -41,7 +42,8 @@ class AccountsStore implements AccountsStoreInterface {
       this.setFetching(false);
     } catch (e) {
       this.setFetching(false);
-      console.error(e);
+      console.warn(e);
+      alertError(e.message);
     }
   };
 
@@ -56,20 +58,21 @@ class AccountsStore implements AccountsStoreInterface {
           await this.eth.addEthAccount(name, address);
           break;
         default:
-          throw new Error("INVALID ACCOUNT TYPE");
+          throw new Error("Invalid account type");
       }
       this.setFetching(false);
       this.router.push("/dashboard/accounts");
-    } catch (error) {
+    } catch (e) {
       this.setFetching(false);
-      console.error(error);
+      console.warn(e);
+      alertError(e.message);
     }
   };
 
   confirmDeleteAccount = (callback, account) =>
     Alert.alert("Confirmation", `Are you sure you want to delete "${account.name}"?`, [
-      { text: "Delete", onPress: () => callback(account.address), style: "destructive" },
-      { text: "Cancel", onPress: null }
+      { text: "Cancel", onPress: null },
+      { text: "Delete", onPress: () => callback(account.address), style: "destructive" }
     ]);
 
   public deleteAccount = async account => {
@@ -80,10 +83,11 @@ class AccountsStore implements AccountsStoreInterface {
         case TICKER.ETH:
           return this.confirmDeleteAccount(this.eth.deleteEthAccount, account);
         default:
-          throw new Error("INVALID ACCOUNT TYPE");
+          throw new Error("Invalid account type");
       }
     } catch (e) {
-      console.error(e);
+      console.warn(e);
+      alertError(e.message);
     }
   };
 }

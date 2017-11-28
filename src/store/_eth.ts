@@ -50,12 +50,13 @@ class EthStore implements EthStoreInterface {
 
   public addEthAccount = async (name, address) => {
     if (this.addresses.includes(address)) {
-      throw new Error(`ETH Address already exists ${address}`);
+      throw new Error(`ETH address already exists ${address}`);
     } else {
       const data = await apiGetEthAddress(address);
       const balance: any = data[0].data;
       const transactions: any = data[1].data;
-      if (Number(balance.status) !== 1) throw new Error(`ETH Add Balance: ${balance.message}`);
+      if (Number(balance.status) !== 1)
+        throw new Error(`ETH address has undefined balance: ${balance.message}`);
       else {
         this.addAccount({
           name,
@@ -89,7 +90,7 @@ class EthStore implements EthStoreInterface {
         })
       );
     } else {
-      throw new Error("Can't find account to delete");
+      throw new Error("Account specified for deletion doesn't exist");
     }
   };
 }
