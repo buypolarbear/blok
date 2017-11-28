@@ -19,6 +19,7 @@ export interface Props {
 export interface State {
   transition: Animated.Value;
   fade: Animated.Value;
+  reverse: boolean;
 }
 
 // --- styles --- //
@@ -48,16 +49,16 @@ const Frame = styled.Image`
 
 const Laser = styled.Image`
   width: ${width * 0.9}px;
-  height: ${width * 0.9 * 0.27}px;
+  height: ${width * 0.9 * 0.3}px;
   position: absolute;
-  top: -${width * 0.9 * 0.27}px;
-  left: -${width * 0.048}px;
+  top: ${(p: { reverse: boolean }) => (p.reverse ? -width * 0.9 * 0.03 : -width * 0.9 * 0.27)}px;
 `;
 
 const AnimatedLaser = Animated.createAnimatedComponent(Laser);
 
 const Container = styled.View`
   position: relative;
+  align-items: center;
 `;
 
 const Tip = styled(Text)`
@@ -74,7 +75,8 @@ class CameraView extends React.Component<Props, State> {
   // -- state -- //
   state = {
     transition: new Animated.Value(0),
-    fade: new Animated.Value(0)
+    fade: new Animated.Value(0),
+    reverse: false
   };
 
   // --- methods --- //
@@ -82,7 +84,7 @@ class CameraView extends React.Component<Props, State> {
     this.visibilityListener = reaction(
       () => this.props.camera.show,
       () => {
-        if (this.props.camera.show) this.animate();
+        if (this.props.camera.show) this.camera();
       }
     );
   }
@@ -91,23 +93,29 @@ class CameraView extends React.Component<Props, State> {
     this.visibilityListener();
   }
 
-  animate = () => {
+  camera = () => {
     this.setState({ transition: new Animated.Value(0), fade: new Animated.Value(0) }, () => {
       Animated.timing(this.state.fade, {
         toValue: 1,
         duration: 300,
         useNativeDriver: true
-      }).start(this.scaner);
+      }).start(() => this.scaner(1));
     });
   };
 
-  scaner = () =>
-    Animated.timing(this.state.transition, {
-      toValue: 1,
-      duration: 2700,
-      delay: 300,
-      useNativeDriver: true
-    }).start();
+  scaner = value => {
+    if (this.props.camera.show) {
+      Animated.timing(this.state.transition, {
+        toValue: value,
+        duration: 2700,
+        delay: 300,
+        useNativeDriver: true
+      }).start(() => {
+        this.setState({ reverse: !this.state.reverse });
+        this.scaner(value === 1 ? 0 : 1);
+      });
+    }
+  };
 
   onBarcode = event => {
     const qrISO = "ORG.ISO.QRCODE";
@@ -118,7 +126,7 @@ class CameraView extends React.Component<Props, State> {
   // --- render --- //
   render() {
     const { camera, ...props } = this.props;
-    const { transition, fade } = this.state;
+    const { transition, fade, reverse } = this.state;
     return camera.show ? (
       <AnimatedCameraOverlay
         style={{ opacity: fade }}
@@ -132,6 +140,7 @@ class CameraView extends React.Component<Props, State> {
         <Container>
           <AnimatedLaser
             source={require("../../assets/images/qr-scanner-laser.png")}
+            reverse={reverse}
             style={{
               transform: [
                 {
@@ -139,6 +148,9 @@ class CameraView extends React.Component<Props, State> {
                     inputRange: [0, 1],
                     outputRange: [0, width * 0.82]
                   })
+                },
+                {
+                  rotate: reverse ? "180deg" : "0deg"
                 }
               ],
               opacity: transition.interpolate({
