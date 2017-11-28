@@ -111,8 +111,9 @@ class CameraView extends React.Component<Props, State> {
         delay: 300,
         useNativeDriver: true
       }).start(() => {
-        this.setState({ reverse: !this.state.reverse });
-        this.scaner(value === 1 ? 0 : 1);
+        this.setState({ reverse: value === 1 ? true : false }, () =>
+          this.scaner(value === 1 ? 0 : 1)
+        );
       });
     }
   };
