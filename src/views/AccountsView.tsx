@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Animated } from "react-native";
+import { Alert } from "react-native";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../composites/TouchableIcon";
@@ -22,7 +22,6 @@ export interface Props {
 
 export interface State {
   isDeleting: boolean;
-  transition: Animated.Value;
 }
 
 // --- styling --- //
@@ -41,35 +40,31 @@ const BalanceView = styled.View`
 
 const AccountView = (styled as any).FlatList``;
 
-const AnimatedTouchableIcon = Animated.createAnimatedComponent(TouchableIcon);
-
 @inject("router", "accounts", "btc", "eth")
 @observer
 class AccountsView extends React.Component<Props, State> {
   // --- state --- //
   state = {
-    isDeleting: false,
-    transition: new Animated.Value(1)
+    isDeleting: false
   };
 
   // --- methods --- //
-  onAddAccount = () => this.props.router.push("/overlay/add-account", { overlay: true });
+  onAddAccount = () => {
+    if (this.state.isDeleting) {
+      Alert.alert("Notification", "Exit or finish removing account before adding a new one");
+    } else {
+      this.props.router.push("/overlay/add-account", { overlay: true });
+    }
+  };
 
-  onRemoveAccount = () =>
-    this.setState({ isDeleting: !this.state.isDeleting }, () => {
-      Animated.timing(this.state.transition, {
-        duration: 150,
-        toValue: this.state.isDeleting ? 0 : 1,
-        useNativeDriver: true
-      }).start();
-    });
+  onRemoveAccount = () => this.setState({ isDeleting: !this.state.isDeleting });
 
   generateItemKey = (account: any, index: number) => `${account.address}-${index}`;
 
   // --- render --- //
   render() {
     const accounts = [...this.props.btc.accounts, ...this.props.eth.accounts];
-    const { isDeleting, transition } = this.state;
+    const { isDeleting } = this.state;
     let totalBalance = 0;
     accounts.map(account => (totalBalance += account.balance));
     const deleteIcon = isDeleting
@@ -77,9 +72,7 @@ class AccountsView extends React.Component<Props, State> {
       : require("../../assets/images/icon-remove-account.png");
     return [
       <AccountActions key="account-actions">
-        <AnimatedTouchableIcon
-          style={{ transform: [{ scale: transition }] }}
-          pointerEvents={isDeleting ? "none" : "auto"}
+        <TouchableIcon
           onPress={this.onAddAccount}
           src={require("../../assets/images/icon-add-account.png")}
           width="27px"
