@@ -40,3 +40,6 @@ export const apiGetEthAddressTransactions = (address: string) =>
  */
 export const apiGetEthAddress = (address: string) =>
   Promise.all([apiGetEthAddressBalance(address), apiGetEthAddressTransactions(address)]);
+
+// -- LTC API -- //
+// const ltcApiKey = "754f51d0021c";
