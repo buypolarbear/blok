@@ -1,6 +1,0 @@
-{
-  "extends": "universe/native",
-  "rules": {
-    "import/no-unresolved": 2
-  }
-}

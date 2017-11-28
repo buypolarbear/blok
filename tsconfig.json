@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "outDir": "./dist",
+    "typeRoots": ["node_modules/@types", "./typings"],
+    "target": "ES6",
+    "module": "commonjs",
+    "allowJs": true,
+    "jsx": "react",
+    "lib": ["es7"],
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true
+  },
+  "exclude": ["./node_modules", "./android", "./ios", "./assets", "./__tests__", "./dist"],
+  "include": ["./src"]
+}
