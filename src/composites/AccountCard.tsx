@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Animated } from "react-native";
 import styled from "styled-components/native";
 import CryptoSymbol from "../components/CryptoSymbol";
 import GradientBlock from "../components/GradientBlock";
@@ -14,6 +15,11 @@ export interface Props {
   onDelete: (account: any) => void;
 }
 
+export interface State {
+  showDelete: boolean;
+  transition: Animated.Value;
+}
+
 // --- styling --- //
 const Balance = styled.View`
   margin-left: 20px;
@@ -24,6 +30,8 @@ const Balance = styled.View`
 const Action = styled(TouchableIcon)`
   margin-top: 7px;
 `;
+
+const AnimatedAction = Animated.createAnimatedComponent(Action);
 
 const Container = styled(GradientBlock)`
   width: 100%;
@@ -36,13 +44,45 @@ const Container = styled(GradientBlock)`
   margin-bottom: 10px;
 `;
 
-class AccountCard extends React.Component<Props, {}> {
+class AccountCard extends React.Component<Props, State> {
+  // --- state --- //
+  state = {
+    transition: new Animated.Value(1),
+    showDelete: false
+  };
+
   // --- methods --- //
+  componentWillReceiveProps(newProps) {
+    const deleting = newProps.isDeleting;
+    if (deleting !== this.props.isDeleting) this.animate(0, deleting);
+  }
+
+  animate = (value, state) =>
+    Animated.timing(this.state.transition, {
+      duration: 100,
+      toValue: value,
+      useNativeDriver: true
+    }).start(() => {
+      this.setState({ showDelete: state });
+      if (value === 0) this.animate(1, state);
+    });
+
   onShowQr = () => console.warn("Show Qr");
 
   // --- render --- //
   render() {
-    const { account, isDeleting, onDelete } = this.props;
+    const { account, onDelete } = this.props;
+    const { showDelete, transition } = this.state;
+    const actionStyle = {
+      transform: [
+        {
+          scale: transition.interpolate({
+            inputRange: [0, 1],
+            outputRange: [0, 1]
+          })
+        }
+      ]
+    };
     let icon = null;
     switch (account.type) {
       case TICKER.BTC:
@@ -77,15 +117,17 @@ class AccountCard extends React.Component<Props, {}> {
             ${formatMoney(account.balance * /*TODO currency exchange*/ 7000)}
           </Text>
         </Balance>
-        {isDeleting ? (
-          <Action
+        {showDelete ? (
+          <AnimatedAction
+            style={actionStyle}
             src={require("../../assets/images/icon-delete.png")}
-            width="26px"
-            height="26px"
+            width="29px"
+            height="29px"
             onPress={() => onDelete(account)}
           />
         ) : (
-          <Action
+          <AnimatedAction
+            style={actionStyle}
             src={require("../../assets/images/icon-qr-code.png")}
             width="28px"
             height="28px"

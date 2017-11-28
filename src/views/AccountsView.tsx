@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../composites/TouchableIcon";
@@ -9,6 +10,7 @@ import { RouterStoreInterface } from "../store/_router";
 import { BtcStoreInterface } from "../store/_btc";
 import { EthStoreInterface } from "../store/_eth";
 import { AccountsStoreInterface } from "../store/_accounts";
+import { formatMoney } from "../services/utilities";
 
 // --- types --- //
 export interface Props {
@@ -20,6 +22,7 @@ export interface Props {
 
 export interface State {
   isDeleting: boolean;
+  transition: Animated.Value;
 }
 
 // --- styling --- //
@@ -38,46 +41,58 @@ const BalanceView = styled.View`
 
 const AccountView = (styled as any).FlatList``;
 
+const AnimatedTouchableIcon = Animated.createAnimatedComponent(TouchableIcon);
+
 @inject("router", "accounts", "btc", "eth")
 @observer
 class AccountsView extends React.Component<Props, State> {
   // --- state --- //
   state = {
-    isDeleting: false
+    isDeleting: false,
+    transition: new Animated.Value(1)
   };
 
   // --- methods --- //
   onAddAccount = () => this.props.router.push("/overlay/add-account", { overlay: true });
 
-  onRemoveAccount = () => this.setState({ isDeleting: !this.state.isDeleting });
+  onRemoveAccount = () =>
+    this.setState({ isDeleting: !this.state.isDeleting }, () => {
+      Animated.timing(this.state.transition, {
+        duration: 150,
+        toValue: this.state.isDeleting ? 0 : 1,
+        useNativeDriver: true
+      }).start();
+    });
 
   generateItemKey = (account: any, index: number) => `${account.address}-${index}`;
 
   // --- render --- //
   render() {
     const accounts = [...this.props.btc.accounts, ...this.props.eth.accounts];
-    const { isDeleting } = this.state;
+    const { isDeleting, transition } = this.state;
+    let totalBalance = 0;
+    accounts.map(account => (totalBalance += account.balance));
+    const deleteIcon = isDeleting
+      ? require("../../assets/images/icon-delete.png")
+      : require("../../assets/images/icon-remove-account.png");
     return [
       <AccountActions key="account-actions">
-        <TouchableIcon
+        <AnimatedTouchableIcon
+          style={{ transform: [{ scale: transition }] }}
+          pointerEvents={isDeleting ? "none" : "auto"}
           onPress={this.onAddAccount}
           src={require("../../assets/images/icon-add-account.png")}
           width="27px"
           height="27px"
         />
-        <TouchableIcon
-          onPress={this.onRemoveAccount}
-          src={require("../../assets/images/icon-remove-account.png")}
-          width="27px"
-          height="27px"
-        />
+        <TouchableIcon onPress={this.onRemoveAccount} src={deleteIcon} width="27px" height="27px" />
       </AccountActions>,
       <BalanceView key="account-balance">
         <Text color={COLOR.grey} shadow>
           Total Balance
         </Text>
         <Text size={SIZE.big} color={COLOR.lightGrey} shadow>
-          $1,280
+          ${formatMoney(totalBalance * /*TODO currency exchange*/ 7000)}
         </Text>
       </BalanceView>,
       <AccountView
