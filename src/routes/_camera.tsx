@@ -48,10 +48,10 @@ const Frame = styled.Image`
 `;
 
 const Laser = styled.Image`
-  width: ${width * 0.9}px;
-  height: ${width * 0.9 * 0.3}px;
+  width: ${width * 0.86}px;
+  height: ${width * 0.86 * 0.3}px;
   position: absolute;
-  top: ${(p: { reverse: boolean }) => (p.reverse ? -width * 0.9 * 0.03 : -width * 0.9 * 0.27)}px;
+  top: ${(p: { reverse: boolean }) => (p.reverse ? -width * 0.86 * 0.03 : -width * 0.86 * 0.27)}px;
 `;
 
 const AnimatedLaser = Animated.createAnimatedComponent(Laser);
