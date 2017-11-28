@@ -3,7 +3,7 @@ import styled from "styled-components/native";
 import { TouchableOpacity } from "react-native";
 import Text from "../components/Text";
 import { COLOR, SIZE } from "../services/enums";
-import { black, white } from "../style/color";
+import { black } from "../style/color";
 
 // --- types --- //
 export interface Props {
@@ -25,7 +25,7 @@ const Button: any = styled.View`
   shadow-radius: 8px;
   elevation: 2;
   border-width: 1px;
-  border-color: ${white};
+  border-color: rgba(255, 255, 255, 0.7);
 `;
 
 class ButtonOpaque extends React.Component<Props, {}> {

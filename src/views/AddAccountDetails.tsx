@@ -6,7 +6,6 @@ import styled from "styled-components/native";
 import Input from "../components/Input";
 import TouchableIcon from "../composites/TouchableIcon";
 import { CameraStoreInterface } from "../store/_camera";
-import ButtonGradient from "../composites/ButtonGradient";
 
 // --- types --- //
 export interface Props {
@@ -16,7 +15,6 @@ export interface Props {
   onAddressChange: (address: string) => void;
   onAddressPaste: (address: string) => void;
   camera?: CameraStoreInterface;
-  barcodeListener: () => void;
 }
 
 // --- styling --- //
@@ -32,19 +30,19 @@ const DetailsContainer = styled.View`
 
 const PasteIcon = styled(TouchableIcon)`
   position: absolute;
-  right: 10px;
-  top: 10px;
+  right: 15px;
+  top: 11px;
   z-index: 2;
 `;
 
 const AddressInput = styled(Input)`
-  padding-right: 35px;
+  padding-right: 55px;
 `;
 
 @inject("camera")
 @observer
 class AddAccountDetails extends React.Component<Props, {}> {
-  barcodeListener: () => void = null;
+  barcodeListener;
 
   // --- methods --- //
   componentDidMount() {
@@ -87,13 +85,12 @@ class AddAccountDetails extends React.Component<Props, {}> {
             onChangeText={address => onAddressChange(address.replace(/\s/g, ""))}
           />
           <PasteIcon
-            src={require("../../assets/images/icon-clipboard.png")}
-            width="19px"
-            height="22px"
-            onPress={this.onAddressPaste}
+            src={require("../../assets/images/icon-camera.png")}
+            width="24px"
+            height="20px"
+            onPress={this.onShowCamera}
           />
         </ClipboardInput>
-        <ButtonGradient onPress={this.onShowCamera} text="CAMERA" />
       </DetailsContainer>
     );
   }

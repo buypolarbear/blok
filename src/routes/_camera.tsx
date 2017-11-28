@@ -135,7 +135,7 @@ class CameraView extends React.Component<Props, State> {
         {...props}
       >
         <Tip shadow color={COLOR.white}>
-          Point camera at barcode
+          Point camera at QR code
         </Tip>
         <Container>
           <AnimatedLaser
