@@ -23,7 +23,7 @@ export interface Props {
 export interface State {
   isDeleting: boolean;
   transition: Animated.Value;
-  alternativeActions: boolean;
+  deleteActions: boolean;
 }
 
 // --- styling --- //
@@ -49,7 +49,7 @@ class AccountsView extends React.Component<Props, State> {
   // --- state --- //
   state = {
     isDeleting: false,
-    alternativeActions: false,
+    deleteActions: false,
     transition: new Animated.Value(1)
   };
 
@@ -67,7 +67,7 @@ class AccountsView extends React.Component<Props, State> {
       toValue: value,
       useNativeDriver: true
     }).start(() => {
-      this.setState({ alternativeActions: state }, () => {
+      this.setState({ deleteActions: state }, () => {
         if (value === 0) this.animate(1, state);
       });
     });
