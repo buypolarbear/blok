@@ -97,7 +97,7 @@ class AccountsView extends React.Component<Props, State> {
           Total Balance
         </Text>
         <Text size={SIZE.big} color={COLOR.lightGrey} shadow>
-          ${formatMoney(totalBalance * /*TODO currency exchange*/ 7000)}
+          ${formatMoney(totalBalance * /*TODO currency exchange for alll values*/ 7000)}
         </Text>
       </BalanceView>,
       <AccountView
