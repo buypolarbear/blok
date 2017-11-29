@@ -31,22 +31,24 @@
     "@types/react": "16.0.25",
     "@types/react-native": "0.50.7",
     "@types/react-native-linear-gradient": "2.3.0",
-    "@types/react-router-native": "4.0.1",
+    "@types/react-router-native": "4.0.2",
     "babel-jest": "21.2.0",
     "babel-preset-react-native": "4.0.0",
     "concurrently": "3.5.1",
     "jest": "21.2.1",
     "prettier": "1.8.2",
-    "react-test-renderer": "16.1.1",
+    "react-test-renderer": "16.2.0",
     "tslint": "^5.8.0",
     "tslint-config-airbnb": "5.4.2",
     "tslint-config-prettier": "1.6.0",
-    "typescript": "2.6.1"
+    "typescript": "2.6.2"
   },
   "jest": {
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./assets/fonts"]
+    "assets": [
+      "./assets/fonts"
+    ]
   }
 }

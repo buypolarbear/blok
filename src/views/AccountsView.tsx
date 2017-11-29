@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Alert } from "react-native";
+import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../composites/TouchableIcon";
@@ -22,6 +22,8 @@ export interface Props {
 
 export interface State {
   isDeleting: boolean;
+  transition: Animated.Value;
+  alternativeActions: boolean;
 }
 
 // --- styling --- //
@@ -30,6 +32,7 @@ const AccountActions = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
+const AnimatedAccountActions = Animated.createAnimatedComponent(AccountActions);
 
 const BalanceView = styled.View`
   width: 100%;
@@ -45,33 +48,42 @@ const AccountView = (styled as any).FlatList``;
 class AccountsView extends React.Component<Props, State> {
   // --- state --- //
   state = {
-    isDeleting: false
+    isDeleting: false,
+    alternativeActions: false,
+    transition: new Animated.Value(1)
   };
 
   // --- methods --- //
-  onAddAccount = () => {
-    if (this.state.isDeleting) {
-      Alert.alert("Notification", "Exit or finish removing account before adding a new one");
-    } else {
-      this.props.router.push("/overlay/add-account", { overlay: true });
-    }
-  };
+  onAddAccount = () => this.props.router.push("/overlay/add-account", { overlay: true });
 
-  onRemoveAccount = () => this.setState({ isDeleting: !this.state.isDeleting });
+  onRemoveAccount = () =>
+    this.setState({ isDeleting: !this.state.isDeleting }, () => {
+      this.state.isDeleting ? this.animate(0, true) : this.animate(0, false);
+    });
+
+  animate = (value, state) =>
+    Animated.timing(this.state.transition, {
+      duration: 100,
+      toValue: value,
+      useNativeDriver: true
+    }).start(() => {
+      this.setState({ alternativeActions: state }, () => {
+        if (value === 0) this.animate(1, state);
+      });
+    });
 
   generateItemKey = (account: any, index: number) => `${account.address}-${index}`;
 
   // --- render --- //
   render() {
     const accounts = [...this.props.btc.accounts, ...this.props.eth.accounts];
-    const { isDeleting } = this.state;
+    const { isDeleting, transition } = this.state;
     let totalBalance = 0;
     accounts.map(account => (totalBalance += account.balance));
-    const deleteIcon = isDeleting
-      ? require("../../assets/images/icon-delete.png")
-      : require("../../assets/images/icon-remove-account.png");
+    const deleteIcon = require("../../assets/images/icon-remove-account.png");
+
     return [
-      <AccountActions key="account-actions">
+      <AnimatedAccountActions key="account-actions" style={{ opacity: transition }}>
         <TouchableIcon
           onPress={this.onAddAccount}
           src={require("../../assets/images/icon-add-account.png")}
@@ -79,7 +91,7 @@ class AccountsView extends React.Component<Props, State> {
           height="27px"
         />
         <TouchableIcon onPress={this.onRemoveAccount} src={deleteIcon} width="27px" height="27px" />
-      </AccountActions>,
+      </AnimatedAccountActions>,
       <BalanceView key="account-balance">
         <Text color={COLOR.grey} shadow>
           Total Balance
