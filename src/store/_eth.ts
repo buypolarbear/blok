@@ -39,7 +39,7 @@ class EthStore implements Ethereum.EthereumStore {
           name,
           address,
           type: TICKER.ETH,
-          balance: Number(balance.result) / 1000000000000000000
+          balance: Number(data.result) / 1000000000000000000
         });
         this.updateAddress(address);
         await AsyncStorage.setItem(

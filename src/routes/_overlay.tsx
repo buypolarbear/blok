@@ -57,7 +57,7 @@ class Overlay extends React.Component<Props, State> {
   };
 
   // --- methods --- //
-  componentWillReceiveProps(newProps: Props) {
+  componentWillReceiveProps(newProps) {
     const location = newProps.location;
     if (location.state && location.state.overlay) this.setState({ previousLocation: location });
     this.isOverlay(location) ? this.onAnimateOverlay(1) : this.onAnimateOverlay(0);
@@ -67,7 +67,7 @@ class Overlay extends React.Component<Props, State> {
     this.isOverlay(this.props.location) && this.onAnimateOverlay(1);
   }
 
-  onAnimateOverlay = (value: number) => {
+  onAnimateOverlay = value => {
     Animated.timing(this.state.animation, {
       toValue: value,
       duration: 500,
@@ -76,8 +76,7 @@ class Overlay extends React.Component<Props, State> {
     }).start(() => this.setState({ pointerEvents: value === 1 }));
   };
 
-  isOverlay = (location: RouterStoreInterface["location"]) =>
-    location.state && location.state.overlay;
+  isOverlay = location => location.state && location.state.overlay;
 
   // --- render --- //
   render() {

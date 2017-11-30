@@ -56,7 +56,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     this.runAnimation(1, this.props.pathname, this.props.pathname);
   }
 
-  getOutDirection = (pathname: string, previousPathname: string) => {
+  getOutDirection = (pathname, previousPathname) => {
     if (
       pathname === "/dashboard/settings" ||
       (pathname === "/dashboard/transactions" && previousPathname === "/dashboard/accounts")
@@ -65,7 +65,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     return DIRECTION.right;
   };
 
-  getInDirection = (pathname: string, previousPathname: string) => {
+  getInDirection = (pathname, previousPathname) => {
     if (
       pathname === "/dashboard/settings" ||
       (pathname === "/dashboard/transactions" && previousPathname === "/dashboard/accounts")
@@ -74,7 +74,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     return DIRECTION.left;
   };
 
-  runAnimation = (value: number, pathname: string, previousPathname: string) => {
+  runAnimation = (value, pathname, previousPathname) => {
     Animated.timing(this.state.transition, {
       duration: 200,
       toValue: value,
@@ -82,7 +82,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     }).start(() => this.animationLogic(value, pathname, previousPathname));
   };
 
-  animationLogic = (value: number, pathname: string, previousPathname: string) => {
+  animationLogic = (value, pathname, previousPathname) => {
     if (value === 0) {
       const direction = this.getInDirection(pathname, previousPathname);
       this.setState({ previousView: null, transitionDirection: direction }, () =>
