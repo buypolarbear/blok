@@ -38,7 +38,7 @@
     "jest": "21.2.1",
     "prettier": "1.8.2",
     "react-test-renderer": "16.2.0",
-    "tslint": "^5.8.0",
+    "tslint": "5.8.0",
     "tslint-config-airbnb": "5.4.2",
     "tslint-config-prettier": "1.6.0",
     "typescript": "2.6.2"
@@ -47,8 +47,6 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": [
-      "./assets/fonts"
-    ]
+    "assets": ["./assets/fonts"]
   }
 }
