@@ -10,8 +10,6 @@ export interface Props {
   onAddAccount: () => void;
 }
 
-export interface State {}
-
 // --- styling --- //
 const Container = styled.View`
   width: 100%;
@@ -25,16 +23,7 @@ const ActionCall = styled(Text)`
 `;
 
 class PlaceholderAccounts extends React.Component<Props, State> {
-  // --- default props --- //
-  static defaultProps: Partial<Props> = {};
-
-  // --- state --- //
-  state = {};
-
-  // --- methods --- //
-
   // --- render --- //
-
   render() {
     const { onAddAccount, ...props } = this.props;
     return (

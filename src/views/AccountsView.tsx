@@ -3,6 +3,7 @@ import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import PlaceholderAccounts from "../composites/PlaceholderAccounts";
+import AccountsList from "../composites/AccountsList";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 import ActionsCancelDelete from "../composites/ActionsCancelDelete";
@@ -40,8 +41,6 @@ const BalanceView = styled.View`
   margin-bottom: 65px;
 `;
 
-const AccountView = (styled as any).FlatList``;
-
 @inject("router", "accounts", "btc", "eth")
 @observer
 class AccountsView extends React.Component<Props, State> {
@@ -71,8 +70,6 @@ class AccountsView extends React.Component<Props, State> {
       });
     });
 
-  generateItemKey = (account: any, index: number) => `${account.address}-${index}`;
-
   // --- render --- //
   render() {
     const { btc, eth } = this.props;
@@ -90,20 +87,12 @@ class AccountsView extends React.Component<Props, State> {
       />
     );
     const view = hasAccounts ? (
-      [
-        <AccountView
-          key="account-list"
-          data={accounts}
-          keyExtractor={this.generateItemKey}
-          renderItem={({ item }: { item: Accounts.Account }) => (
-            <AccountCard
-              onDelete={this.props.accounts!.deleteAccount}
-              isDeleting={isDeleting}
-              account={item}
-            />
-          )}
-        />
-      ]
+      <AccountsList
+        key="account-list"
+        accounts={accounts}
+        onDelete={this.props.accounts!.deleteAccount}
+        isDeleting={isDeleting}
+      />
     ) : (
       <PlaceholderAccounts onAddAccount={this.onAddAccount} key="placeholder-accounts" />
     );
