@@ -2,7 +2,7 @@ import * as React from "react";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
-import TouchableIcon from "../composites/TouchableIcon";
+import PlaceholderAccounts from "../composites/PlaceholderAccounts";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 import ActionsCancelDelete from "../composites/ActionsCancelDelete";
@@ -75,9 +75,11 @@ class AccountsView extends React.Component<Props, State> {
 
   // --- render --- //
   render() {
-    const accounts = [...this.props.btc!.accounts, ...this.props.eth!.accounts];
+    const { btc, eth } = this.props;
+    const accounts = [...btc!.accounts, ...eth!.accounts];
     const { isDeleting, deleteActions, transition } = this.state;
     let totalBalance = 0;
+    const hasAccounts = accounts.length > 0;
     accounts.map(account => (totalBalance += account.balance));
     const actions = deleteActions ? (
       <ActionsCancelDelete onPress={this.onRemoveAccount} />
@@ -87,9 +89,31 @@ class AccountsView extends React.Component<Props, State> {
         onRemoveAccount={this.onRemoveAccount}
       />
     );
+    const view = hasAccounts ? (
+      [
+        <AccountView
+          key="account-list"
+          data={accounts}
+          keyExtractor={this.generateItemKey}
+          renderItem={({ item }: { item: Accounts.Account }) => (
+            <AccountCard
+              onDelete={this.props.accounts!.deleteAccount}
+              isDeleting={isDeleting}
+              account={item}
+            />
+          )}
+        />
+      ]
+    ) : (
+      <PlaceholderAccounts onAddAccount={this.onAddAccount} key="placeholder-accounts" />
+    );
 
     return [
-      <AnimatedAccountActions key="account-actions" style={{ opacity: transition }}>
+      <AnimatedAccountActions
+        key="account-actions"
+        pointerEvents={hasAccounts ? "auto" : "none"}
+        style={{ opacity: hasAccounts ? transition : 0 }}
+      >
         {actions}
       </AnimatedAccountActions>,
       <BalanceView key="account-balance">
@@ -100,18 +124,7 @@ class AccountsView extends React.Component<Props, State> {
           ${formatMoney(totalBalance * /*TODO currency exchange for alll values*/ 7000)}
         </Text>
       </BalanceView>,
-      <AccountView
-        key="account-list"
-        data={accounts}
-        keyExtractor={this.generateItemKey}
-        renderItem={({ item }: { item: Accounts.Account }) => (
-          <AccountCard
-            onDelete={this.props.accounts!.deleteAccount}
-            isDeleting={isDeleting}
-            account={item}
-          />
-        )}
-      />
+      view
     ];
   }
 }

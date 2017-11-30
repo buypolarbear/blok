@@ -257,7 +257,7 @@ class AddAccountView extends React.Component<Props, State> {
               <ButtonGradient text="NEXT" onPress={this.onNext} disabled={!selected} />
             ) : (
               <ButtonGradient
-                text="SAVE"
+                text="CREATE"
                 onPress={this.onSave}
                 disabled={!selected || !name || !address || step !== 2}
               />
