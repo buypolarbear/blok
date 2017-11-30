@@ -8,7 +8,7 @@
     "jsx": "react-native",
     "removeComments": true,
     "outDir": "./dist",
-    "typeRoots": ["node_modules/@types", "./typings/index.d.ts"],
+    "typeRoots": ["node_modules/@types", "./typings"],
     "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
