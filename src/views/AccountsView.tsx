@@ -1,11 +1,12 @@
 import * as React from "react";
-import { Animated, TouchableWithoutFeedback } from "react-native";
+import { Animated } from "react-native";
 import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../composites/TouchableIcon";
-import Icon from "../components/Icon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
+import ActionsCancelDelete from "../composites/ActionsCancelDelete";
+import ActionsAddRemoveAccount from "../composites/ActionsAddRemoveAccount";
 import { COLOR, SIZE } from "../services/enums";
 import { formatMoney } from "../services/utilities";
 import { Router, Bitcoin, Ethereum, Accounts } from "../services/interfaces";
@@ -40,18 +41,6 @@ const BalanceView = styled.View`
 `;
 
 const AccountView = (styled as any).FlatList``;
-
-const DeleteActions = styled.View`
-  width: 100%;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-end;
-`;
-
-const CancelText = styled(Text)`
-  margin-right: 10px;
-  margin-top: -3px;
-`;
 
 @inject("router", "accounts", "btc", "eth")
 @observer
@@ -90,37 +79,13 @@ class AccountsView extends React.Component<Props, State> {
     const { isDeleting, deleteActions, transition } = this.state;
     let totalBalance = 0;
     accounts.map(account => (totalBalance += account.balance));
-    const deleteIcon = require("../../assets/images/icon-remove-account.png");
     const actions = deleteActions ? (
-      <TouchableWithoutFeedback onPress={this.onRemoveAccount}>
-        <DeleteActions>
-          <CancelText color={COLOR.red} size={SIZE.small}>
-            CANCEL
-          </CancelText>
-          <Icon
-            source={require("../../assets/images/icon-cancel.png")}
-            width="27px"
-            height="27px"
-          />
-        </DeleteActions>
-      </TouchableWithoutFeedback>
+      <ActionsCancelDelete onPress={this.onRemoveAccount} />
     ) : (
-      [
-        <TouchableIcon
-          onPress={this.onAddAccount}
-          src={require("../../assets/images/icon-add-account.png")}
-          width="27px"
-          height="27px"
-          key="add-account-icon"
-        />,
-        <TouchableIcon
-          onPress={this.onRemoveAccount}
-          src={deleteIcon}
-          width="27px"
-          height="27px"
-          key="remove-account-icon"
-        />
-      ]
+      <ActionsAddRemoveAccount
+        onAddAccount={this.onAddAccount}
+        onRemoveAccount={this.onRemoveAccount}
+      />
     );
 
     return [
