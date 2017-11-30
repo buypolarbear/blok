@@ -1,5 +1,6 @@
 const green = "#60D9C8";
-const red = "#F96193";
+const red = "#FF3B30";
+const salmon = "#F96193";
 const black = "#000000";
 const white = "#FFFFFF";
 const darkPurple = "#08055F";
@@ -19,6 +20,7 @@ export {
   grey,
   green,
   red,
+  salmon,
   lightPurple,
   darkPurple,
   black,
