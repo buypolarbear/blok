@@ -1,22 +1,11 @@
 import { observable, action } from "mobx";
-import * as history from "history";
 import createHistory from "history/createMemoryHistory";
+import { Router } from "../services/interfaces";
 
 // --- create memory history --- //
 const memoryHistory = createHistory({ initialEntries: ["/dashboard/accounts"] });
 
-export interface RouterStoreInterface {
-  history: history.History;
-  location: history.Location;
-  updateLocation: () => void;
-  push: (pathname: string, state?: Object) => void;
-  replace: (pathname: string) => void;
-  go: (number: number) => void;
-  goBack: () => void;
-  goForward: () => void;
-}
-
-class RouterStore implements RouterStoreInterface {
+class RouterStore implements Router.RouterStore {
   // --- store --- //
   history = memoryHistory;
   @observable location = this.history.location;

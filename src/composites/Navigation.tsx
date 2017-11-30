@@ -3,11 +3,11 @@ import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import TouchableIcon from "../composites/TouchableIcon";
 import { isIphoneX } from "../services/utilities";
-import { RouterStoreInterface } from "../store/_router";
+import { Router } from "../services/interfaces";
 
 // --- types --- //
 export interface Props {
-  router?: RouterStoreInterface;
+  router?: Router.RouterStore;
 }
 
 // --- styling --- //

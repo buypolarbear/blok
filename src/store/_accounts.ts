@@ -1,27 +1,16 @@
 import { observable, action } from "mobx";
 import { Alert } from "react-native";
-import { RouterStoreInterface } from "./_router";
-import { BtcStoreInterface } from "./_btc";
-import { EthStoreInterface } from "./_eth";
 import { TICKER } from "../services/enums";
 import { alertError } from "../services/utilities";
+import { Accounts } from "../services/interfaces";
 
-export interface AccountsStoreInterface {
-  fetching: boolean;
-  addAccount: (type: TICKER, name: string, address: string) => void;
-  deleteAccount: (account: any) => void;
-  setFetching: (state: boolean) => void;
-  getAccountsFromMemory: () => void;
-  confirmDeleteAccount: (callback: Function, account: any) => void;
-}
-
-class AccountsStore implements AccountsStoreInterface {
+class AccountsStore implements Accounts.AccountsStore {
   // -- constructor -- //
-  private router: RouterStoreInterface;
-  private btc: BtcStoreInterface;
-  private eth: EthStoreInterface;
+  router;
+  btc;
+  eth;
 
-  constructor(router: RouterStoreInterface, btc: BtcStoreInterface, eth: EthStoreInterface) {
+  constructor(router, btc, eth) {
     this.router = router;
     this.btc = btc;
     this.eth = eth;
@@ -34,11 +23,11 @@ class AccountsStore implements AccountsStoreInterface {
   @action setFetching = state => (this.fetching = state);
 
   // --- methods --- //
-  public getAccountsFromMemory = async () => {
+  getAccountsFromMemory = async () => {
     try {
       this.setFetching(true);
-      await this.btc.getBtcStoreFromMemory();
-      await this.eth.getEthStoreFromMemory();
+      await this.btc.getStoreFromMemory();
+      await this.eth.getStoreFromMemory();
       this.setFetching(false);
     } catch (e) {
       this.setFetching(false);
@@ -47,15 +36,15 @@ class AccountsStore implements AccountsStoreInterface {
     }
   };
 
-  public addAccount = async (type, name, address) => {
+  addAccount = async (type, name, address) => {
     try {
       this.setFetching(true);
       switch (type) {
         case TICKER.BTC:
-          await this.btc.addBtcAccount(name, address);
+          await this.btc.addAccount(name, address);
           break;
         case TICKER.ETH:
-          await this.eth.addEthAccount(name, address);
+          await this.eth.addAccount(name, address);
           break;
         default:
           throw new Error("Invalid account type");
@@ -75,13 +64,13 @@ class AccountsStore implements AccountsStoreInterface {
       { text: "Delete", onPress: () => callback(account.address), style: "destructive" }
     ]);
 
-  public deleteAccount = async account => {
+  deleteAccount = async account => {
     try {
       switch (account.type) {
         case TICKER.BTC:
-          return this.confirmDeleteAccount(this.btc.deleteBtcAccount, account);
+          return this.confirmDeleteAccount(this.btc.deleteAccount, account);
         case TICKER.ETH:
-          return this.confirmDeleteAccount(this.eth.deleteEthAccount, account);
+          return this.confirmDeleteAccount(this.eth.deleteAccount, account);
         default:
           throw new Error("Invalid account type");
       }

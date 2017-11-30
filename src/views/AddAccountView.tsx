@@ -4,21 +4,20 @@ import styled from "styled-components/native";
 import { inject, observer } from "mobx-react/native";
 import Text from "../components/Text";
 import { TICKER, COLOR } from "../services/enums";
-import { RouterStoreInterface } from "../store/_router";
-import { AccountsStoreInterface } from "../store/_accounts";
 import ButtonGradient from "../composites/ButtonGradient";
 import AddAccountType from "./AddAccountType";
 import AddAccountDetails from "./AddAccountDetails";
 import { isIphoneX } from "../services/utilities";
 import { easeInQuad, easeOutQuad } from "../style/easing";
 import { white } from "../style/color";
+import { Router, Accounts } from "../services/interfaces";
 
 const { Keyboard, Animated } = ReactNative;
 
 // --- types --- //
 export interface Props {
-  router?: RouterStoreInterface;
-  accounts?: AccountsStoreInterface;
+  router?: Router.RouterStore;
+  accounts?: Accounts.AccountsStore;
   refresh: boolean;
 }
 

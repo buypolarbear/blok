@@ -6,18 +6,15 @@ import TouchableIcon from "../composites/TouchableIcon";
 import Text from "../components/Text";
 import AccountCard from "../composites/AccountCard";
 import { COLOR, SIZE } from "../services/enums";
-import { RouterStoreInterface } from "../store/_router";
-import { BtcStoreInterface } from "../store/_btc";
-import { EthStoreInterface } from "../store/_eth";
-import { AccountsStoreInterface } from "../store/_accounts";
 import { formatMoney } from "../services/utilities";
+import { Router, Bitcoin, Ethereum, Accounts } from "../services/interfaces";
 
 // --- types --- //
 export interface Props {
-  router?: RouterStoreInterface;
-  accounts?: AccountsStoreInterface;
-  btc?: BtcStoreInterface;
-  eth?: EthStoreInterface;
+  router?: Router.RouterStore;
+  accounts?: Accounts.AccountsStore;
+  btc?: Bitcoin.BitcoinStore;
+  eth?: Ethereum.EthereumStore;
 }
 
 export interface State {

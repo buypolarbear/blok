@@ -5,13 +5,12 @@ import { Router as ReactRouter, Switch, Route } from "react-router-native";
 import Dashboard from "./_dashboard";
 import Overlay from "./_overlay";
 import CameraView from "./_camera";
-import { RouterStoreInterface } from "../store/_router";
-import { AccountsStoreInterface } from "../store/_accounts";
+import { Accounts, Router } from "../services/interfaces";
 
 // --- types --- //
 export interface Props {
-  router?: RouterStoreInterface;
-  accounts?: AccountsStoreInterface;
+  router?: Router.RouterStore;
+  accounts?: Accounts.AccountsStore;
 }
 
 export interface State {

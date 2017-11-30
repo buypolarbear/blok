@@ -2,23 +2,23 @@ import * as React from "react";
 import { Route, Switch } from "react-router-native";
 import { Animated } from "react-native";
 import styled from "styled-components/native";
-import { RouterStoreInterface } from "../store/_router";
 import Background from "../components/Background";
 import AddAccountView from "../views/AddAccountView";
 import { black } from "../style/color";
 import { height, basePaddingTop, basePaddingLeft, basePaddingRight } from "../style/dimension";
 import { easeInOutCubic } from "../style/easing";
 import KeyboardAvoidingView from "../components/KeyboardAvoidingView";
+import { Router } from "../services/interfaces";
 
 // --- types --- //
 interface Props {
-  location: RouterStoreInterface["location"];
+  location: Router.Location;
 }
 
 interface State {
   animation: Animated.Value;
   pointerEvents: boolean;
-  previousLocation: RouterStoreInterface["location"];
+  previousLocation: Router.Location;
 }
 
 // ---styling --- //

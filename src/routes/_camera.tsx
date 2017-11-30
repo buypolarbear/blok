@@ -5,15 +5,15 @@ import { reaction } from "mobx";
 import styled from "styled-components/native";
 import Camera from "react-native-camera";
 import ButtonOpaque from "../composites/ButtonOpaque";
-import { CameraStoreInterface } from "../store/_camera";
 import { isIphoneX } from "../services/utilities";
 import { width } from "../style/dimension";
 import Text from "../components/Text";
 import { COLOR } from "../services/enums";
+import { Camera as Cameras } from "../services/interfaces";
 
 // --- types --- //
 export interface Props {
-  camera?: CameraStoreInterface;
+  camera?: Cameras.CameraStore;
 }
 
 export interface State {

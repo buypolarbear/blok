@@ -5,7 +5,7 @@ import { Clipboard, Keyboard } from "react-native";
 import styled from "styled-components/native";
 import Input from "../components/Input";
 import TouchableIcon from "../composites/TouchableIcon";
-import { CameraStoreInterface } from "../store/_camera";
+import { Camera } from "../services/interfaces";
 
 // --- types --- //
 export interface Props {
@@ -14,7 +14,7 @@ export interface Props {
   onNameChange: (name: string) => void;
   onAddressChange: (address: string) => void;
   onAddressPaste: (address: string) => void;
-  camera?: CameraStoreInterface;
+  camera?: Camera.CameraStore;
 }
 
 // --- styling --- //

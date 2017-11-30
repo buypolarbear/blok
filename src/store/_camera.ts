@@ -1,14 +1,7 @@
 import { observable, action } from "mobx";
+import { Camera } from "../services/interfaces";
 
-export interface CameraStoreInterface {
-  show: boolean;
-  barcode: string;
-  toggleCamera: (state: boolean) => void;
-  setBarcode: (barcode: string) => void;
-  reset: () => void;
-}
-
-class CameraStore implements CameraStoreInterface {
+class CameraStore implements Camera.CameraStore {
   // --- store --- //
   @observable show = false;
   @observable barcode = null;
