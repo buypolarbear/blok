@@ -6,16 +6,16 @@ import { Ethereum } from "../services/interfaces";
 
 class EthStore implements Ethereum.EthereumStore {
   // --- store --- //
-  @observable accounts = [];
-  addresses = [];
+  @observable accounts: Ethereum.EthereumAccount[] = [];
+  addresses: string[] = [];
 
   // --- actions --- //
-  @action updateAccount = account => this.accounts.push(account);
-  @action updateAddress = address => this.addresses.push(address);
-  @action removeAccount = index => this.accounts.splice(index, 1);
-  @action removeAddress = index => this.addresses.splice(index, 1);
-  @action hydrateAccounts = accounts => (this.accounts = accounts);
-  @action hydrateAddresses = addresses => (this.addresses = addresses);
+  @action updateAccount = (account: Ethereum.EthereumAccount) => this.accounts.push(account);
+  @action updateAddress = (address: string) => this.addresses.push(address);
+  @action removeAccount = (index: number) => this.accounts.splice(index, 1);
+  @action removeAddress = (index: number) => this.addresses.splice(index, 1);
+  @action hydrateAccounts = (accounts: Ethereum.EthereumAccount[]) => (this.accounts = accounts);
+  @action hydrateAddresses = (addresses: string[]) => (this.addresses = addresses);
 
   // --- methods --- //
   public getStoreFromMemory = async () => {
@@ -27,7 +27,7 @@ class EthStore implements Ethereum.EthereumStore {
     }
   };
 
-  public addAccount = async (name, address) => {
+  public addAccount = async (name: string, address: string) => {
     if (this.addresses.includes(address)) {
       throw new Error(`ETH address already exists ${address}`);
     } else {

@@ -26,24 +26,24 @@ const Container = styled.View`
 @inject("router", "accounts")
 @observer
 class Router extends React.Component<Props, State> {
-  previousLocation = this.props.router.location;
+  previousLocation = this.props.router!.location;
 
   // --- methods --- //
   componentDidMount() {
-    this.props.accounts.getAccountsFromMemory();
+    this.props.accounts!.getAccountsFromMemory();
   }
 
   componentWillReceiveProps(nextProps: Props) {
-    const { location } = this.props.router;
+    const location = this.props.router!.location;
     if (
-      nextProps.router.history.action !== "POP" &&
+      nextProps.router!.history.action !== "POP" &&
       (!location.state || !location.state.modal || !location.state.overlay)
     ) {
-      this.previousLocation = this.props.router.location;
+      this.previousLocation = this.props.router!.location;
     }
   }
 
-  isSecondaryView = location => {
+  isSecondaryView = (location: Router.Location) => {
     if (this.previousLocation !== location)
       return location.state && (location.state.modal || location.state.overlay);
     return false;
@@ -52,11 +52,11 @@ class Router extends React.Component<Props, State> {
   // --- render --- //
   render() {
     const { router } = this.props;
-    const { location } = router;
+    const location = router!.location;
     const secondaryView = this.isSecondaryView(location);
     const baseLocation = secondaryView ? this.previousLocation : location;
     return (
-      <ReactRouter history={router.history}>
+      <ReactRouter history={router!.history}>
         <Container>
           <Switch location={baseLocation}>
             <Route path="/dashboard/*" render={() => <Dashboard location={baseLocation} />} />

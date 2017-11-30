@@ -70,7 +70,7 @@ const Tip = styled(Text)`
 @inject("camera")
 @observer
 class CameraView extends React.Component<Props, State> {
-  visibilityListener;
+  visibilityListener: Function;
 
   // -- state -- //
   state = {
@@ -82,9 +82,9 @@ class CameraView extends React.Component<Props, State> {
   // --- methods --- //
   componentDidMount() {
     this.visibilityListener = reaction(
-      () => this.props.camera.show,
+      () => this.props.camera!.show,
       () => {
-        if (this.props.camera.show) this.camera();
+        if (this.props.camera!.show) this.camera();
       }
     );
   }
@@ -103,8 +103,8 @@ class CameraView extends React.Component<Props, State> {
     });
   };
 
-  scaner = value => {
-    if (this.props.camera.show) {
+  scaner = (value: number) => {
+    if (this.props.camera!.show) {
       Animated.timing(this.state.transition, {
         toValue: value,
         duration: 2700,
@@ -118,17 +118,17 @@ class CameraView extends React.Component<Props, State> {
     }
   };
 
-  onBarcode = event => {
+  onBarcode = (event: { data: string; type: string }) => {
     const qrISO = "ORG.ISO.QRCODE";
-    if (event.type.toUpperCase() === qrISO && event.data !== this.props.camera.barcode)
-      this.props.camera.setBarcode(event.data);
+    if (event.type.toUpperCase() === qrISO && event.data !== this.props.camera!.barcode)
+      this.props.camera!.setBarcode(event.data);
   };
 
   // --- render --- //
   render() {
     const { camera, ...props } = this.props;
     const { transition, fade, reverse } = this.state;
-    return camera.show ? (
+    return camera!.show ? (
       <AnimatedCameraOverlay
         style={{ opacity: fade }}
         onBarCodeRead={this.onBarcode}
@@ -162,7 +162,7 @@ class CameraView extends React.Component<Props, State> {
           />
           <Frame source={require("../../assets/images/qr-scanner-frame.png")} />
         </Container>
-        <Cancel text="CANCEL" onPress={() => camera.toggleCamera(false)} />
+        <Cancel text="CANCEL" onPress={() => camera!.toggleCamera(false)} />
       </AnimatedCameraOverlay>
     ) : null;
   }

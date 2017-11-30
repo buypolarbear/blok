@@ -42,14 +42,14 @@ const AddressInput = styled(Input)`
 @inject("camera")
 @observer
 class AddAccountDetails extends React.Component<Props, {}> {
-  barcodeListener;
+  barcodeListener: Function;
 
   // --- methods --- //
   componentDidMount() {
-    this.props.camera.reset();
+    this.props.camera!.reset();
     this.barcodeListener = reaction(
-      () => this.props.camera.barcode,
-      () => this.props.onAddressPaste(this.props.camera.barcode)
+      () => this.props.camera!.barcode,
+      () => this.props.onAddressPaste(this.props.camera!.barcode)
     );
   }
 
@@ -64,7 +64,7 @@ class AddAccountDetails extends React.Component<Props, {}> {
 
   onShowCamera = () => {
     Keyboard.dismiss();
-    this.props.camera.toggleCamera(true);
+    this.props.camera!.toggleCamera(true);
   };
 
   // --- render --- //

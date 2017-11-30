@@ -22,7 +22,7 @@ const Button: any = styled(LinearGradient)`
   align-items: center;
   border-radius: 100;
   shadow-opacity: ${(p: Props) => (p.secondary || p.disabled ? 0.07 : 0.17)};
-  shadow-color: ${(p: Props) => (p.secondary ? darkBlue : pink)};
+  shadow-color: ${p => (p.secondary ? darkBlue : pink)};
   shadow-offset: 0px 6px;
   shadow-radius: 8px;
   elevation: 2;

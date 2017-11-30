@@ -51,14 +51,14 @@ class AccountsView extends React.Component<Props, State> {
   };
 
   // --- methods --- //
-  onAddAccount = () => this.props.router.push("/overlay/add-account", { overlay: true });
+  onAddAccount = () => this.props.router!.push("/overlay/add-account", { overlay: true });
 
   onRemoveAccount = () =>
     this.setState({ isDeleting: !this.state.isDeleting }, () => {
       this.state.isDeleting ? this.animate(0, true) : this.animate(0, false);
     });
 
-  animate = (value, state) =>
+  animate = (value: number, state: boolean) =>
     Animated.timing(this.state.transition, {
       duration: 100,
       toValue: value,
@@ -73,7 +73,7 @@ class AccountsView extends React.Component<Props, State> {
 
   // --- render --- //
   render() {
-    const accounts = [...this.props.btc.accounts, ...this.props.eth.accounts];
+    const accounts = [...this.props.btc!.accounts, ...this.props.eth!.accounts];
     const { isDeleting, transition } = this.state;
     let totalBalance = 0;
     accounts.map(account => (totalBalance += account.balance));
@@ -101,9 +101,9 @@ class AccountsView extends React.Component<Props, State> {
         key="account-list"
         data={accounts}
         keyExtractor={this.generateItemKey}
-        renderItem={({ item }) => (
+        renderItem={({ item }: { item: Accounts.Account }) => (
           <AccountCard
-            onDelete={this.props.accounts.deleteAccount}
+            onDelete={this.props.accounts!.deleteAccount}
             isDeleting={isDeleting}
             account={item}
           />

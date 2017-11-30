@@ -22,7 +22,7 @@ export interface Props {
 }
 
 export interface State {
-  selected: TICKER;
+  selected: TICKER | null;
   name: string;
   address: string;
   step: number;
@@ -86,8 +86,8 @@ class AddAccountView extends React.Component<Props, State> {
   // --- state --- //
   state = {
     selected: null,
-    name: null,
-    address: null,
+    name: "",
+    address: "",
     step: 1,
     buttonTransition: new Animated.Value(1),
     stepTransition: new Animated.Value(1),
@@ -96,12 +96,12 @@ class AddAccountView extends React.Component<Props, State> {
   };
 
   // --- methods --- //
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Props) {
     if (newProps.refresh)
       this.setState({
         selected: null,
-        name: null,
-        address: null,
+        name: "",
+        address: "",
         step: 1,
         animating: false,
         buttonTransition: new Animated.Value(1),
@@ -112,7 +112,7 @@ class AddAccountView extends React.Component<Props, State> {
 
   onCancel = () => {
     Keyboard.dismiss();
-    this.props.router.goBack();
+    this.props.router!.goBack();
   };
 
   onNext = () => {
@@ -124,7 +124,7 @@ class AddAccountView extends React.Component<Props, State> {
 
   onSave = () => {
     Keyboard.dismiss();
-    this.props.accounts.addAccount(this.state.selected, this.state.name, this.state.address);
+    this.props.accounts!.addAccount(this.state.selected, this.state.name, this.state.address);
   };
 
   onSelect = (option: TICKER) => this.setState({ selected: option });
@@ -236,7 +236,7 @@ class AddAccountView extends React.Component<Props, State> {
               />
             )}
         </Animated.View>
-        {this.props.accounts.fetching ? (
+        {this.props.accounts!.fetching ? (
           <Loader size="large" />
         ) : (
           <ButtonContainer

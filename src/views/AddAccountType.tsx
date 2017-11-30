@@ -6,7 +6,7 @@ import Option from "../composites/Option";
 
 // --- types --- //
 export interface Props {
-  selected: TICKER;
+  selected: TICKER | null;
   onSelect: (option: TICKER) => void;
 }
 
@@ -24,7 +24,7 @@ const TypeContainer = styled.View`
 
 class AddAccountType extends React.Component<Props, {}> {
   // --- methods --- //
-  renderOptions = (selected: TICKER, options: TICKER[]) =>
+  renderOptions = (selected: TICKER | null, options: TICKER[]) =>
     options.map(option => (
       <OptionCard
         key={option}

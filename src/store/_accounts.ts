@@ -6,11 +6,15 @@ import { Accounts } from "../services/interfaces";
 
 class AccountsStore implements Accounts.AccountsStore {
   // -- constructor -- //
-  router;
-  btc;
-  eth;
+  router: Accounts.AccountsStore["router"];
+  btc: Accounts.AccountsStore["btc"];
+  eth: Accounts.AccountsStore["eth"];
 
-  constructor(router, btc, eth) {
+  constructor(
+    router: Accounts.AccountsStore["router"],
+    btc: Accounts.AccountsStore["btc"],
+    eth: Accounts.AccountsStore["eth"]
+  ) {
     this.router = router;
     this.btc = btc;
     this.eth = eth;
@@ -20,7 +24,7 @@ class AccountsStore implements Accounts.AccountsStore {
   @observable fetching = false;
 
   // --- actions --- //
-  @action setFetching = state => (this.fetching = state);
+  @action setFetching = (state: boolean) => (this.fetching = state);
 
   // --- methods --- //
   getAccountsFromMemory = async () => {
@@ -36,7 +40,7 @@ class AccountsStore implements Accounts.AccountsStore {
     }
   };
 
-  addAccount = async (type, name, address) => {
+  addAccount = async (type: TICKER | null, name: string, address: string) => {
     try {
       this.setFetching(true);
       switch (type) {
@@ -58,13 +62,13 @@ class AccountsStore implements Accounts.AccountsStore {
     }
   };
 
-  confirmDeleteAccount = (callback, account) =>
+  confirmDeleteAccount = (callback: (address: string) => void, account: Accounts.Account) =>
     Alert.alert("Confirmation", `Are you sure you want to delete "${account.name}"?`, [
-      { text: "Cancel", onPress: null },
+      { text: "Cancel", onPress: () => null },
       { text: "Delete", onPress: () => callback(account.address), style: "destructive" }
     ]);
 
-  deleteAccount = async account => {
+  deleteAccount = async (account: Accounts.Account) => {
     try {
       switch (account.type) {
         case TICKER.BTC:

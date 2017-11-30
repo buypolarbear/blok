@@ -16,7 +16,7 @@ export interface Props {
 }
 
 // --- styling --- //
-const Gradient = styled(GradientBlock)`
+const Gradient: any = styled(GradientBlock)`
   height: 50px;
   align-items: center;
   justify-content: space-between;

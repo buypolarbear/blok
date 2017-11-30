@@ -23,13 +23,14 @@ export interface State {
 }
 
 // --- styling --- //
-const Container = styled(Animated.View)`
+const Container = styled.View`
   padding-top: ${basePaddingTop};
   padding-bottom: ${basePaddingBottom};
   padding-left: ${basePaddingLeft};
   padding-right: ${basePaddingRight};
   width: 100%;
 `;
+const AnimatedContainer = Animated.createAnimatedComponent(Container);
 
 class DashboardRouteAnimation extends React.Component<Props, State> {
   // --- state --- //
@@ -56,7 +57,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     this.runAnimation(1, this.props.pathname, this.props.pathname);
   }
 
-  getOutDirection = (pathname, previousPathname) => {
+  getOutDirection = (pathname: string, previousPathname: string) => {
     if (
       pathname === "/dashboard/settings" ||
       (pathname === "/dashboard/transactions" && previousPathname === "/dashboard/accounts")
@@ -65,7 +66,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     return DIRECTION.right;
   };
 
-  getInDirection = (pathname, previousPathname) => {
+  getInDirection = (pathname: string, previousPathname: string) => {
     if (
       pathname === "/dashboard/settings" ||
       (pathname === "/dashboard/transactions" && previousPathname === "/dashboard/accounts")
@@ -74,7 +75,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     return DIRECTION.left;
   };
 
-  runAnimation = (value, pathname, previousPathname) => {
+  runAnimation = (value: number, pathname: string, previousPathname: string) => {
     Animated.timing(this.state.transition, {
       duration: 200,
       toValue: value,
@@ -82,7 +83,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     }).start(() => this.animationLogic(value, pathname, previousPathname));
   };
 
-  animationLogic = (value, pathname, previousPathname) => {
+  animationLogic = (value: number, pathname: string, previousPathname: string) => {
     if (value === 0) {
       const direction = this.getInDirection(pathname, previousPathname);
       this.setState({ previousView: null, transitionDirection: direction }, () =>
@@ -99,7 +100,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
     const { previousView, transition, pointerEvents, transitionDirection } = this.state;
 
     return (
-      <Container
+      <AnimatedContainer
         pointerEvents={pointerEvents ? "auto" : "none"}
         style={{
           opacity: transition,
@@ -114,7 +115,7 @@ class DashboardRouteAnimation extends React.Component<Props, State> {
         }}
       >
         {previousView || children}
-      </Container>
+      </AnimatedContainer>
     );
   }
 }

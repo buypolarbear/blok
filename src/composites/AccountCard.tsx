@@ -52,12 +52,12 @@ class AccountCard extends React.Component<Props, State> {
   };
 
   // --- methods --- //
-  componentWillReceiveProps(newProps) {
+  componentWillReceiveProps(newProps: Props) {
     const deleting = newProps.isDeleting;
     if (deleting !== this.props.isDeleting) this.animate(0, deleting);
   }
 
-  animate = (value, state) =>
+  animate = (value: number, state: boolean) =>
     Animated.timing(this.state.transition, {
       duration: 100,
       toValue: value,

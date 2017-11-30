@@ -11,7 +11,7 @@ export interface Props {
 // --- styling --- //
 const SIcon = styled.Image`
   width: ${(p: Props) => p.width || "20px"};
-  height: ${(p: Props) => p.height || "20px"};
+  height: ${p => p.height || "20px"};
 `;
 
 class Icon extends React.Component<Props, {}> {

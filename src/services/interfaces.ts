@@ -4,8 +4,8 @@ import * as HISTORY from "history";
 // --- Accounts --- //
 export declare namespace Accounts {
   interface Account {
+    type: TICKER;
     name: string;
-    type: TICKER.BTC;
     address: string;
     balance: number;
   }
@@ -14,11 +14,11 @@ export declare namespace Accounts {
     btc: Bitcoin.BitcoinStore;
     eth: Ethereum.EthereumStore;
     fetching: boolean;
-    addAccount: (type: TICKER, name: string, address: string) => void;
+    addAccount: (type: TICKER | null, name: string, address: string) => void;
     deleteAccount: (account: any) => void;
     setFetching: (state: boolean) => void;
     getAccountsFromMemory: () => void;
-    confirmDeleteAccount: (callback: Function, account: any) => void;
+    confirmDeleteAccount: (callback: (address: string) => void, account: any) => void;
   }
   interface SubAccountsStore {
     addresses: string[];
@@ -35,6 +35,7 @@ export declare namespace Accounts {
 // --- Bitcoin --- //
 export declare namespace Bitcoin {
   interface BitcoinAccount extends Accounts.Account {
+    type: TICKER.BTC;
     sent: number;
     received: number;
   }
@@ -47,7 +48,9 @@ export declare namespace Bitcoin {
 
 // --- Ethereum --- //
 export declare namespace Ethereum {
-  interface EthereumAccount extends Accounts.Account {}
+  interface EthereumAccount extends Accounts.Account {
+    type: TICKER.ETH;
+  }
   interface EthereumStore extends Accounts.SubAccountsStore {
     accounts: EthereumAccount[];
     updateAccount: (account: EthereumAccount) => void;

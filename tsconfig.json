@@ -1,20 +1,21 @@
 {
   "compilerOptions": {
-    "outDir": "./dist",
-    "typeRoots": ["node_modules/@types", "./typings"],
     "target": "ES6",
     "module": "commonjs",
-    "allowJs": true,
-    "jsx": "react",
     "lib": ["es7"],
+    "allowJs": true,
+    "checkJs": true,
+    "jsx": "react-native",
     "removeComments": true,
+    "outDir": "./dist",
+    "typeRoots": ["node_modules/@types", "./typings/index.d.ts"],
     "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "allowSyntheticDefaultImports": true,
-    "alwaysStrict": true
+    "strict": true
   },
   "exclude": ["./node_modules", "./android", "./ios", "./assets", "./__tests__", "./dist"],
   "include": ["./src"]

@@ -6,16 +6,16 @@ import { Bitcoin } from "../services/interfaces";
 
 class BtcStore implements Bitcoin.BitcoinStore {
   // --- store --- //
-  @observable accounts = [];
-  addresses = [];
+  @observable accounts: Bitcoin.BitcoinAccount[] = [];
+  addresses: string[] = [];
 
   // --- actions --- //
-  @action updateAccount = account => this.accounts.push(account);
-  @action updateAddress = address => this.addresses.push(address);
-  @action removeAccount = index => this.accounts.splice(index, 1);
-  @action removeAddress = index => this.addresses.splice(index, 1);
-  @action hydrateAccounts = accounts => (this.accounts = accounts);
-  @action hydrateAddresses = addresses => (this.addresses = addresses);
+  @action updateAccount = (account: Bitcoin.BitcoinAccount) => this.accounts.push(account);
+  @action updateAddress = (address: string) => this.addresses.push(address);
+  @action removeAccount = (index: number) => this.accounts.splice(index, 1);
+  @action removeAddress = (index: number) => this.addresses.splice(index, 1);
+  @action hydrateAccounts = (accounts: Bitcoin.BitcoinAccount[]) => (this.accounts = accounts);
+  @action hydrateAddresses = (addresses: string[]) => (this.addresses = addresses);
 
   // --- methods --- //
   public getStoreFromMemory = async () => {
@@ -27,7 +27,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
     }
   };
 
-  public addAccount = async (name, address) => {
+  public addAccount = async (name: string, address: string) => {
     if (this.addresses.includes(address)) {
       throw new Error(`BTC address already exists ${address}`);
     } else {
@@ -51,7 +51,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
     }
   };
 
-  deleteAccount = async address => {
+  deleteAccount = async (address: string) => {
     const index = this.addresses.indexOf(address);
     if (index > -1) {
       this.removeAccount(index);

@@ -4,18 +4,18 @@ import { Camera } from "../services/interfaces";
 class CameraStore implements Camera.CameraStore {
   // --- store --- //
   @observable show = false;
-  @observable barcode = null;
+  @observable barcode = "";
 
   // --- actions --- //
-  @action toggleCamera = state => (this.show = state);
+  @action toggleCamera = (state: boolean) => (this.show = state);
 
   @action
-  setBarcode = barcode => {
+  setBarcode = (barcode: string) => {
     this.barcode = barcode;
     this.show = false;
   };
 
-  @action reset = () => (this.barcode = null);
+  @action reset = () => (this.barcode = "");
 
   // --- methods --- //
 }

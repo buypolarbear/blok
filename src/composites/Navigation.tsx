@@ -31,11 +31,11 @@ const Icon = styled(TouchableIcon)`
 @observer
 class Navigation extends React.Component<Props, {}> {
   // --- methods --- //
-  onRouteChange = (route: string) => this.props.router.push(route);
+  onRouteChange = (route: string) => this.props.router!.push(route);
 
   // --- render --- //
   render() {
-    const activeRoute = this.props.router.location.pathname;
+    const activeRoute = this.props.router!.location.pathname;
     const accountsIcon =
       activeRoute === "/dashboard/accounts"
         ? require("../../assets/images/icon-block-active.png")
