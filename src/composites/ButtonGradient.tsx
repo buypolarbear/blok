@@ -12,17 +12,18 @@ export interface Props {
   text: string;
   disabled?: boolean;
   secondary?: boolean;
+  large?: boolean;
 }
 
 // --- styling --- //
 const Button: any = styled(LinearGradient)`
-  width: 110px;
-  height: 40px;
   justify-content: center;
   align-items: center;
   border-radius: 100;
   shadow-opacity: ${(p: Props) => (p.secondary || p.disabled ? 0.07 : 0.17)};
   shadow-color: ${p => (p.secondary ? darkBlue : pink)};
+  width: ${p => (p.large ? "160px" : "110px")};
+  height: 40px;
   shadow-offset: 0px 6px;
   shadow-radius: 8px;
   elevation: 2;
@@ -31,7 +32,7 @@ const Button: any = styled(LinearGradient)`
 class ButtonGradient extends React.Component<Props, {}> {
   // --- render --- //
   render() {
-    const { text, onPress, disabled, secondary, ...props } = this.props;
+    const { text, onPress, disabled, secondary, large, ...props } = this.props;
     let gradient = [];
     if (disabled) gradient = [grey, lightGrey];
     else if (secondary) gradient = [brightPurple, darkBlue];
@@ -44,6 +45,7 @@ class ButtonGradient extends React.Component<Props, {}> {
           colors={gradient}
           disabled={disabled}
           secondary={secondary}
+          large={large}
         >
           <Text color={disabled ? COLOR.darkGrey : COLOR.darkPurple} size={SIZE.small}>
             {text.toUpperCase()}

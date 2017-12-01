@@ -2,8 +2,7 @@ import * as React from "react";
 import styled from "styled-components/native";
 import Icon from "../components/Icon";
 import ButtonGradient from "./ButtonGradient";
-import Text from "../components/Text";
-import { SIZE } from "../services/enums";
+import { height } from "../style/dimension";
 
 // --- types --- //
 export interface Props {
@@ -13,13 +12,16 @@ export interface Props {
 // --- styling --- //
 const Container = styled.View`
   width: 100%;
-  margin-top: 20px;
   align-items: center;
+  height: 223px;
+  position: absolute;
+  top: ${height / 2}px;
+  margin-top: -111.5px;
+  align-self: center;
 `;
 
-const ActionCall = styled(Text)`
-  margin-top: 10px;
-  margin-bottom: 40px;
+const Action = styled(ButtonGradient)`
+  margin-top: 40px;
 `;
 
 class PlaceholderAccounts extends React.Component<Props, State> {
@@ -33,8 +35,7 @@ class PlaceholderAccounts extends React.Component<Props, State> {
           width="220px"
           height="143px"
         />
-        <ActionCall size={SIZE.small}>No accounts created yet</ActionCall>
-        <ButtonGradient text="CREATE" onPress={onAddAccount} />
+        <Action text="ADD ACCOUNT" onPress={onAddAccount} large />
       </Container>
     );
   }
