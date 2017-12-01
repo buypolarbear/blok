@@ -38,13 +38,12 @@ class AccountsStore implements Accounts.AccountsStore {
       this.setFetching(true);
       await this.btc.getStoreFromMemory();
       await this.eth.getStoreFromMemory();
+      const { data: markets } = await apiGetExchangeRate(this.exchange);
       if (!!this.btc.accounts.length) {
-        const { data: btcData } = await apiGetExchangeRate("bitcoin", this.exchange);
-        this.updateBtcPrice(Number(getPrice(btcData[0], this.exchange)));
+        this.updateBtcPrice(Number(getPrice(markets, this.exchange, TICKER.BTC)));
       }
       if (!!this.eth.accounts.length) {
-        const { data: ethData } = await apiGetExchangeRate("ethereum", this.exchange);
-        this.updateEthPrice(Number(getPrice(ethData[0], this.exchange)));
+        this.updateEthPrice(Number(getPrice(markets, this.exchange, TICKER.ETH)));
       }
       this.setFetching(false);
     } catch (e) {

@@ -7,7 +7,7 @@ import AccountsList from "../composites/AccountsList";
 import Text from "../components/Text";
 import ActionsCancelDelete from "../composites/ActionsCancelDelete";
 import ActionsAddRemoveAccount from "../composites/ActionsAddRemoveAccount";
-import { COLOR, SIZE } from "../services/enums";
+import { COLOR, SIZE, TICKER } from "../services/enums";
 import { formatMoney } from "../services/utilities";
 import { Router, Bitcoin, Ethereum, Accounts } from "../services/interfaces";
 
@@ -82,12 +82,21 @@ class AccountsView extends React.Component<Props, State> {
 
   // --- render --- //
   render() {
-    const { btc, eth } = this.props;
+    const { btc, eth, accounts: acc } = this.props;
     const { isDeleting, deleteActions, transition } = this.state;
     const accounts = [...btc!.accounts, ...eth!.accounts];
     const hasAccounts = accounts.length > 0;
     let totalBalance = 0;
-    accounts.map(account => (totalBalance += account.balance));
+    accounts.map(account => {
+      switch (account.type) {
+        case TICKER.BTC:
+          return (totalBalance += account.balance * acc!.btcPrice);
+        case TICKER.ETH:
+          return (totalBalance += account.balance * acc!.ethPrice);
+        default:
+          return totalBalance;
+      }
+    });
     const actions = deleteActions ? (
       <ActionsCancelDelete onPress={this.onRemoveAccount} />
     ) : (
@@ -100,10 +109,10 @@ class AccountsView extends React.Component<Props, State> {
       <AccountsList
         key="account-list"
         accounts={accounts}
-        onDelete={this.props.accounts!.deleteAccount}
+        onDelete={acc!.deleteAccount}
         isDeleting={isDeleting}
-        btcPrice={this.props.accounts!.btcPrice}
-        ethPrice={this.props.accounts!.ethPrice}
+        btcPrice={acc!.btcPrice}
+        ethPrice={acc!.ethPrice}
       />
     ) : (
       <PlaceholderAccounts
@@ -126,7 +135,7 @@ class AccountsView extends React.Component<Props, State> {
           Total Balance
         </Text>
         <Text size={SIZE.big} color={COLOR.lightGrey} shadow>
-          ${formatMoney(totalBalance * /*TODO currency exchange for alll values*/ 7000)}
+          ${formatMoney(totalBalance)}
         </Text>
       </BalanceView>,
       view

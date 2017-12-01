@@ -60,4 +60,8 @@ export const alertError = (message: string) => Alert.alert("Error", message);
  * @param data
  * @param exchange
  */
-export const getPrice = (data: any, exchange: EXCHANGE) => data[`price_${exchange.toLowerCase()}`];
+export const getPrice = (data: any, exchange: EXCHANGE, ticker: TICKER) => {
+  const filter = (element: any) => element.symbol === ticker;
+  if (data.find(filter)) return data.find(filter)[`price_${exchange.toLocaleLowerCase()}`];
+  return 0;
+};

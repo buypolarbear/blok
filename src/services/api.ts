@@ -7,8 +7,8 @@ const marketApi = axios.create({
   timeout: 1000
 });
 
-export const apiGetExchangeRate = (crypto: string, currency: string) =>
-  marketApi.get(`/${crypto}/?convert=${currency}`);
+export const apiGetExchangeRate = (currency: string) =>
+  marketApi.get(`?convert=${currency}&limit=50`);
 
 // --- BTC API --------------------------------------------------------------------------- //
 // https://blockchain.info/api/blockchain_api
