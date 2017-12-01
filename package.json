@@ -24,7 +24,7 @@
     "react-native-camera": "0.12.0",
     "react-native-linear-gradient": "2.3.0",
     "react-router-native": "4.2.0",
-    "styled-components": "2.2.3"
+    "styled-components": "2.2.4"
   },
   "devDependencies": {
     "@types/axios": "0.14.0",
@@ -47,6 +47,8 @@
     "preset": "react-native"
   },
   "rnpm": {
-    "assets": ["./assets/fonts"]
+    "assets": [
+      "./assets/fonts"
+    ]
   }
 }
