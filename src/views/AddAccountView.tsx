@@ -71,7 +71,7 @@ const Steps = styled.View`
 
 const StepsSeparator = styled.View`
   height: 1px;
-  width: 23.5px;
+  width: 30px;
   background-color: ${white};
 `;
 
@@ -193,7 +193,7 @@ class AddAccountView extends React.Component<Props, State> {
             }}
           >
             <Title shadow color={COLOR.white}>
-              Add Account
+              Type
             </Title>
             <StepsSeparator />
           </StepsAnimatin>
@@ -257,7 +257,7 @@ class AddAccountView extends React.Component<Props, State> {
               <ButtonGradient text="NEXT" onPress={this.onNext} disabled={!selected} />
             ) : (
               <ButtonGradient
-                text="CREATE"
+                text="SAVE"
                 onPress={this.onSave}
                 disabled={!selected || !name || !address || step !== 2}
               />

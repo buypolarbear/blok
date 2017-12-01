@@ -97,7 +97,7 @@ class CameraView extends React.Component<Props, State> {
         {...props}
       >
         <Tip shadow color={COLOR.white}>
-          Point camera at QR code
+          Point Camera at a QR Code
         </Tip>
         <Cancel text="CANCEL" onPress={() => camera!.toggleCamera(false)} />
       </AnimatedCameraOverlay>

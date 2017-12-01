@@ -5,7 +5,6 @@ import { inject, observer } from "mobx-react/native";
 import PlaceholderAccounts from "../composites/PlaceholderAccounts";
 import AccountsList from "../composites/AccountsList";
 import Text from "../components/Text";
-import AccountCard from "../composites/AccountCard";
 import ActionsCancelDelete from "../composites/ActionsCancelDelete";
 import ActionsAddRemoveAccount from "../composites/ActionsAddRemoveAccount";
 import { COLOR, SIZE } from "../services/enums";
@@ -52,7 +51,11 @@ class AccountsView extends React.Component<Props, State> {
   };
 
   // --- methods --- //
-  onAddAccount = () => this.props.router!.push("/overlay/add-account", { overlay: true });
+  onAddAccount = () => {
+    if (this.props.router!.location.pathname !== "/overlay/add-account") {
+      this.props.router!.push("/overlay/add-account", { overlay: true });
+    }
+  };
 
   onRemoveAccount = () =>
     this.setState({ isDeleting: !this.state.isDeleting }, () => {
