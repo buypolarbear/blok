@@ -83,10 +83,10 @@ class AccountsView extends React.Component<Props, State> {
   // --- render --- //
   render() {
     const { btc, eth } = this.props;
-    const accounts = [...btc!.accounts, ...eth!.accounts];
     const { isDeleting, deleteActions, transition } = this.state;
-    let totalBalance = 0;
+    const accounts = [...btc!.accounts, ...eth!.accounts];
     const hasAccounts = accounts.length > 0;
+    let totalBalance = 0;
     accounts.map(account => (totalBalance += account.balance));
     const actions = deleteActions ? (
       <ActionsCancelDelete onPress={this.onRemoveAccount} />
@@ -102,6 +102,8 @@ class AccountsView extends React.Component<Props, State> {
         accounts={accounts}
         onDelete={this.props.accounts!.deleteAccount}
         isDeleting={isDeleting}
+        btcPrice={this.props.accounts!.btcPrice}
+        ethPrice={this.props.accounts!.ethPrice}
       />
     ) : (
       <PlaceholderAccounts

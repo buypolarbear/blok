@@ -1,4 +1,4 @@
-import { TICKER } from "./enums";
+import { TICKER, EXCHANGE } from "./enums";
 import * as HISTORY from "history";
 
 // --- Accounts --- //
@@ -14,6 +14,11 @@ export declare namespace Accounts {
     btc: Bitcoin.BitcoinStore;
     eth: Ethereum.EthereumStore;
     fetching: boolean;
+    exchange: EXCHANGE;
+    btcPrice: number;
+    ethPrice: number;
+    updateBtcPrice: (price: number) => void;
+    updateEthPrice: (price: number) => void;
     addAccount: (type: TICKER | null, name: string, address: string) => void;
     deleteAccount: (account: any) => void;
     setFetching: (state: boolean) => void;

@@ -1,5 +1,5 @@
 import { Dimensions, Platform, Alert } from "react-native";
-import { TICKER } from "./enums";
+import { TICKER, EXCHANGE } from "./enums";
 
 /**
  * Returns true if iPhone X is detected
@@ -54,3 +54,10 @@ export const formatMoney = (money: number): string => money.toFixed(2);
  * @param message
  */
 export const alertError = (message: string) => Alert.alert("Error", message);
+
+/**
+ * Return correct exchange value
+ * @param data
+ * @param exchange
+ */
+export const getPrice = (data: any, exchange: EXCHANGE) => data[`price_${exchange.toLowerCase()}`];

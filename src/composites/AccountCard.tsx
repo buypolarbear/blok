@@ -13,6 +13,8 @@ export interface Props {
   account: any;
   isDeleting: boolean;
   onDelete: (account: any) => void;
+  btcPrice: number;
+  ethPrice: number;
 }
 
 export interface State {
@@ -75,7 +77,7 @@ class AccountCard extends React.Component<Props, State> {
 
   // --- render --- //
   render() {
-    const { account, onDelete } = this.props;
+    const { account, onDelete, btcPrice, ethPrice } = this.props;
     const { showDelete, transition } = this.state;
     const actionStyle = {
       transform: [
@@ -88,15 +90,18 @@ class AccountCard extends React.Component<Props, State> {
       ]
     };
     let icon = null;
+    let price = 0;
     switch (account.type) {
       case TICKER.BTC:
         icon = require("../../assets/images/icon-btc.png");
+        price = btcPrice;
         break;
       case TICKER.LTC:
         icon = require("../../assets/images/icon-ltc.png");
         break;
       case TICKER.ETH:
         icon = require("../../assets/images/icon-eth.png");
+        price = ethPrice;
         break;
       case TICKER.XRP:
         icon = require("../../assets/images/icon-xrp.png");
@@ -118,7 +123,7 @@ class AccountCard extends React.Component<Props, State> {
             account.type
           )}`}</Text>
           <Text size={SIZE.small} color={COLOR.grey}>
-            ${formatMoney(account.balance * /*TODO currency exchange*/ 7000)}
+            ${formatMoney(account.balance * price)}
           </Text>
         </Balance>
         {showDelete ? (

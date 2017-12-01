@@ -1,6 +1,17 @@
 import axios from "axios";
 
+// -- MARKET API ------------------------------------------------------------------ //
+// https://coinmarketcap.com/api/
+const marketApi = axios.create({
+  baseURL: "https://api.coinmarketcap.com/v1/ticker",
+  timeout: 1000
+});
+
+export const apiGetExchangeRate = (crypto: string, currency: string) =>
+  marketApi.get(`/${crypto}/?convert=${currency}`);
+
 // --- BTC API --------------------------------------------------------------------------- //
+// https://blockchain.info/api/blockchain_api
 const btcApi = axios.create({ baseURL: "https://blockchain.info", timeout: 10000 });
 
 /**
@@ -17,6 +28,7 @@ export const apiGetBtcAddresses = (addresses: string) =>
   btcApi.get(`/multiaddr?active=${addresses}`);
 
 // --- ETH API --------------------------------------------------------------------------- //
+// https://etherscan.io/apis
 const ethApiKey = `&apikey=685EHER84WHHDE119XGAQ33DC14HZ2TSY6`;
 const ethApi = axios.create({
   baseURL: `https://api.etherscan.io`,
@@ -31,4 +43,5 @@ export const apiGetEthAddress = (address: string) =>
   ethApi.get(`/api?module=account&action=balance&address=${address}${ethApiKey}`);
 
 // --- LTC API --------------------------------------------------------------------------- //
+// https://chainz.cryptoid.info/api.dws
 // const ltcApiKey = "754f51d0021c";

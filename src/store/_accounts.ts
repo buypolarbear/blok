@@ -1,8 +1,9 @@
 import { observable, action } from "mobx";
 import { Alert } from "react-native";
-import { TICKER } from "../services/enums";
-import { alertError } from "../services/utilities";
+import { TICKER, EXCHANGE } from "../services/enums";
+import { alertError, getPrice } from "../services/utilities";
 import { Accounts } from "../services/interfaces";
+import { apiGetExchangeRate } from "../services/api";
 
 class AccountsStore implements Accounts.AccountsStore {
   // -- constructor -- //
@@ -22,9 +23,14 @@ class AccountsStore implements Accounts.AccountsStore {
 
   // --- store --- //
   @observable fetching = false;
+  @observable exchange = EXCHANGE.USD;
+  @observable btcPrice = 0;
+  @observable ethPrice = 0;
 
   // --- actions --- //
   @action setFetching = (state: boolean) => (this.fetching = state);
+  @action updateBtcPrice = (price: number) => (this.btcPrice = price);
+  @action updateEthPrice = (price: number) => (this.ethPrice = price);
 
   // --- methods --- //
   getAccountsFromMemory = async () => {
@@ -32,6 +38,14 @@ class AccountsStore implements Accounts.AccountsStore {
       this.setFetching(true);
       await this.btc.getStoreFromMemory();
       await this.eth.getStoreFromMemory();
+      if (!!this.btc.accounts.length) {
+        const { data: btcData } = await apiGetExchangeRate("bitcoin", this.exchange);
+        this.updateBtcPrice(Number(getPrice(btcData[0], this.exchange)));
+      }
+      if (!!this.eth.accounts.length) {
+        const { data: ethData } = await apiGetExchangeRate("ethereum", this.exchange);
+        this.updateEthPrice(Number(getPrice(ethData[0], this.exchange)));
+      }
       this.setFetching(false);
     } catch (e) {
       this.setFetching(false);

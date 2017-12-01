@@ -28,4 +28,39 @@ const enum COLOR {
   darkGrey = "DARKGREY"
 }
 
-export { DIRECTION, TICKER, SIZE, COLOR };
+const enum EXCHANGE {
+  AUD = "AUD",
+  BRL = "BRL",
+  CAD = "CAD",
+  CHF = "CHF",
+  CLP = "CLP",
+  CNY = "CNY",
+  CZK = "CZK",
+  DKK = "DKK",
+  EUR = "EUR",
+  GBP = "GBP",
+  HKD = "HKD",
+  HUF = "HUF",
+  IDR = "IDR",
+  ILS = "ILS",
+  INR = "INR",
+  JPY = "JPY",
+  KRW = "KRW",
+  MXN = "MXN",
+  MYR = "MYR",
+  NOK = "NOK",
+  NZD = "NZD",
+  PHP = "PHP",
+  PLR = "PKR",
+  PLN = "PLN",
+  RUB = "RUB",
+  SEK = "SEK",
+  SGD = "SGD",
+  THB = "THB",
+  TRY = "TRY",
+  TWD = "TWD",
+  ZAR = "ZAR",
+  USD = "USD"
+}
+
+export { DIRECTION, TICKER, SIZE, COLOR, EXCHANGE };
