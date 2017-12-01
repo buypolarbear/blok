@@ -73,6 +73,12 @@ class AccountsView extends React.Component<Props, State> {
       });
     });
 
+  onReset = () =>
+    this.setState({
+      isDeleting: false,
+      deleteActions: false
+    });
+
   // --- render --- //
   render() {
     const { btc, eth } = this.props;
@@ -97,7 +103,11 @@ class AccountsView extends React.Component<Props, State> {
         isDeleting={isDeleting}
       />
     ) : (
-      <PlaceholderAccounts onAddAccount={this.onAddAccount} key="placeholder-accounts" />
+      <PlaceholderAccounts
+        onReset={this.onReset}
+        onAddAccount={this.onAddAccount}
+        key="placeholder-accounts"
+      />
     );
 
     return [

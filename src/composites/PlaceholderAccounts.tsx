@@ -7,6 +7,7 @@ import { height } from "../style/dimension";
 // --- types --- //
 export interface Props {
   onAddAccount: () => void;
+  onReset: () => void;
 }
 
 // --- styling --- //
@@ -24,7 +25,12 @@ const Action = styled(ButtonGradient)`
   margin-top: 40px;
 `;
 
-class PlaceholderAccounts extends React.Component<Props, State> {
+class PlaceholderAccounts extends React.Component<Props, {}> {
+  // --- methods --- //
+  componentDidMount() {
+    this.props.onReset();
+  }
+
   // --- render --- //
   render() {
     const { onAddAccount, ...props } = this.props;
