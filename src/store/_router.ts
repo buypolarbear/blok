@@ -14,27 +14,27 @@ class RouterStore implements Router.RouterStore {
   @action updateLocation = () => (this.location = this.history.location);
 
   // --- methods --- //
-  public push = (pathname: string, state: any) => {
+  push = (pathname: string, state: any) => {
     this.history.push(pathname, state);
     this.updateLocation();
   };
 
-  public replace = (pathname: string) => {
+  replace = (pathname: string) => {
     this.history.replace(pathname);
     this.updateLocation();
   };
 
-  public go = (number: number) => {
+  go = (number: number) => {
     this.history.go(number);
     this.updateLocation();
   };
 
-  public goBack = () => {
+  goBack = () => {
     this.history.goBack();
     this.updateLocation();
   };
 
-  public goForward = () => {
+  goForward = () => {
     this.history.goForward();
     this.updateLocation();
   };

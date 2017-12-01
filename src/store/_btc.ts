@@ -18,7 +18,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
   @action hydrateAddresses = (addresses: string[]) => (this.addresses = addresses);
 
   // --- methods --- //
-  public getStoreFromMemory = async () => {
+  getStoreFromMemory = async () => {
     const data = await AsyncStorage.getItem("@blok:BtcStore");
     const json = JSON.parse(data) || null;
     if (json && json.addresses && json.accounts) {
@@ -27,7 +27,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
     }
   };
 
-  public addAccount = async (name: string, address: string) => {
+  addAccount = async (name: string, address: string) => {
     if (this.addresses.includes(address)) {
       throw new Error(`BTC address already exists ${address}`);
     } else {
@@ -36,9 +36,9 @@ class BtcStore implements Bitcoin.BitcoinStore {
         name,
         address,
         type: TICKER.BTC,
-        balance: data.final_balance / 100000000,
-        sent: data.total_sent / 100000000,
-        received: data.total_received / 100000000
+        balance: Number(data.final_balance) / 100000000,
+        sent: Number(data.total_sent) / 100000000,
+        received: Number(data.total_received) / 100000000
       });
       this.updateAddress(address);
       await AsyncStorage.setItem(

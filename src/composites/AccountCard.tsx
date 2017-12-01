@@ -57,6 +57,10 @@ class AccountCard extends React.Component<Props, State> {
     if (deleting !== this.props.isDeleting) this.animate(0, deleting);
   }
 
+  componentDidMount() {
+    if (this.props.isDeleting) this.setState({ showDelete: true });
+  }
+
   animate = (value: number, state: boolean) =>
     Animated.timing(this.state.transition, {
       duration: 100,

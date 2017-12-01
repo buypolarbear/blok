@@ -57,10 +57,11 @@ class AccountsView extends React.Component<Props, State> {
     }
   };
 
-  onRemoveAccount = () =>
+  onRemoveAccount = () => {
     this.setState({ isDeleting: !this.state.isDeleting }, () => {
       this.state.isDeleting ? this.animate(0, true) : this.animate(0, false);
     });
+  };
 
   animate = (value: number, state: boolean) =>
     Animated.timing(this.state.transition, {

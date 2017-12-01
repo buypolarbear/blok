@@ -18,7 +18,7 @@ class EthStore implements Ethereum.EthereumStore {
   @action hydrateAddresses = (addresses: string[]) => (this.addresses = addresses);
 
   // --- methods --- //
-  public getStoreFromMemory = async () => {
+  getStoreFromMemory = async () => {
     const data = await AsyncStorage.getItem("@blok:EthStore");
     const json = JSON.parse(data) || null;
     if (json && json.addresses && json.accounts) {
@@ -27,7 +27,7 @@ class EthStore implements Ethereum.EthereumStore {
     }
   };
 
-  public addAccount = async (name: string, address: string) => {
+  addAccount = async (name: string, address: string) => {
     if (this.addresses.includes(address)) {
       throw new Error(`ETH address already exists ${address}`);
     } else {
