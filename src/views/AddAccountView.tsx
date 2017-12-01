@@ -237,7 +237,7 @@ class AddAccountView extends React.Component<Props, State> {
             )}
         </Animated.View>
         {this.props.accounts!.fetching ? (
-          <Loader size="large" />
+          <Loader size="large" color={white} />
         ) : (
           <ButtonContainer
             style={{

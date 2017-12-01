@@ -1,3 +1,4 @@
+const androidStatusbar = "#060449";
 const green = "#60D9C8";
 const red = "#FF3B30";
 const salmon = "#F96193";
@@ -29,5 +30,6 @@ export {
   darkBlue,
   blue,
   pink,
-  darkGrey
+  darkGrey,
+  androidStatusbar
 };
