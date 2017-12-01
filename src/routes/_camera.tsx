@@ -6,7 +6,6 @@ import styled from "styled-components/native";
 import Camera from "react-native-camera";
 import ButtonOpaque from "../composites/ButtonOpaque";
 import { isIphoneX } from "../services/utilities";
-import { width } from "../style/dimension";
 import Text from "../components/Text";
 import { COLOR } from "../services/enums";
 import { Camera as Cameras } from "../services/interfaces";
@@ -18,8 +17,6 @@ export interface Props {
 
 export interface State {
   transition: Animated.Value;
-  fade: Animated.Value;
-  reverse: boolean;
 }
 
 // --- styles --- //
@@ -42,25 +39,6 @@ const Cancel = styled(ButtonOpaque)`
   align-self: center;
 `;
 
-const Frame = styled.Image`
-  width: ${width * 0.8}px;
-  height: ${width * 0.8}px;
-`;
-
-const Laser = styled.Image`
-  width: ${width * 0.86}px;
-  height: ${width * 0.86 * 0.3}px;
-  position: absolute;
-  top: ${(p: { reverse: boolean }) => (p.reverse ? -width * 0.86 * 0.03 : -width * 0.86 * 0.27)}px;
-`;
-
-const AnimatedLaser = Animated.createAnimatedComponent(Laser);
-
-const Container = styled.View`
-  position: relative;
-  align-items: center;
-`;
-
 const Tip = styled(Text)`
   position: absolute;
   top: ${isIphoneX() ? "60px" : "40px"};
@@ -74,9 +52,7 @@ class CameraView extends React.Component<Props, State> {
 
   // -- state -- //
   state = {
-    transition: new Animated.Value(0),
-    fade: new Animated.Value(0),
-    reverse: false
+    transition: new Animated.Value(0)
   };
 
   // --- methods --- //
@@ -94,28 +70,13 @@ class CameraView extends React.Component<Props, State> {
   }
 
   camera = () => {
-    this.setState({ transition: new Animated.Value(0), fade: new Animated.Value(0) }, () => {
-      Animated.timing(this.state.fade, {
+    this.setState({ transition: new Animated.Value(0) }, () => {
+      Animated.timing(this.state.transition, {
         toValue: 1,
         duration: 300,
         useNativeDriver: true
-      }).start(() => this.scaner(1));
+      }).start();
     });
-  };
-
-  scaner = (value: number) => {
-    if (this.props.camera!.show) {
-      Animated.timing(this.state.transition, {
-        toValue: value,
-        duration: 2700,
-        delay: 300,
-        useNativeDriver: true
-      }).start(() => {
-        this.setState({ reverse: value === 1 ? true : false }, () =>
-          this.scaner(value === 1 ? 0 : 1)
-        );
-      });
-    }
   };
 
   onBarcode = (event: { data: string; type: string }) => {
@@ -127,10 +88,10 @@ class CameraView extends React.Component<Props, State> {
   // --- render --- //
   render() {
     const { camera, ...props } = this.props;
-    const { transition, fade, reverse } = this.state;
+    const { transition } = this.state;
     return camera!.show ? (
       <AnimatedCameraOverlay
-        style={{ opacity: fade }}
+        style={{ opacity: transition }}
         onBarCodeRead={this.onBarcode}
         aspect={Camera.constants.Aspect.fill}
         {...props}
@@ -138,30 +99,6 @@ class CameraView extends React.Component<Props, State> {
         <Tip shadow color={COLOR.white}>
           Point camera at QR code
         </Tip>
-        <Container>
-          <AnimatedLaser
-            source={require("../../assets/images/qr-scanner-laser.png")}
-            reverse={reverse}
-            style={{
-              transform: [
-                {
-                  translateY: transition.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0, width * 0.82]
-                  })
-                },
-                {
-                  rotate: reverse ? "180deg" : "0deg"
-                }
-              ],
-              opacity: transition.interpolate({
-                inputRange: [0, 0.3, 0.6, 1],
-                outputRange: [0, 1, 1, 0]
-              })
-            }}
-          />
-          <Frame source={require("../../assets/images/qr-scanner-frame.png")} />
-        </Container>
         <Cancel text="CANCEL" onPress={() => camera!.toggleCamera(false)} />
       </AnimatedCameraOverlay>
     ) : null;
