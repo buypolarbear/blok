@@ -33,6 +33,8 @@ export declare namespace Accounts {
     setFetching: (state: boolean) => void;
     getAccountsFromMemory: () => void;
     confirmDeleteAccount: (callback: (address: string) => void, account: any) => void;
+    setOnDevice: (lastPriceUpdate: number) => Promise<any>;
+    getFromDevice: () => Promise<any>;
   }
   interface SubAccountsStore {
     addresses: string[];
@@ -43,6 +45,7 @@ export declare namespace Accounts {
     updateAddress: (address: string) => void;
     removeAccount: (index: number) => void;
     removeAddress: (index: number) => void;
+    getFromDevice: () => Object | null;
   }
 }
 
@@ -57,6 +60,7 @@ export declare namespace Bitcoin {
     accounts: BitcoinAccount[];
     updateAccount: (account: BitcoinAccount) => void;
     hydrateAccounts: (accounts: BitcoinAccount[]) => void;
+    setOnDevice: (accounts: BitcoinAccount[], addresses: string[]) => void;
   }
 }
 
@@ -69,6 +73,7 @@ export declare namespace Ethereum {
     accounts: EthereumAccount[];
     updateAccount: (account: EthereumAccount) => void;
     hydrateAccounts: (accounts: EthereumAccount[]) => void;
+    setOnDevice: (accounts: EthereumAccount[], addresses: string[]) => void;
   }
 }
 

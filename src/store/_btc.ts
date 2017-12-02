@@ -19,11 +19,10 @@ class BtcStore implements Bitcoin.BitcoinStore {
 
   // --- methods --- //
   getStoreFromMemory = async () => {
-    const data = await AsyncStorage.getItem("@blok:BtcStore");
-    const json = JSON.parse(data) || null;
-    if (json && json.addresses && json.accounts) {
-      this.hydrateAccounts(json.accounts);
-      this.hydrateAddresses(json.addresses);
+    const data = await this.getFromDevice();
+    if (data && data.addresses && data.accounts) {
+      this.hydrateAccounts(data.accounts);
+      this.hydrateAddresses(data.addresses);
     }
   };
 
@@ -41,13 +40,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
         received: Number(data.total_received) / 100000000
       });
       this.updateAddress(address);
-      await AsyncStorage.setItem(
-        "@blok:BtcStore",
-        JSON.stringify({
-          accounts: this.accounts,
-          addresses: this.addresses
-        })
-      );
+      await this.setOnDevice(this.accounts, this.addresses);
     }
   };
 
@@ -56,16 +49,20 @@ class BtcStore implements Bitcoin.BitcoinStore {
     if (index > -1) {
       this.removeAccount(index);
       this.removeAddress(index);
-      await AsyncStorage.setItem(
-        "@blok:BtcStore",
-        JSON.stringify({
-          accounts: this.accounts,
-          addresses: this.addresses
-        })
-      );
+      await this.setOnDevice(this.accounts, this.addresses);
     } else {
       throw new Error("Account specified for deletion doesn't exist");
     }
+  };
+
+  setOnDevice = async (accounts: Bitcoin.BitcoinAccount[], addresses: string[]) => {
+    const data = JSON.stringify({ accounts, addresses });
+    await AsyncStorage.setItem("@blok:BtcStore", data);
+  };
+
+  getFromDevice = async () => {
+    const data = await AsyncStorage.getItem("@blok:BtcStore");
+    return JSON.parse(data) || null;
   };
 }
 

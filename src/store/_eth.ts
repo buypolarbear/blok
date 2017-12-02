@@ -19,11 +19,10 @@ class EthStore implements Ethereum.EthereumStore {
 
   // --- methods --- //
   getStoreFromMemory = async () => {
-    const data = await AsyncStorage.getItem("@blok:EthStore");
-    const json = JSON.parse(data) || null;
-    if (json && json.addresses && json.accounts) {
-      this.hydrateAccounts(json.accounts);
-      this.hydrateAddresses(json.addresses);
+    const data = await this.getFromDevice();
+    if (data && data.addresses && data.accounts) {
+      this.hydrateAccounts(data.accounts);
+      this.hydrateAddresses(data.addresses);
     }
   };
 
@@ -42,13 +41,7 @@ class EthStore implements Ethereum.EthereumStore {
           balance: Number(data.result) / 1000000000000000000
         });
         this.updateAddress(address);
-        await AsyncStorage.setItem(
-          "@blok:EthStore",
-          JSON.stringify({
-            accounts: this.accounts,
-            addresses: this.addresses
-          })
-        );
+        await this.setOnDevice(this.accounts, this.addresses);
       }
     }
   };
@@ -58,16 +51,20 @@ class EthStore implements Ethereum.EthereumStore {
     if (index > -1) {
       this.removeAccount(index);
       this.removeAddress(index);
-      await AsyncStorage.setItem(
-        "@blok:EthStore",
-        JSON.stringify({
-          accounts: this.accounts,
-          addresses: this.addresses
-        })
-      );
+      await this.setOnDevice(this.accounts, this.addresses);
     } else {
       throw new Error("Account specified for deletion doesn't exist");
     }
+  };
+
+  setOnDevice = async (accounts: Ethereum.EthereumAccount[], addresses: string[]) => {
+    const data = JSON.stringify({ accounts, addresses });
+    await AsyncStorage.setItem("@blok:EthStore", data);
+  };
+
+  getFromDevice = async () => {
+    const data = await AsyncStorage.getItem("@blok:EthStore");
+    return JSON.parse(data) || null;
   };
 }
 

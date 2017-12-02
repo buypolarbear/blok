@@ -1,5 +1,5 @@
 import { observable, action } from "mobx";
-import { Alert } from "react-native";
+import { Alert, AsyncStorage } from "react-native";
 import { TICKER, EXCHANGE } from "../services/enums";
 import { alertError, getPrice } from "../services/utilities";
 import { Accounts } from "../services/interfaces";
@@ -56,17 +56,22 @@ class AccountsStore implements Accounts.AccountsStore {
   };
 
   updatePrices = async () => {
-    try {
-      const { data: markets } = await apiGetExchangeRate(this.exchange);
-      this.updateBtcPrice(Number(getPrice(markets, this.exchange, TICKER.BTC)));
-      this.updateEthPrice(Number(getPrice(markets, this.exchange, TICKER.ETH)));
-      this.updateLtcPrice(Number(getPrice(markets, this.exchange, TICKER.LTC)));
-      this.updateXrpPrice(Number(getPrice(markets, this.exchange, TICKER.XRP)));
-      this.updateDashPrice(Number(getPrice(markets, this.exchange, TICKER.DASH)));
-      this.updateSteemPrice(Number(getPrice(markets, this.exchange, TICKER.STEEM)));
-    } catch (e) {
-      console.warn(e);
-      alertError(e.message);
+    const now = Date.now();
+    const data = await this.getFromDevice();
+    if (!data || now - data.lastPriceUpdate >= 300000) {
+      await this.setOnDevice(now);
+      try {
+        const { data: markets } = await apiGetExchangeRate(this.exchange);
+        this.updateBtcPrice(Number(getPrice(markets, this.exchange, TICKER.BTC)));
+        this.updateEthPrice(Number(getPrice(markets, this.exchange, TICKER.ETH)));
+        this.updateLtcPrice(Number(getPrice(markets, this.exchange, TICKER.LTC)));
+        this.updateXrpPrice(Number(getPrice(markets, this.exchange, TICKER.XRP)));
+        this.updateDashPrice(Number(getPrice(markets, this.exchange, TICKER.DASH)));
+        this.updateSteemPrice(Number(getPrice(markets, this.exchange, TICKER.STEEM)));
+      } catch (e) {
+        console.warn(e);
+        alertError(e.message);
+      }
     }
   };
 
@@ -112,6 +117,16 @@ class AccountsStore implements Accounts.AccountsStore {
       console.warn(e);
       alertError(e.message);
     }
+  };
+
+  setOnDevice = async (lastPriceUpdate: number) => {
+    const data = JSON.stringify({ lastPriceUpdate });
+    await AsyncStorage.setItem("@blok:AccountsStore", data);
+  };
+
+  getFromDevice = async () => {
+    const data = await AsyncStorage.getItem("@blok:AccountsStore");
+    return JSON.parse(data) || null;
   };
 }
 
