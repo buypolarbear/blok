@@ -17,8 +17,17 @@ export declare namespace Accounts {
     exchange: EXCHANGE;
     btcPrice: number;
     ethPrice: number;
+    ltcPrice: number;
+    dashPrice: number;
+    xrpPrice: number;
+    steemPrice: number;
     updateBtcPrice: (price: number) => void;
     updateEthPrice: (price: number) => void;
+    updateLtcPrice: (price: number) => void;
+    updateXrpPrice: (price: number) => void;
+    updateDashPrice: (price: number) => void;
+    updateSteemPrice: (price: number) => void;
+    updatePrices: () => void;
     addAccount: (type: TICKER | null, name: string, address: string) => void;
     deleteAccount: (account: any) => void;
     setFetching: (state: boolean) => void;

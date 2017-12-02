@@ -26,11 +26,19 @@ class AccountsStore implements Accounts.AccountsStore {
   @observable exchange = EXCHANGE.USD;
   @observable btcPrice = 0;
   @observable ethPrice = 0;
+  @observable ltcPrice = 0;
+  @observable dashPrice = 0;
+  @observable xrpPrice = 0;
+  @observable steemPrice = 0;
 
   // --- actions --- //
   @action setFetching = (state: boolean) => (this.fetching = state);
   @action updateBtcPrice = (price: number) => (this.btcPrice = price);
   @action updateEthPrice = (price: number) => (this.ethPrice = price);
+  @action updateLtcPrice = (price: number) => (this.ltcPrice = price);
+  @action updateXrpPrice = (price: number) => (this.xrpPrice = price);
+  @action updateDashPrice = (price: number) => (this.dashPrice = price);
+  @action updateSteemPrice = (price: number) => (this.steemPrice = price);
 
   // --- methods --- //
   getAccountsFromMemory = async () => {
@@ -38,16 +46,25 @@ class AccountsStore implements Accounts.AccountsStore {
       this.setFetching(true);
       await this.btc.getStoreFromMemory();
       await this.eth.getStoreFromMemory();
-      const { data: markets } = await apiGetExchangeRate(this.exchange);
-      if (!!this.btc.accounts.length) {
-        this.updateBtcPrice(Number(getPrice(markets, this.exchange, TICKER.BTC)));
-      }
-      if (!!this.eth.accounts.length) {
-        this.updateEthPrice(Number(getPrice(markets, this.exchange, TICKER.ETH)));
-      }
+      await this.updatePrices();
       this.setFetching(false);
     } catch (e) {
       this.setFetching(false);
+      console.warn(e);
+      alertError(e.message);
+    }
+  };
+
+  updatePrices = async () => {
+    try {
+      const { data: markets } = await apiGetExchangeRate(this.exchange);
+      this.updateBtcPrice(Number(getPrice(markets, this.exchange, TICKER.BTC)));
+      this.updateEthPrice(Number(getPrice(markets, this.exchange, TICKER.ETH)));
+      this.updateLtcPrice(Number(getPrice(markets, this.exchange, TICKER.LTC)));
+      this.updateXrpPrice(Number(getPrice(markets, this.exchange, TICKER.XRP)));
+      this.updateDashPrice(Number(getPrice(markets, this.exchange, TICKER.DASH)));
+      this.updateSteemPrice(Number(getPrice(markets, this.exchange, TICKER.STEEM)));
+    } catch (e) {
       console.warn(e);
       alertError(e.message);
     }
