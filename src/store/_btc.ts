@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import { AsyncStorage } from "react-native";
-import { apiGetBtcAddress } from "../services/api";
+import { apiGetBtcAddress, apiGetBtcAddresses } from "../services/api";
 import { TICKER } from "../services/enums";
 import { Bitcoin } from "../services/interfaces";
 
@@ -10,8 +10,14 @@ class BtcStore implements Bitcoin.BitcoinStore {
   addresses: string[] = [];
 
   // --- actions --- //
-  @action updateAccount = (account: Bitcoin.BitcoinAccount) => this.accounts.push(account);
-  @action updateAddress = (address: string) => this.addresses.push(address);
+  @action updateAccounts = (account: Bitcoin.BitcoinAccount) => this.accounts.push(account);
+  @action
+  updateAccount = (index: number, balance: number, received: number, sent: number) => {
+    this.accounts[index].balance = balance;
+    this.accounts[index].sent = sent;
+    this.accounts[index].received = received;
+  };
+  @action updateAddresses = (address: string) => this.addresses.push(address);
   @action removeAccount = (index: number) => this.accounts.splice(index, 1);
   @action removeAddress = (index: number) => this.addresses.splice(index, 1);
   @action hydrateAccounts = (accounts: Bitcoin.BitcoinAccount[]) => (this.accounts = accounts);
@@ -31,7 +37,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
       throw new Error(`BTC address already exists ${address}`);
     } else {
       const { data } = await apiGetBtcAddress(address);
-      this.updateAccount({
+      this.updateAccounts({
         name,
         address,
         type: TICKER.BTC,
@@ -39,8 +45,29 @@ class BtcStore implements Bitcoin.BitcoinStore {
         sent: Number(data.total_sent) / 100000000,
         received: Number(data.total_received) / 100000000
       });
-      this.updateAddress(address);
+      this.updateAddresses(address);
       await this.setOnDevice(this.accounts, this.addresses);
+    }
+  };
+
+  refreshAccounts = async () => {
+    try {
+      const addresses = this.addresses.join("&");
+      const { data } = await apiGetBtcAddresses(addresses);
+      data.addresses.map((address: any) => {
+        const filter = (element: any) => element.address === address.address;
+        const index = this.accounts.findIndex(filter);
+        this.updateAccount(
+          index,
+          address.final_balance,
+          address.total_received,
+          address.total_sent
+        );
+      });
+      await this.setOnDevice(this.accounts, this.addresses);
+    } catch (e) {
+      console.warn(e);
+      throw new Error("Can't update Bitcoin accounts");
     }
   };
 

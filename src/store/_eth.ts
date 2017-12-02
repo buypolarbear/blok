@@ -10,8 +10,8 @@ class EthStore implements Ethereum.EthereumStore {
   addresses: string[] = [];
 
   // --- actions --- //
-  @action updateAccount = (account: Ethereum.EthereumAccount) => this.accounts.push(account);
-  @action updateAddress = (address: string) => this.addresses.push(address);
+  @action updateAccounts = (account: Ethereum.EthereumAccount) => this.accounts.push(account);
+  @action updateAddresses = (address: string) => this.addresses.push(address);
   @action removeAccount = (index: number) => this.accounts.splice(index, 1);
   @action removeAddress = (index: number) => this.addresses.splice(index, 1);
   @action hydrateAccounts = (accounts: Ethereum.EthereumAccount[]) => (this.accounts = accounts);
@@ -34,13 +34,13 @@ class EthStore implements Ethereum.EthereumStore {
       if (Number(data.status) !== 1)
         throw new Error(`ETH address has undefined balance: ${data.message}`);
       else {
-        this.updateAccount({
+        this.updateAccounts({
           name,
           address,
           type: TICKER.ETH,
           balance: Number(data.result) / 1000000000000000000
         });
-        this.updateAddress(address);
+        this.updateAddresses(address);
         await this.setOnDevice(this.accounts, this.addresses);
       }
     }

@@ -42,7 +42,7 @@ export declare namespace Accounts {
     getStoreFromMemory: () => void;
     deleteAccount: (address: string) => void;
     addAccount: (name: string, address: string) => void;
-    updateAddress: (address: string) => void;
+    updateAddresses: (address: string) => void;
     removeAccount: (index: number) => void;
     removeAddress: (index: number) => void;
     getFromDevice: () => Object | null;
@@ -58,7 +58,7 @@ export declare namespace Bitcoin {
   }
   interface BitcoinStore extends Accounts.SubAccountsStore {
     accounts: BitcoinAccount[];
-    updateAccount: (account: BitcoinAccount) => void;
+    updateAccounts: (account: BitcoinAccount) => void;
     hydrateAccounts: (accounts: BitcoinAccount[]) => void;
     setOnDevice: (accounts: BitcoinAccount[], addresses: string[]) => void;
   }
@@ -71,7 +71,7 @@ export declare namespace Ethereum {
   }
   interface EthereumStore extends Accounts.SubAccountsStore {
     accounts: EthereumAccount[];
-    updateAccount: (account: EthereumAccount) => void;
+    updateAccounts: (account: EthereumAccount) => void;
     hydrateAccounts: (accounts: EthereumAccount[]) => void;
     setOnDevice: (accounts: EthereumAccount[], addresses: string[]) => void;
   }
