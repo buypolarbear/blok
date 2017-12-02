@@ -46,28 +46,34 @@ class BtcStore implements Bitcoin.BitcoinStore {
         received: Number(data.total_received) / 100000000
       });
       this.updateAddresses(address);
-      await this.setOnDevice(this.accounts, this.addresses);
+      const store = await this.getFromDevice();
+      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate);
     }
   };
 
   refreshAccounts = async () => {
-    try {
-      const addresses = this.addresses.join("&");
-      const { data } = await apiGetBtcAddresses(addresses);
-      data.addresses.map((address: any) => {
-        const filter = (element: any) => element.address === address.address;
-        const index = this.accounts.findIndex(filter);
-        this.updateAccount(
-          index,
-          address.final_balance,
-          address.total_received,
-          address.total_sent
-        );
-      });
-      await this.setOnDevice(this.accounts, this.addresses);
-    } catch (e) {
-      console.warn(e);
-      throw new Error("Can't update Bitcoin accounts");
+    const store = await this.getFromDevice();
+    const now = Date.now();
+    const lastUpdate = store.lastUpdate;
+    if (!!this.accounts.length && (!store || now - lastUpdate >= 300000)) {
+      try {
+        const addresses = this.addresses.join("&");
+        const { data } = await apiGetBtcAddresses(addresses);
+        data.addresses.map((address: any) => {
+          const filter = (element: any) => element.address === address.address;
+          const index = this.accounts.findIndex(filter);
+          this.updateAccount(
+            index,
+            address.final_balance,
+            address.total_received,
+            address.total_sent
+          );
+        });
+        await this.setOnDevice(this.accounts, this.addresses, now);
+      } catch (e) {
+        console.warn(e);
+        throw new Error("Can't update Bitcoin accounts");
+      }
     }
   };
 
@@ -76,14 +82,19 @@ class BtcStore implements Bitcoin.BitcoinStore {
     if (index > -1) {
       this.removeAccount(index);
       this.removeAddress(index);
-      await this.setOnDevice(this.accounts, this.addresses);
+      const store = await this.getFromDevice();
+      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate);
     } else {
       throw new Error("Account specified for deletion doesn't exist");
     }
   };
 
-  setOnDevice = async (accounts: Bitcoin.BitcoinAccount[], addresses: string[]) => {
-    const data = JSON.stringify({ accounts, addresses });
+  setOnDevice = async (
+    accounts: Bitcoin.BitcoinAccount[],
+    addresses: string[],
+    lastUpdate: number
+  ) => {
+    const data = JSON.stringify({ accounts, addresses, lastUpdate });
     await AsyncStorage.setItem("@blok:BtcStore", data);
   };
 
