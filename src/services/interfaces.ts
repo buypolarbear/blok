@@ -33,7 +33,15 @@ export declare namespace Accounts {
     setFetching: (state: boolean) => void;
     getAccountsFromMemory: () => void;
     confirmDeleteAccount: (callback: (address: string) => void, account: any) => void;
-    setOnDevice: (lastPriceUpdate: number) => Promise<any>;
+    setOnDevice: (
+      lastPriceUpdate: number,
+      btcPrice: number,
+      ethPrice: number,
+      ltcPrice: number,
+      xrpPrice: number,
+      dashPrice: number,
+      steemPrice: number
+    ) => Promise<any>;
     getFromDevice: () => Promise<any>;
   }
   interface SubAccountsStore {

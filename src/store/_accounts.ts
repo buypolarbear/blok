@@ -46,6 +46,13 @@ class AccountsStore implements Accounts.AccountsStore {
       this.setFetching(true);
       await this.btc.getStoreFromMemory();
       await this.eth.getStoreFromMemory();
+      const data = await this.getFromDevice();
+      this.updateBtcPrice(data.btcPrice);
+      this.updateEthPrice(data.ethPrice);
+      this.updateLtcPrice(data.ltcPrice);
+      this.updateXrpPrice(data.updateXrpPrice);
+      this.updateDashPrice(data.dashPrice);
+      this.updateSteemPrice(data.steemPrice);
       await this.updatePrices();
       this.setFetching(false);
     } catch (e) {
@@ -59,7 +66,6 @@ class AccountsStore implements Accounts.AccountsStore {
     const now = Date.now();
     const data = await this.getFromDevice();
     if (!data || now - data.lastPriceUpdate >= 300000) {
-      await this.setOnDevice(now);
       try {
         const { data: markets } = await apiGetExchangeRate(this.exchange);
         this.updateBtcPrice(Number(getPrice(markets, this.exchange, TICKER.BTC)));
@@ -68,6 +74,15 @@ class AccountsStore implements Accounts.AccountsStore {
         this.updateXrpPrice(Number(getPrice(markets, this.exchange, TICKER.XRP)));
         this.updateDashPrice(Number(getPrice(markets, this.exchange, TICKER.DASH)));
         this.updateSteemPrice(Number(getPrice(markets, this.exchange, TICKER.STEEM)));
+        await this.setOnDevice(
+          now,
+          this.btcPrice,
+          this.ethPrice,
+          this.ltcPrice,
+          this.xrpPrice,
+          this.dashPrice,
+          this.steemPrice
+        );
       } catch (e) {
         console.warn(e);
         alertError(e.message);
@@ -119,8 +134,24 @@ class AccountsStore implements Accounts.AccountsStore {
     }
   };
 
-  setOnDevice = async (lastPriceUpdate: number) => {
-    const data = JSON.stringify({ lastPriceUpdate });
+  setOnDevice = async (
+    lastPriceUpdate: number,
+    btcPrice: number,
+    ethPrice: number,
+    ltcPrice: number,
+    xrpPrice: number,
+    dashPrice: number,
+    steemPrice: number
+  ) => {
+    const data = JSON.stringify({
+      lastPriceUpdate,
+      btcPrice,
+      ethPrice,
+      ltcPrice,
+      xrpPrice,
+      dashPrice,
+      steemPrice
+    });
     await AsyncStorage.setItem("@blok:AccountsStore", data);
   };
 
