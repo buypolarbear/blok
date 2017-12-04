@@ -27,11 +27,12 @@ export declare namespace Accounts {
     updateXrpPrice: (price: number) => void;
     updateDashPrice: (price: number) => void;
     updateSteemPrice: (price: number) => void;
-    updatePrices: () => void;
+    refreshPrices: () => void;
+    getPricesFromMemory: () => Promise<void>;
     addAccount: (type: TICKER | null, name: string, address: string) => void;
     deleteAccount: (account: any) => void;
     setFetching: (state: boolean) => void;
-    getAccountsFromMemory: () => void;
+    getStateFromMemory: () => void;
     confirmDeleteAccount: (callback: (address: string) => void, account: any) => void;
     setOnDevice: (
       lastPriceUpdate: number,
@@ -68,7 +69,12 @@ export declare namespace Bitcoin {
     accounts: BitcoinAccount[];
     updateAccounts: (account: BitcoinAccount) => void;
     hydrateAccounts: (accounts: BitcoinAccount[]) => void;
-    setOnDevice: (accounts: BitcoinAccount[], addresses: string[]) => void;
+    refreshAccounts: () => Promise<void>;
+    setOnDevice: (
+      accounts: BitcoinAccount[],
+      addresses: string[],
+      lastUpdate: number
+    ) => Promise<void>;
   }
 }
 
@@ -81,7 +87,11 @@ export declare namespace Ethereum {
     accounts: EthereumAccount[];
     updateAccounts: (account: EthereumAccount) => void;
     hydrateAccounts: (accounts: EthereumAccount[]) => void;
-    setOnDevice: (accounts: EthereumAccount[], addresses: string[]) => void;
+    setOnDevice: (
+      accounts: EthereumAccount[],
+      addresses: string[],
+      lastUpdate: number
+    ) => Promise<void>;
   }
 }
 

@@ -47,7 +47,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
       });
       this.updateAddresses(address);
       const store = await this.getFromDevice();
-      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate);
+      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate || Date.now());
     }
   };
 
@@ -64,9 +64,9 @@ class BtcStore implements Bitcoin.BitcoinStore {
           const index = this.accounts.findIndex(filter);
           this.updateAccount(
             index,
-            address.final_balance,
-            address.total_received,
-            address.total_sent
+            Number(address.final_balance) / 100000000,
+            Number(address.total_received) / 100000000,
+            Number(address.total_sent) / 100000000
           );
         });
         await this.setOnDevice(this.accounts, this.addresses, now);

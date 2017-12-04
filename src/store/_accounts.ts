@@ -41,19 +41,14 @@ class AccountsStore implements Accounts.AccountsStore {
   @action updateSteemPrice = (price: number) => (this.steemPrice = price);
 
   // --- methods --- //
-  getAccountsFromMemory = async () => {
+  getStateFromMemory = async () => {
     try {
       this.setFetching(true);
       await this.btc.getStoreFromMemory();
       await this.eth.getStoreFromMemory();
-      const data = await this.getFromDevice();
-      this.updateBtcPrice(data.btcPrice);
-      this.updateEthPrice(data.ethPrice);
-      this.updateLtcPrice(data.ltcPrice);
-      this.updateXrpPrice(data.updateXrpPrice);
-      this.updateDashPrice(data.dashPrice);
-      this.updateSteemPrice(data.steemPrice);
-      await this.updatePrices();
+      await this.getPricesFromMemory();
+      await this.btc.refreshAccounts();
+      await this.refreshPrices();
       this.setFetching(false);
     } catch (e) {
       this.setFetching(false);
@@ -62,7 +57,17 @@ class AccountsStore implements Accounts.AccountsStore {
     }
   };
 
-  updatePrices = async () => {
+  getPricesFromMemory = async () => {
+    const data = await this.getFromDevice();
+    this.updateBtcPrice(data.btcPrice);
+    this.updateEthPrice(data.ethPrice);
+    this.updateLtcPrice(data.ltcPrice);
+    this.updateXrpPrice(data.updateXrpPrice);
+    this.updateDashPrice(data.dashPrice);
+    this.updateSteemPrice(data.steemPrice);
+  };
+
+  refreshPrices = async () => {
     const now = Date.now();
     const data = await this.getFromDevice();
     if (!data || now - data.lastPriceUpdate >= 300000) {
