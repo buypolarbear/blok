@@ -1,6 +1,6 @@
 import { observable, action } from "mobx";
 import { AsyncStorage } from "react-native";
-import { apiGetEthAddress } from "../services/api";
+import { apiGetEthAddress, apiGetEthAddresses } from "../services/api";
 import { TICKER } from "../services/enums";
 import { Ethereum } from "../services/interfaces";
 
@@ -11,6 +11,10 @@ class EthStore implements Ethereum.EthereumStore {
 
   // --- actions --- //
   @action updateAccounts = (account: Ethereum.EthereumAccount) => this.accounts.push(account);
+  @action
+  updateAccount = (index: number, balance: number) => {
+    this.accounts[index].balance = balance;
+  };
   @action updateAddresses = (address: string) => this.addresses.push(address);
   @action removeAccount = (index: number) => this.accounts.splice(index, 1);
   @action removeAddress = (index: number) => this.addresses.splice(index, 1);
@@ -23,6 +27,31 @@ class EthStore implements Ethereum.EthereumStore {
     if (data && data.addresses && data.accounts) {
       this.hydrateAccounts(data.accounts);
       this.hydrateAddresses(data.addresses);
+    }
+  };
+
+  refreshAccounts = async () => {
+    const store = await this.getFromDevice();
+    const now = Date.now();
+    const lastUpdate = store.lastUpdate;
+    if (!!this.accounts.length && (!store || now - lastUpdate >= 300000)) {
+      try {
+        const addresses = this.addresses.join(",");
+        const { data } = await apiGetEthAddresses(addresses);
+        if (Number(data.status) !== 1)
+          throw new Error(`Unable to synchronise ETH addresses: ${data.message}`);
+        else {
+          data.result.map((address: any) => {
+            const filter = (element: any) => element.address === address.account;
+            const index = this.accounts.findIndex(filter);
+            this.updateAccount(index, Number(address.balance) / 1000000000000000000);
+          });
+          await this.setOnDevice(this.accounts, this.addresses, now);
+        }
+      } catch (e) {
+        console.warn(e);
+        throw new Error("Can't synchronise Ethereum accounts");
+      }
     }
   };
 
@@ -41,7 +70,8 @@ class EthStore implements Ethereum.EthereumStore {
           balance: Number(data.result) / 1000000000000000000
         });
         this.updateAddresses(address);
-        await this.setOnDevice(this.accounts, this.addresses);
+        const store = await this.getFromDevice();
+        await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate || Date.now());
       }
     }
   };
@@ -51,14 +81,19 @@ class EthStore implements Ethereum.EthereumStore {
     if (index > -1) {
       this.removeAccount(index);
       this.removeAddress(index);
-      await this.setOnDevice(this.accounts, this.addresses);
+      const store = await this.getFromDevice();
+      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate || Date.now());
     } else {
       throw new Error("Account specified for deletion doesn't exist");
     }
   };
 
-  setOnDevice = async (accounts: Ethereum.EthereumAccount[], addresses: string[]) => {
-    const data = JSON.stringify({ accounts, addresses });
+  setOnDevice = async (
+    accounts: Ethereum.EthereumAccount[],
+    addresses: string[],
+    lastUpdate: number
+  ) => {
+    const data = JSON.stringify({ accounts, addresses, lastUpdate });
     await AsyncStorage.setItem("@blok:EthStore", data);
   };
 

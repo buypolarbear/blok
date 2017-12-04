@@ -32,25 +32,6 @@ class BtcStore implements Bitcoin.BitcoinStore {
     }
   };
 
-  addAccount = async (name: string, address: string) => {
-    if (this.addresses.includes(address)) {
-      throw new Error(`BTC address already exists ${address}`);
-    } else {
-      const { data } = await apiGetBtcAddress(address);
-      this.updateAccounts({
-        name,
-        address,
-        type: TICKER.BTC,
-        balance: Number(data.final_balance) / 100000000,
-        sent: Number(data.total_sent) / 100000000,
-        received: Number(data.total_received) / 100000000
-      });
-      this.updateAddresses(address);
-      const store = await this.getFromDevice();
-      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate || Date.now());
-    }
-  };
-
   refreshAccounts = async () => {
     const store = await this.getFromDevice();
     const now = Date.now();
@@ -77,13 +58,32 @@ class BtcStore implements Bitcoin.BitcoinStore {
     }
   };
 
+  addAccount = async (name: string, address: string) => {
+    if (this.addresses.includes(address)) {
+      throw new Error(`BTC address already exists ${address}`);
+    } else {
+      const { data } = await apiGetBtcAddress(address);
+      this.updateAccounts({
+        name,
+        address,
+        type: TICKER.BTC,
+        balance: Number(data.final_balance) / 100000000,
+        sent: Number(data.total_sent) / 100000000,
+        received: Number(data.total_received) / 100000000
+      });
+      this.updateAddresses(address);
+      const store = await this.getFromDevice();
+      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate || Date.now());
+    }
+  };
+
   deleteAccount = async (address: string) => {
     const index = this.addresses.indexOf(address);
     if (index > -1) {
       this.removeAccount(index);
       this.removeAddress(index);
       const store = await this.getFromDevice();
-      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate);
+      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate || Date.now());
     } else {
       throw new Error("Account specified for deletion doesn't exist");
     }

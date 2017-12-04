@@ -48,6 +48,7 @@ class AccountsStore implements Accounts.AccountsStore {
       await this.eth.getStoreFromMemory();
       await this.getPricesFromMemory();
       await this.btc.refreshAccounts();
+      await this.eth.refreshAccounts();
       await this.refreshPrices();
       this.setFetching(false);
     } catch (e) {

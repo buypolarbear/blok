@@ -21,7 +21,7 @@ const btcApi = axios.create({ baseURL: "https://blockchain.info", timeout: 10000
 export const apiGetBtcAddress = (address: string) => btcApi.get(`/rawaddr/${address}`);
 
 /**
- * Fetch multiple bitcoin addresses data
+ * Fetch multiple BTC addresses data
  * @param addresses
  */
 export const apiGetBtcAddresses = (addresses: string) =>
@@ -40,7 +40,14 @@ const ethApi = axios.create({
  * @param address
  */
 export const apiGetEthAddress = (address: string) =>
-  ethApi.get(`/api?module=account&action=balance&address=${address}${ethApiKey}`);
+  ethApi.get(`/api?module=account&action=balance&address=${address}&tag=latest${ethApiKey}`);
+
+/**
+ * Get multiple ETH addresses data
+ * @param addresses
+ */
+export const apiGetEthAddresses = (addresses: string) =>
+  ethApi.get(`/api?module=account&action=balancemulti&address=${addresses}&tag=latest${ethApiKey}`);
 
 // --- LTC API --------------------------------------------------------------------------- //
 // https://chainz.cryptoid.info/api.dws

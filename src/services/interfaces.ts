@@ -68,6 +68,7 @@ export declare namespace Bitcoin {
   interface BitcoinStore extends Accounts.SubAccountsStore {
     accounts: BitcoinAccount[];
     updateAccounts: (account: BitcoinAccount) => void;
+    updateAccount: (index: number, balance: number, received: number, sent: number) => void;
     hydrateAccounts: (accounts: BitcoinAccount[]) => void;
     refreshAccounts: () => Promise<void>;
     setOnDevice: (
@@ -86,7 +87,9 @@ export declare namespace Ethereum {
   interface EthereumStore extends Accounts.SubAccountsStore {
     accounts: EthereumAccount[];
     updateAccounts: (account: EthereumAccount) => void;
+    updateAccount: (index: number, balance: number) => void;
     hydrateAccounts: (accounts: EthereumAccount[]) => void;
+    refreshAccounts: () => Promise<void>;
     setOnDevice: (
       accounts: EthereumAccount[],
       addresses: string[],
