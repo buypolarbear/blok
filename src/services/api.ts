@@ -4,7 +4,7 @@ import axios from "axios";
 // https://coinmarketcap.com/api/
 const marketApi = axios.create({
   baseURL: "https://api.coinmarketcap.com/v1/ticker",
-  timeout: 1000
+  timeout: 10000
 });
 
 export const apiGetExchangeRate = (currency: string) =>
