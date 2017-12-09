@@ -24,7 +24,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
   @action hydrateAddresses = (addresses: string[]) => (this.addresses = addresses);
 
   // --- methods --- //
-  getStoreFromMemory = async () => {
+  syncDataFromDevice = async () => {
     const data = await this.getFromDevice();
     if (data && data.addresses && data.accounts) {
       this.hydrateAccounts(data.accounts);
@@ -33,10 +33,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
   };
 
   refreshAccounts = async () => {
-    const store = await this.getFromDevice();
-    const now = Date.now();
-    const lastUpdate = store.lastUpdate;
-    if (!!this.accounts.length && (!store || now - lastUpdate >= 300000)) {
+    if (!!this.accounts.length) {
       try {
         const addresses = this.addresses.join("&");
         const { data } = await apiGetBtcAddresses(addresses);
@@ -50,7 +47,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
             Number(address.total_sent) / 100000000
           );
         });
-        await this.setOnDevice(this.accounts, this.addresses, now);
+        await this.setOnDevice();
       } catch (e) {
         console.warn(e);
         throw new Error("Can't update Bitcoin accounts");
@@ -72,8 +69,7 @@ class BtcStore implements Bitcoin.BitcoinStore {
         received: Number(data.total_received) / 100000000
       });
       this.updateAddresses(address);
-      const store = await this.getFromDevice();
-      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate || Date.now());
+      await this.setOnDevice();
     }
   };
 
@@ -82,21 +78,17 @@ class BtcStore implements Bitcoin.BitcoinStore {
     if (index > -1) {
       this.removeAccount(index);
       this.removeAddress(index);
-      const store = await this.getFromDevice();
-      await this.setOnDevice(this.accounts, this.addresses, store.lastUpdate || Date.now());
+      await this.setOnDevice();
     } else {
       throw new Error("Account specified for deletion doesn't exist");
     }
   };
 
-  setOnDevice = async (
-    accounts: Bitcoin.BitcoinAccount[],
-    addresses: string[],
-    lastUpdate: number
-  ) => {
-    const data = JSON.stringify({ accounts, addresses, lastUpdate });
-    await AsyncStorage.setItem("@blok:BtcStore", data);
-  };
+  setOnDevice = async () =>
+    await AsyncStorage.setItem(
+      "@blok:BtcStore",
+      JSON.stringify({ accounts: this.accounts, addresses: this.addresses })
+    );
 
   getFromDevice = async () => {
     const data = await AsyncStorage.getItem("@blok:BtcStore");

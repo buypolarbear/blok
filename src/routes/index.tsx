@@ -30,7 +30,7 @@ class Router extends React.Component<Props, State> {
 
   // --- methods --- //
   componentDidMount() {
-    this.props.accounts!.getStateFromMemory();
+    this.props.accounts!.bootstrap();
   }
 
   componentWillReceiveProps(nextProps: Props) {

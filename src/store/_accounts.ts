@@ -1,55 +1,40 @@
 import { observable, action } from "mobx";
 import { Alert, AsyncStorage } from "react-native";
-import { TICKER, EXCHANGE } from "../services/enums";
-import { alertError, getPrice } from "../services/utilities";
-import { Accounts } from "../services/interfaces";
-import { apiGetExchangeRate } from "../services/api";
+import { TICKER } from "../services/enums";
+import { alertError } from "../services/utilities";
+import { Accounts, Market, Router, Bitcoin, Ethereum } from "../services/interfaces";
 
 class AccountsStore implements Accounts.AccountsStore {
   // -- constructor -- //
-  router: Accounts.AccountsStore["router"];
-  btc: Accounts.AccountsStore["btc"];
-  eth: Accounts.AccountsStore["eth"];
+  router: Router.RouterStore;
+  market: Market.MarketStore;
+  btc: Bitcoin.BitcoinStore;
+  eth: Ethereum.EthereumStore;
 
   constructor(
-    router: Accounts.AccountsStore["router"],
-    btc: Accounts.AccountsStore["btc"],
-    eth: Accounts.AccountsStore["eth"]
+    router: Router.RouterStore,
+    market: Market.MarketStore,
+    btc: Bitcoin.BitcoinStore,
+    eth: Ethereum.EthereumStore
   ) {
     this.router = router;
+    this.market = market;
     this.btc = btc;
     this.eth = eth;
   }
 
   // --- store --- //
   @observable fetching = false;
-  @observable exchange = EXCHANGE.USD;
-  @observable btcPrice = 0;
-  @observable ethPrice = 0;
-  @observable ltcPrice = 0;
-  @observable dashPrice = 0;
-  @observable xrpPrice = 0;
-  @observable steemPrice = 0;
 
   // --- actions --- //
   @action setFetching = (state: boolean) => (this.fetching = state);
-  @action updateBtcPrice = (price: number) => (this.btcPrice = price);
-  @action updateEthPrice = (price: number) => (this.ethPrice = price);
-  @action updateLtcPrice = (price: number) => (this.ltcPrice = price);
-  @action updateXrpPrice = (price: number) => (this.xrpPrice = price);
-  @action updateDashPrice = (price: number) => (this.dashPrice = price);
-  @action updateSteemPrice = (price: number) => (this.steemPrice = price);
 
   // --- methods --- //
-  getStateFromMemory = async () => {
+  bootstrap = async () => {
     try {
       this.setFetching(true);
-      await this.btc.getStoreFromMemory();
-      await this.eth.getStoreFromMemory();
-      await this.getPricesFromMemory();
-      await this.btc.refreshAccounts();
-      await this.eth.refreshAccounts();
-      await this.refreshPrices();
+      await this.syncDataFromDevice();
+      await this.refreshData();
       this.setFetching(false);
     } catch (e) {
       this.setFetching(false);
@@ -58,42 +43,16 @@ class AccountsStore implements Accounts.AccountsStore {
     }
   };
 
-  getPricesFromMemory = async () => {
-    const data = await this.getFromDevice();
-    this.updateBtcPrice(data.btcPrice);
-    this.updateEthPrice(data.ethPrice);
-    this.updateLtcPrice(data.ltcPrice);
-    this.updateXrpPrice(data.updateXrpPrice);
-    this.updateDashPrice(data.dashPrice);
-    this.updateSteemPrice(data.steemPrice);
+  syncDataFromDevice = async () => {
+    // TODO Promise.all ?
+    await this.btc.syncDataFromDevice();
+    await this.eth.syncDataFromDevice();
   };
 
-  refreshPrices = async () => {
-    const now = Date.now();
-    const data = await this.getFromDevice();
-    if (!data || now - data.lastPriceUpdate >= 300000) {
-      try {
-        const { data: markets } = await apiGetExchangeRate(this.exchange);
-        this.updateBtcPrice(Number(getPrice(markets, this.exchange, TICKER.BTC)));
-        this.updateEthPrice(Number(getPrice(markets, this.exchange, TICKER.ETH)));
-        this.updateLtcPrice(Number(getPrice(markets, this.exchange, TICKER.LTC)));
-        this.updateXrpPrice(Number(getPrice(markets, this.exchange, TICKER.XRP)));
-        this.updateDashPrice(Number(getPrice(markets, this.exchange, TICKER.DASH)));
-        this.updateSteemPrice(Number(getPrice(markets, this.exchange, TICKER.STEEM)));
-        await this.setOnDevice(
-          now,
-          this.btcPrice,
-          this.ethPrice,
-          this.ltcPrice,
-          this.xrpPrice,
-          this.dashPrice,
-          this.steemPrice
-        );
-      } catch (e) {
-        console.warn(e);
-        alertError(e.message);
-      }
-    }
+  refreshData = async () => {
+    // TODO Promise.all ?
+    await this.btc.refreshAccounts();
+    await this.eth.refreshAccounts();
   };
 
   addAccount = async (type: TICKER | null, name: string, address: string) => {
@@ -118,12 +77,6 @@ class AccountsStore implements Accounts.AccountsStore {
     }
   };
 
-  confirmDeleteAccount = (callback: (address: string) => void, account: Accounts.Account) =>
-    Alert.alert("Confirmation", `Are you sure you want to delete "${account.name}"?`, [
-      { text: "Cancel", onPress: () => null },
-      { text: "Delete", onPress: () => callback(account.address), style: "destructive" }
-    ]);
-
   deleteAccount = async (account: Accounts.Account) => {
     try {
       switch (account.type) {
@@ -132,7 +85,7 @@ class AccountsStore implements Accounts.AccountsStore {
         case TICKER.ETH:
           return this.confirmDeleteAccount(this.eth.deleteAccount, account);
         default:
-          throw new Error("Invalid account type");
+          throw new Error(`Invalid account type ${account.type}`);
       }
     } catch (e) {
       console.warn(e);
@@ -140,28 +93,16 @@ class AccountsStore implements Accounts.AccountsStore {
     }
   };
 
-  setOnDevice = async (
-    lastPriceUpdate: number,
-    btcPrice: number,
-    ethPrice: number,
-    ltcPrice: number,
-    xrpPrice: number,
-    dashPrice: number,
-    steemPrice: number
-  ) => {
-    const data = JSON.stringify({
-      lastPriceUpdate,
-      btcPrice,
-      ethPrice,
-      ltcPrice,
-      xrpPrice,
-      dashPrice,
-      steemPrice
-    });
-    await AsyncStorage.setItem("@blok:AccountsStore", data);
-  };
+  confirmDeleteAccount = (callback: (address: string) => void, account: Accounts.Account) =>
+    Alert.alert("Confirmation", `Are you sure you want to delete "${account.name}"?`, [
+      { text: "Cancel", onPress: () => null },
+      { text: "Delete", onPress: () => callback(account.address), style: "destructive" }
+    ]);
 
-  getFromDevice = async () => {
+  setRefreshDelay = async () =>
+    await AsyncStorage.setItem("@blok:AccountsStore", JSON.stringify({ delay: Date.now() }));
+
+  getRefreshDelay = async () => {
     const data = await AsyncStorage.getItem("@blok:AccountsStore");
     return JSON.parse(data) || null;
   };

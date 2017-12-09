@@ -11,50 +11,32 @@ export declare namespace Accounts {
   }
   interface AccountsStore {
     router: Router.RouterStore;
+    market: Market.MarketStore;
     btc: Bitcoin.BitcoinStore;
     eth: Ethereum.EthereumStore;
     fetching: boolean;
-    exchange: EXCHANGE;
-    btcPrice: number;
-    ethPrice: number;
-    ltcPrice: number;
-    dashPrice: number;
-    xrpPrice: number;
-    steemPrice: number;
-    updateBtcPrice: (price: number) => void;
-    updateEthPrice: (price: number) => void;
-    updateLtcPrice: (price: number) => void;
-    updateXrpPrice: (price: number) => void;
-    updateDashPrice: (price: number) => void;
-    updateSteemPrice: (price: number) => void;
-    refreshPrices: () => void;
-    getPricesFromMemory: () => Promise<void>;
     addAccount: (type: TICKER | null, name: string, address: string) => void;
     deleteAccount: (account: any) => void;
     setFetching: (state: boolean) => void;
-    getStateFromMemory: () => void;
+    bootstrap: () => void;
+    syncDataFromDevice: () => void;
+    refreshData: () => void;
     confirmDeleteAccount: (callback: (address: string) => void, account: any) => void;
-    setOnDevice: (
-      lastPriceUpdate: number,
-      btcPrice: number,
-      ethPrice: number,
-      ltcPrice: number,
-      xrpPrice: number,
-      dashPrice: number,
-      steemPrice: number
-    ) => Promise<any>;
-    getFromDevice: () => Promise<any>;
+    setRefreshDelay: () => Promise<void>;
+    getRefreshDelay: () => Promise<number | null>;
   }
   interface SubAccountsStore {
     addresses: string[];
     hydrateAddresses: (addresses: string[]) => void;
-    getStoreFromMemory: () => void;
+    syncDataFromDevice: () => void;
     deleteAccount: (address: string) => void;
     addAccount: (name: string, address: string) => void;
     updateAddresses: (address: string) => void;
     removeAccount: (index: number) => void;
     removeAddress: (index: number) => void;
-    getFromDevice: () => Object | null;
+    getFromDevice: () => Promise<void>;
+    setOnDevice: () => Promise<void>;
+    refreshAccounts: () => Promise<void>;
   }
 }
 
@@ -70,12 +52,6 @@ export declare namespace Bitcoin {
     updateAccounts: (account: BitcoinAccount) => void;
     updateAccount: (index: number, balance: number, received: number, sent: number) => void;
     hydrateAccounts: (accounts: BitcoinAccount[]) => void;
-    refreshAccounts: () => Promise<void>;
-    setOnDevice: (
-      accounts: BitcoinAccount[],
-      addresses: string[],
-      lastUpdate: number
-    ) => Promise<void>;
   }
 }
 
@@ -89,12 +65,6 @@ export declare namespace Ethereum {
     updateAccounts: (account: EthereumAccount) => void;
     updateAccount: (index: number, balance: number) => void;
     hydrateAccounts: (accounts: EthereumAccount[]) => void;
-    refreshAccounts: () => Promise<void>;
-    setOnDevice: (
-      accounts: EthereumAccount[],
-      addresses: string[],
-      lastUpdate: number
-    ) => Promise<void>;
   }
 }
 
@@ -122,5 +92,28 @@ export declare namespace Camera {
     toggleCamera: (state: boolean) => void;
     setBarcode: (barcode: string) => void;
     reset: () => void;
+  }
+}
+
+// --- Market --- //
+export declare namespace Market {
+  interface MarketStore {
+    exchange: EXCHANGE;
+    btcPrice: number;
+    ethPrice: number;
+    ltcPrice: number;
+    xrpPrice: number;
+    dashPrice: number;
+    steemPrice: number;
+    setBtcPrice: (price: number) => void;
+    setEthPrice: (price: number) => void;
+    setLtcPrice: (price: number) => void;
+    setXrpPrice: (price: number) => void;
+    setDashPrice: (price: number) => void;
+    setSteemPrice: (price: number) => void;
+    setExchange: (exchange: EXCHANGE) => void;
+    getMarketPrices: () => Promise<void>;
+    getFromDevice: () => Promise<void>;
+    setOnDevice: () => Promise<void>;
   }
 }
